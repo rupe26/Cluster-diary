@@ -14,7 +14,7 @@
             --holiday-bg: #fee2e2; 
             --holiday-color: #b91c1c; 
             --holiday-border: #f87171;
-            --holiday-sheracolor: #fecaca;
+            --holiday-sheracolor: #fca5a5; /* Distinct dark pink highlight for शेरा */
         }
         * { box-sizing: border-box; }
         body {
@@ -131,7 +131,7 @@
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: center; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; width: 100%; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        /* Fully Colored Holiday Row */
+        /* Fully Colored Holiday Row & शेरा Column */
         tr.holiday-row { 
             background-color: var(--holiday-bg) !important; 
             color: var(--holiday-color) !important;
@@ -142,6 +142,16 @@
             background-color: var(--holiday-bg) !important;
             border-color: var(--holiday-border) !important; 
         }
+        /* Specific override ensuring शेरा column is deeply colored */
+        tr.holiday-row td.holiday-shera-cell {
+            background-color: var(--holiday-sheracolor) !important;
+            color: var(--holiday-color) !important;
+            font-weight: 800;
+            vertical-align: middle !important;
+            text-align: center !important;
+            border-left: 2px solid var(--holiday-border) !important;
+        }
+
         .holiday-badge { 
             display: inline-block; 
             background: #fecaca; 
@@ -166,15 +176,6 @@
             background: #ffffff; 
             border-radius: 4px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-        }
-
-        .holiday-shera-cell {
-            background-color: var(--holiday-sheracolor) !important;
-            color: var(--holiday-color) !important;
-            font-weight: 800;
-            vertical-align: middle !important;
-            text-align: center !important;
-            border-left: 2px solid var(--holiday-border) !important;
         }
 
         .no-screen { display: none; }
@@ -275,7 +276,7 @@
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
             .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 11.5pt !important; font-weight: bold !important; text-align: center !important; }
-            .holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; text-align: center !important; }
+            tr.holiday-row td.holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; text-align: center !important; }
 
             textarea { display: none !important; }
             .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 3px 2px !important; text-align: center !important; justify-content: center !important; align-items: center !important; }
