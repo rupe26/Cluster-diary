@@ -60,12 +60,10 @@
 
         /* Dynamic Sub-rows & Split Logic */
         .morning-block, .afternoon-block { display: none; }
-        
         .mode-whole .morning-block { display: block; }
         .mode-morning .morning-block { display: block; }
         .mode-afternoon .afternoon-block { display: block; }
         .mode-both .morning-block, .mode-both .afternoon-block { display: block; }
-        
         .mode-both .morning-block { border-bottom: 2px dashed #94a3b8; padding-bottom: 12px; margin-bottom: 12px; }
 
         .task-item { border-bottom: 1px dotted #cbd5e1; padding-bottom: 8px; margin-bottom: 8px; position: relative; }
@@ -83,10 +81,9 @@
         .task-btn.afternoon-add-btn { background: #fff7ed; color: #c2410c; border-color: var(--accent-color); }
         .task-btn.afternoon-add-btn:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-        /* Timing & Badges */
-        .timing-wrapper { margin-top: 8px; font-size: 12px; background: #f8fafc; padding: 6px; border-radius: 4px; border: 1px solid #e2e8f0; }
-        .time-inputs { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 4px; }
-        .time-input { width: 90px; padding: 2px 4px; font-size: 12px; font-family: inherit; border: 1px solid var(--border-color); border-radius: 4px; text-align: center; }
+        /* Task Time Inputs */
+        .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #f8fafc; padding: 2px 4px; border-radius: 4px; border: 1px solid #e2e8f0; }
+        .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 3px; font-family: inherit; text-align: center; }
         
         .holiday-toggle-wrapper { margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px; border-radius: 4px; border: 1px dashed #fda4af;}
         .holiday-row { background-color: var(--holiday-bg) !important; }
@@ -133,6 +130,8 @@
         input:checked + .slider:before { transform: translateX(20px); }
 
         .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: left; }
+        .print-task-time { display: none; font-size: 9pt; font-weight: 800; color: var(--primary-color); margin-bottom: 2px; }
+        .serial-badge { display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
 
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; }
@@ -151,55 +150,179 @@
             .field-label { display: none; }
         }
 
-        /* Colourful & Official Print Settings */
+        /* Colourful & Distinctive Diary-Style Print Settings */
         @media print {
-            @page { size: A4 portrait; margin: 10mm 8mm; }
-            body { 
-                background: #ffffff !important; 
-                -webkit-print-color-adjust: exact !important; 
-                print-color-adjust: exact !important; 
-                font-size: 10pt; 
+            @page { size: A4 portrait; margin: 9mm 7mm; }
+
+            :root {
+                --morning-tint: #eaf4ff;
+                --morning-accent: #0369a1;
+                --afternoon-tint: #fff4e6;
+                --afternoon-accent: #c2410c;
+                --row-tint-a: #ffffff;
+                --row-tint-b: #f5f8fc;
+            }
+
+            body {
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                font-size: 9.5pt;
             }
             .container { box-shadow: none !important; padding: 0 !important; border: none !important; }
-            
-            .header-section { display: block !important; padding: 8px !important; margin: 0 0 8px 0 !important; border-bottom: 4px solid var(--accent-color) !important; background-color: var(--primary-color) !important; color: #ffffff !important; }
-            .header-section h1 { font-size: 16pt !important; color: #ffffff !important; font-weight: bold !important;}
-            
-            .info-row { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-bottom: 8px !important; padding: 4px 8px !important; background-color: #f8fafc !important; border: 1px solid var(--border-color) !important; }
+
+            /* --- Diary cover-style header with saffron/blue banding --- */
+            .header-section {
+                display: block !important;
+                position: relative;
+                padding: 10px 10px 12px 10px !important;
+                margin: 0 0 3px 0 !important;
+                border: none !important;
+                border-radius: 6px 6px 0 0 !important;
+                background: linear-gradient(135deg, var(--primary-color) 0%, #004a8f 100%) !important;
+                color: #ffffff !important;
+            }
+            .header-section h1 {
+                font-size: 15pt !important;
+                color: #ffffff !important;
+                font-weight: 800 !important;
+                letter-spacing: 0.3px;
+            }
+            /* triple-stripe "ribbon" under the header, like a diary bookmark band */
+            .header-section::after {
+                content: "";
+                display: block;
+                height: 5px;
+                margin: 8px -10px -12px -10px;
+                background: repeating-linear-gradient(
+                    90deg,
+                    var(--accent-color) 0px, var(--accent-color) 14px,
+                    #ffffff 14px, #ffffff 18px,
+                    var(--primary-color) 18px, var(--primary-color) 32px,
+                    #ffffff 32px, #ffffff 36px
+                ) !important;
+            }
+
+            .info-row {
+                display: flex !important; flex-direction: row !important; justify-content: space-between !important;
+                margin: 0 0 7px 0 !important; padding: 5px 10px !important;
+                background-color: #fff9f0 !important;
+                border: 1px solid var(--accent-color) !important;
+                border-top: none !important;
+                border-radius: 0 0 6px 6px !important;
+            }
             .info-group, .location-item { color: var(--primary-color) !important; }
-            
-            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn { display: none !important; }
+
+            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
             .no-screen { display: block !important; }
-            
-            table { display: table !important; font-size: 10pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid var(--primary-color) !important; }
+
+            table { display: table !important; font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 2px solid var(--primary-color) !important; }
             thead { display: table-header-group !important; }
             tbody { display: table-row-group !important; }
             tr { display: table-row !important; page-break-inside: avoid !important; }
-            
-            /* Official Coloured Borders for Print */
-            th, td { display: table-cell !important; padding: 6px 4px !important; border: 1px solid var(--border-color) !important; }
-            th { background-color: #f1f5f9 !important; color: var(--primary-color) !important; border-bottom: 2px solid var(--accent-color) !important; }
-            .mobile-serial { display: table-cell !important; }
-            
-            tr.holiday-row, tr[data-is-holiday="true"] { background-color: var(--holiday-bg) !important; }
-            .holiday-badge { background-color: transparent !important; color: var(--holiday-color) !important; font-weight: bold; padding: 0 !important; border: none !important; }
-            
+
+            th, td { display: table-cell !important; padding: 5px 4px !important; border: 1px solid var(--border-color) !important; vertical-align: top !important; }
+            th {
+                background: var(--primary-color) !important;
+                color: #ffffff !important;
+                font-weight: 800 !important;
+                border: 1px solid var(--primary-color) !important;
+                border-bottom: 3px solid var(--accent-color) !important;
+                padding: 7px 4px !important;
+            }
+            .mobile-serial { display: table-cell !important; text-align: center !important; width: 26px; }
+
+            /* --- Zebra striping for quick scanning, like ruled diary pages --- */
+            tbody tr:nth-child(odd)  { background-color: var(--row-tint-a) !important; }
+            tbody tr:nth-child(even) { background-color: var(--row-tint-b) !important; }
+
+            /* --- Left accent spine per row (diary binding feel) --- */
+            tbody tr td.mobile-serial { border-left: 4px solid var(--primary-color) !important; }
+            tbody tr.holiday-row td.mobile-serial,
+            tbody tr[data-is-holiday="true"] td.mobile-serial { border-left: 4px solid var(--holiday-color) !important; }
+
+            /* --- Serial number as a bold circular badge --- */
+            .serial-badge {
+                width: 20px; height: 20px; border-radius: 50%;
+                background: var(--primary-color) !important;
+                color: #ffffff !important;
+                font-size: 8.5pt; font-weight: 800;
+            }
+            .serial-badge.holiday-serial-badge { background: var(--holiday-color) !important; }
+
+            /* --- Date cell styling --- */
+            .date-cell-mobile { text-align: center !important; }
+            .date-cell-mobile > div:first-child { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 9.5pt !important; }
+
+            /* --- Holiday rows: warm rose tint + diagonal texture + badge --- */
+            tr.holiday-row, tr[data-is-holiday="true"] {
+                background: repeating-linear-gradient(
+                    135deg,
+                    var(--holiday-bg) 0px, var(--holiday-bg) 10px,
+                    #ffe4e9 10px, #ffe4e9 20px
+                ) !important;
+            }
+            .holiday-badge { background-color: var(--holiday-color) !important; color: #ffffff !important; font-weight: 800; padding: 1px 6px !important; border-radius: 3px !important; border: none !important; }
+            .holiday-input-container { text-align: center !important; }
+            .holiday-input-container input {
+                border: none !important; background: transparent !important; width: 100% !important;
+                color: var(--holiday-color) !important; font-size: 10.5pt !important; font-weight: 800 !important;
+            }
+
+            /* --- Session subrows: distinct colour-coded blocks (morning vs afternoon) --- */
+            .session-block { border-radius: 4px; padding: 3px 4px !important; margin-bottom: 3px; }
+            .col-planned .morning-block, .col-actual .morning-block, .col-work .morning-block, .col-remarks .morning-block,
+            .col-planned .date-cell-mobile .morning-block-date { }
+
+            .morning-block { background: var(--morning-tint) !important; border-left: 3px solid var(--morning-accent) !important; }
+            .afternoon-block { background: var(--afternoon-tint) !important; border-left: 3px solid var(--afternoon-accent) !important; }
+
+            .mode-both .morning-block {
+                border-bottom: 1.5px dashed var(--primary-color) !important;
+                padding-bottom: 5px !important; margin-bottom: 5px !important;
+            }
+
+            .morning-block-date {
+                display: inline-block !important; background: var(--morning-accent) !important; color: #fff !important;
+                font-size: 8pt !important; font-weight: 800 !important; padding: 1px 7px !important; border-radius: 8px !important;
+                margin-bottom: 3px !important;
+            }
+            .afternoon-block-date {
+                display: inline-block !important; background: var(--afternoon-accent) !important; color: #fff !important;
+                font-size: 8pt !important; font-weight: 800 !important; padding: 1px 7px !important; border-radius: 8px !important;
+                margin-bottom: 3px !important; margin-top: 2px !important;
+            }
+            .print-only-date-content { text-align: center !important; margin-top: 5px !important; }
+
+            /* --- Individual task items within a session: small ruled card with a bullet dot --- */
             textarea { display: none !important; }
-            .print-text { display: block !important; font-size: 10pt !important; padding: 2px 0 !important; }
-            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; }
+            .task-item {
+                border-bottom: 1px dotted #94a3b8 !important;
+                padding: 2px 0 3px 10px !important; margin-bottom: 3px !important;
+                position: relative !important;
+            }
+            .task-item::before {
+                content: "";
+                position: absolute; left: 0; top: 6px;
+                width: 5px; height: 5px; border-radius: 50%;
+                background: var(--accent-color) !important;
+            }
+            .print-text { display: block !important; font-size: 9.5pt !important; padding: 1px 0 !important; text-align: left !important; }
+            .print-task-time {
+                display: inline-block !important; font-size: 7.5pt !important; font-weight: 800 !important;
+                color: #ffffff !important; background: var(--primary-color) !important;
+                padding: 0px 5px !important; border-radius: 6px !important; margin-bottom: 3px !important;
+            }
+
             .field-label { display: none !important; }
             .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--text-color) !important; font-weight: bold; }
             .stylish-select-box { border: none !important; box-shadow: none !important; }
-            
-            /* Proper Lining for Sub Rows in Print */
-            .print-only-date-content { font-size: 10pt !important; color: var(--primary-color) !important; margin-top: 6px !important; }
-            .mode-both .morning-block, .mode-both .morning-block-date { 
-                border-bottom: 1.5px solid var(--primary-color) !important; 
-                padding-bottom: 6px !important; 
-                margin-bottom: 6px !important; 
-            }
-            .task-item { border-bottom: 1px dotted #94a3b8 !important; padding-bottom: 4px; margin-bottom: 4px; }
-            .timing-print-text { font-size: 9pt; margin-top: 4px; color: #333; }
+
+            /* --- Column header tint hint reflected in cell top border for quick colour-coded scanning --- */
+            td.col-planned  { border-top: 2px solid #0284c7 !important; }
+            td.col-actual   { border-top: 2px solid #16a34a !important; }
+            td.col-work     { border-top: 2px solid #7c3aed !important; }
+            td.col-remarks  { border-top: 2px solid #db2777 !important; }
         }
     </style>
 </head>
@@ -232,11 +355,11 @@
         <thead>
             <tr>
                 <th style="width: 5%;">अ. क्र.</th>
-                <th style="width: 17%;">दिनांक/वार/वेळ</th>
-                <th style="width: 19%;">नियोजित भेट</th>
-                <th style="width: 19%;">प्रत्यक्ष भेट</th>
-                <th style="width: 21%;">कामाचे स्वरूप</th>
-                <th style="width: 19%;">शेरा</th>
+                <th style="width: 17%;">📅 दिनांक/वार</th>
+                <th style="width: 19%;">🎯 नियोजित भेट</th>
+                <th style="width: 19%;">✅ प्रत्यक्ष भेट</th>
+                <th style="width: 21%;">🗂️ कामाचे स्वरूप</th>
+                <th style="width: 19%;">📝 शेरा</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -334,6 +457,22 @@
         loadFormData();
     }
 
+    // Time Validation Logic
+    function validateTime(input, min, max) {
+        if(!input.value) return;
+        const row = input.closest('tr');
+        const isWhole = row.querySelector('.cb-whole').checked;
+        
+        let actualMax = max;
+        // If "पूर्ण दिवस" is active, allow morning block to select up to 17:00 (5 PM)
+        if(isWhole && min === '08:00') { actualMax = '17:00'; }
+
+        if (input.value < min || input.value > actualMax) {
+            alert(`कृपया वेळ ${min} ते ${actualMax} च्या दरम्यान निवडा.`);
+            input.value = '';
+        }
+    }
+
     // Components Generation
     function getSchoolDropdownHTML(placeholderText, className) {
         let optionsHTML = `<option value="">-- शाळा निवडा --</option>`;
@@ -360,10 +499,28 @@
         handleFormChange(textarea);
     }
 
-    function getTaskItemHTMLInner(colType, isRemarks = false) {
+    function getTaskItemHTMLInner(colType, isRemarks = false, sessionType = 'morning') {
         let inputHTML = '';
+        
+        // Time selection for Planned cell
+        let timeHTML = '';
+        if (colType === 'planned') {
+            let minT = sessionType === 'morning' ? '08:00' : '14:00';
+            let maxT = sessionType === 'morning' ? '13:00' : '16:30';
+            
+            timeHTML = `
+            <div class="task-timing no-print">
+                <span style="font-size:10px; font-weight:700; color:var(--primary-color);">वेळ:</span>
+                <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
+                <span style="font-size:10px;">ते</span>
+                <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
+            </div>
+            <div class="print-task-time"></div>
+            `;
+        }
+
         if (colType === 'planned' || colType === 'actual') {
-            inputHTML = getSchoolDropdownHTML('भेट...', `input-${colType}`);
+            inputHTML = timeHTML + getSchoolDropdownHTML('भेट...', `input-${colType}`);
         } else if (colType === 'work') {
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
         } else {
@@ -381,7 +538,7 @@
         return inputHTML;
     }
 
-    function getCellTemplate(colType) {
+    function getCellTemplate() {
         return `
             <div class="session-block morning-block">
                 <div class="task-list"></div>
@@ -400,7 +557,7 @@
             if(list) {
                 const div = document.createElement('div');
                 div.className = 'task-item';
-                div.innerHTML = getTaskItemHTMLInner(col, col === 'remarks');
+                div.innerHTML = getTaskItemHTMLInner(col, col === 'remarks', sessionType);
                 list.appendChild(div);
             }
         });
@@ -517,7 +674,7 @@
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
 
         row.innerHTML = `
-            <td class="mobile-serial" style="font-weight:bold;">${i}</td>
+            <td class="mobile-serial"><span class="serial-badge">${i}</span></td>
             <td class="date-cell-mobile">
                 <div>${dateText}</div>
                 ${extraBadge}
@@ -534,25 +691,20 @@
                     <input type="checkbox" onchange="toggleManualHoliday(this, ${i})">
                     <span>सुट्टी घोषित करा</span>
                 </label>
-                <div class="timing-wrapper no-print">
-                    <label>वेळ:</label>
-                    <div class="time-inputs"><input type="time" class="time-input time-from" onchange="handleFormChange(this)"><span>ते</span><input type="time" class="time-input time-to" onchange="handleFormChange(this)"></div>
-                </div>
                 
-                <!-- Date column print content (sub row headers) -->
+                <!-- Date column print content (sub row headers ONLY) -->
                 <div class="print-only-date-content no-screen">
-                    <div class="morning-block-date">सकाळ सत्र</div>
-                    <div class="afternoon-block-date">दुपार सत्र</div>
-                    <div class="timing-print-text"></div>
+                    <div class="morning-block-date">🌅 सकाळ सत्र</div>
+                    <div class="afternoon-block-date">🌇 दुपार सत्र</div>
                 </div>
             </td>
-            <td class="col-planned"><span class="field-label">१. नियोजित भेट:</span>${getCellTemplate('planned')}</td>
-            <td class="col-actual"><span class="field-label">२. प्रत्यक्ष भेट:</span>${getCellTemplate('actual')}</td>
-            <td class="col-work"><span class="field-label">३. कामाचे स्वरूप:</span>${getCellTemplate('work')}</td>
-            <td class="col-remarks"><span class="field-label">४. शेरा:</span>${getCellTemplate('remarks')}</td>
+            <td class="col-planned"><span class="field-label">१. नियोजित भेट:</span>${getCellTemplate()}</td>
+            <td class="col-actual"><span class="field-label">२. प्रत्यक्ष भेट:</span>${getCellTemplate()}</td>
+            <td class="col-work"><span class="field-label">३. कामाचे स्वरूप:</span>${getCellTemplate()}</td>
+            <td class="col-remarks"><span class="field-label">४. शेरा:</span>${getCellTemplate()}</td>
         `;
-        addTaskToDOM(row, 'morning'); // Morning acts as Whole Day base
-        addTaskToDOM(row, 'afternoon'); // Pre-populate afternoon but hidden
+        addTaskToDOM(row, 'morning'); 
+        addTaskToDOM(row, 'afternoon'); 
         updateRowSessionUI(row);
     }
 
@@ -562,19 +714,18 @@
         let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-bottom:4px;">रविवार सुट्टी</div>` : ``;
 
         row.innerHTML = `
-            <td class="mobile-serial" style="font-weight:bold;">${i}</td>
+            <td class="mobile-serial"><span class="serial-badge holiday-serial-badge">${i}</span></td>
             <td class="date-cell-mobile">
                 <div>${dateText}</div>${badgeHTML}
                 <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7;">
                      <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा (सुट्टी रद्द)</span>
                 </label>
                 <div class="print-only-date-content no-screen">
-                    <div class="timing-print-text" style="font-weight:bold; font-size:10pt;">सुट्टी</div>
+                    <div style="font-weight:bold; font-size:10pt; color:var(--holiday-color); margin-top:8px;">सुट्टी</div>
                 </div>
             </td>
             <td colspan="4" class="holiday-input-container">
                 <input type="text" class="holiday-reason-input" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
-                <input type="hidden" class="time-from" value=""><input type="hidden" class="time-to" value="">
             </td>
         `;
     }
@@ -596,25 +747,29 @@
     }
 
     function syncRowVisuals(row) {
+        // Sync textareas to print-divs
         row.querySelectorAll('textarea').forEach(tx => {
             const printDiv = tx.nextElementSibling;
             if (printDiv && printDiv.classList.contains('print-text')) printDiv.textContent = tx.value;
         });
         
         if (row.getAttribute('data-is-holiday') === 'false') {
-            const fromTime = row.querySelector('.time-from').value;
-            const toTime = row.querySelector('.time-to').value;
-            const printTimingSpan = row.querySelector('.timing-print-text');
-            if (printTimingSpan) {
-                if (fromTime || toTime) printTimingSpan.textContent = `वेळ: ${fromTime || '--'} ते ${toTime || '--'}`;
-                else printTimingSpan.textContent = '';
-            }
+            // Sync time for each task to its print span
+            row.querySelectorAll('.col-planned .task-item').forEach(item => {
+                const tf = item.querySelector('.task-time-from')?.value;
+                const tt = item.querySelector('.task-time-to')?.value;
+                const pt = item.querySelector('.print-task-time');
+                if (pt) {
+                    if (tf || tt) pt.textContent = `[वेळ: ${tf || '--'} ते ${tt || '--'}]`;
+                    else pt.textContent = '';
+                }
+            });
         }
     }
 
     /* Save/Load Pipeline */
     function getStorageKey() { 
-        return `DAINANDINI_V3_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; 
+        return `DAINANDINI_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; 
     }
 
     function handleFormChange(elem) {
@@ -639,25 +794,32 @@
                 cbWhole: isHol ? true : row.querySelector('.cb-whole').checked,
                 cbMorning: isHol ? false : row.querySelector('.cb-morning').checked,
                 cbAfternoon: isHol ? false : row.querySelector('.cb-afternoon').checked,
-                fromTime: row.querySelector('.time-from') ? row.querySelector('.time-from').value : '',
-                toTime: row.querySelector('.time-to') ? row.querySelector('.time-to').value : '',
                 morningTasks: [], afternoonTasks: []
             };
 
             if (!isHol) {
-                const getVals = (block, cls) => Array.from(row.querySelectorAll(`.col-${cls} ${block} .task-item`)).map(n => n.querySelector(`.input-${cls}`)?.value || '');
-                
-                let pM = getVals('.morning-block', 'planned');
-                let aM = getVals('.morning-block', 'actual');
-                let wM = getVals('.morning-block', 'work');
-                let rM = getVals('.morning-block', 'remarks');
-                for(let i=0; i<pM.length; i++) entry.morningTasks.push({ planned: pM[i], actual: aM[i], work: wM[i], remarks: rM[i] });
+                const getTaskData = (block) => {
+                    let taskArr = [];
+                    let pNodes = row.querySelectorAll(`.col-planned ${block} .task-item`);
+                    let aNodes = row.querySelectorAll(`.col-actual ${block} .task-item`);
+                    let wNodes = row.querySelectorAll(`.col-work ${block} .task-item`);
+                    let rNodes = row.querySelectorAll(`.col-remarks ${block} .task-item`);
+                    
+                    for(let i=0; i<pNodes.length; i++) {
+                        taskArr.push({
+                            timeFrom: pNodes[i].querySelector('.task-time-from')?.value || '',
+                            timeTo: pNodes[i].querySelector('.task-time-to')?.value || '',
+                            planned: pNodes[i].querySelector('.input-planned')?.value || '',
+                            actual: aNodes[i]?.querySelector('.input-actual')?.value || '',
+                            work: wNodes[i]?.querySelector('.input-work')?.value || '',
+                            remarks: rNodes[i]?.querySelector('.input-remarks')?.value || ''
+                        });
+                    }
+                    return taskArr;
+                };
 
-                let pA = getVals('.afternoon-block', 'planned');
-                let aA = getVals('.afternoon-block', 'actual');
-                let wA = getVals('.afternoon-block', 'work');
-                let rA = getVals('.afternoon-block', 'remarks');
-                for(let i=0; i<pA.length; i++) entry.afternoonTasks.push({ planned: pA[i], actual: aA[i], work: wA[i], remarks: rA[i] });
+                entry.morningTasks = getTaskData('.morning-block');
+                entry.afternoonTasks = getTaskData('.afternoon-block');
             }
             entries.push(entry);
         });
@@ -702,9 +864,6 @@
                         row.querySelector('.cb-afternoon').checked = item.cbAfternoon;
                     }
                     
-                    if (row.querySelector('.time-from')) row.querySelector('.time-from').value = item.fromTime || '';
-                    if (row.querySelector('.time-to')) row.querySelector('.time-to').value = item.toTime || '';
-                    
                     ['morning', 'afternoon'].forEach(sType => {
                         let taskArr = sType === 'morning' ? item.morningTasks : item.afternoonTasks;
                         if (taskArr && taskArr.length > 0) {
@@ -713,6 +872,8 @@
                             
                             taskArr.forEach((tData, idx) => {
                                 addTaskToDOM(row, sType);
+                                row.querySelectorAll(`.col-planned ${bCls} .task-time-from`)[idx].value = tData.timeFrom || '';
+                                row.querySelectorAll(`.col-planned ${bCls} .task-time-to`)[idx].value = tData.timeTo || '';
                                 row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx].value = tData.planned || '';
                                 row.querySelectorAll(`.col-actual ${bCls} .input-actual`)[idx].value = tData.actual || '';
                                 row.querySelectorAll(`.col-work ${bCls} .input-work`)[idx].value = tData.work || '';
@@ -741,9 +902,6 @@
             let dayIndex = row.getAttribute('data-day-index');
             let isHol = row.getAttribute('data-is-holiday') === 'true';
             
-            let fT = row.querySelector('.time-from') ? row.querySelector('.time-from').value : '';
-            let tT = row.querySelector('.time-to') ? row.querySelector('.time-to').value : '';
-            
             let sMode = '', p = '', a = '', w = '', r = '', hR = '';
 
             if (isHol) {
@@ -755,41 +913,49 @@
                 let cbA = row.querySelector('.cb-afternoon').checked;
                 sMode = cbW ? 'पूर्ण दिवस' : ((cbM && cbA) ? 'सकाळ व दुपार' : (cbM ? 'सकाळ सत्र' : 'दुपार सत्र'));
 
-                const extractList = (colCls, blockCls, inputCls) => {
-                    return Array.from(row.querySelectorAll(`${colCls} ${blockCls} ${inputCls}`)).map(el => el.value.trim()).filter(v=>v);
+                const extractTaskData = (blockCls) => {
+                    let tasks = [];
+                    let rows = Array.from(row.querySelectorAll(`.col-planned ${blockCls} .task-item`));
+                    rows.forEach((item, i) => {
+                       let tf = item.querySelector('.task-time-from')?.value || '';
+                       let tt = item.querySelector('.task-time-to')?.value || '';
+                       let pVal = item.querySelector('.input-planned')?.value.trim() || '';
+                       let aVal = row.querySelectorAll(`.col-actual ${blockCls} .input-actual`)[i]?.value.trim() || '';
+                       let wVal = row.querySelectorAll(`.col-work ${blockCls} .input-work`)[i]?.value.trim() || '';
+                       let rVal = row.querySelectorAll(`.col-remarks ${blockCls} .input-remarks`)[i]?.value.trim() || '';
+                       if(pVal || aVal || wVal || rVal) tasks.push({tf, tt, p:pVal, a:aVal, w:wVal, r:rVal});
+                    });
+                    return tasks;
                 };
                 
-                let pM = (cbM || cbW) ? extractList('.col-planned', '.morning-block', '.input-planned') : [];
-                let pA = cbA ? extractList('.col-planned', '.afternoon-block', '.input-planned') : [];
-                let aM = (cbM || cbW) ? extractList('.col-actual', '.morning-block', '.input-actual') : [];
-                let aA = cbA ? extractList('.col-actual', '.afternoon-block', '.input-actual') : [];
-                let wM = (cbM || cbW) ? extractList('.col-work', '.morning-block', '.input-work') : [];
-                let wA = cbA ? extractList('.col-work', '.afternoon-block', '.input-work') : [];
-                let rM = (cbM || cbW) ? extractList('.col-remarks', '.morning-block', '.input-remarks') : [];
-                let rA = cbA ? extractList('.col-remarks', '.afternoon-block', '.input-remarks') : [];
+                let tM = (cbM || cbW) ? extractTaskData('.morning-block') : [];
+                let tA = cbA ? extractTaskData('.afternoon-block') : [];
 
-                const formatText = (arrM, arrA) => {
-                    let textM = arrM.map((t,i) => arrM.length>1 ? `${i+1}) ${t}` : t).join('\n');
-                    let textA = arrA.map((t,i) => arrA.length>1 ? `${i+1}) ${t}` : t).join('\n');
+                const formatCol = (arr, key, includeTime) => {
+                    return arr.map((t, i) => {
+                        let pref = arr.length > 1 ? `${i+1}) ` : ``;
+                        let timeStr = (includeTime && (t.tf || t.tt)) ? `[${t.tf||'--'} ते ${t.tt||'--'}] ` : ``;
+                        let val = t[key];
+                        return val ? `${pref}${timeStr}${val}`.trim() : ``;
+                    }).filter(v=>v).join('\n');
+                };
+
+                const buildText = (arrM, arrA, key, includeTime) => {
+                    let textM = formatCol(arrM, key, includeTime);
+                    let textA = formatCol(arrA, key, includeTime);
                     if(cbM && cbA) return (textM ? `सकाळ:\n${textM}` : "") + (textM && textA ? "\n\n" : "") + (textA ? `दुपार:\n${textA}` : "");
                     return textM || textA;
                 };
 
-                p = formatText(pM, pA);
-                a = formatText(aM, aA);
-                w = formatText(wM, wA);
-                r = formatText(rM, rA);
+                p = buildText(tM, tA, 'p', true);  // Only planned gets the time array
+                a = buildText(tM, tA, 'a', false);
+                w = buildText(tM, tA, 'w', false);
+                r = buildText(tM, tA, 'r', false);
             }
             
-            let tArr = [];
-            if(sMode && sMode !== 'सुट्टी' && sMode !== 'पूर्ण दिवस') tArr.push(`सत्र: ${sMode}`);
-            else if(sMode === 'पूर्ण दिवस') tArr.push('पूर्ण दिवस');
-            if(fT || tT) tArr.push(`${fT} - ${tT}`);
-            let timing = tArr.length > 0 ? tArr.join(' | ') : (isHol ? 'सुट्टी' : '');
-
-            if (p || a || w || r || timing) {
+            if (p || a || w || r || sMode) {
                 entries.push({ day: dayIndex, date: row.getAttribute('data-date'), isHoliday: isHol, holidayReason: hR,
-                               fromTime: fT, toTime: tT, session: sMode, timing: timing, planned: p, actual: a, work: w, remarks: r });
+                               fromTime: '', toTime: '', session: sMode, timing: '', planned: p, actual: a, work: w, remarks: r });
             }
         });
 
