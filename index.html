@@ -32,7 +32,7 @@
             padding: 24px 16px; border-radius: 6px 6px 0 0; margin-bottom: 16px;
             border-bottom: 5px solid var(--accent-color);
         }
-        .header-section h1 { margin: 0; font-size: clamp(20px, 3vw, 28px); font-weight: 800; letter-spacing: 0.5px; }
+        .header-section h1 { margin: 0; font-size: clamp(17px, 3vw, 28px); font-weight: 800; letter-spacing: 0.3px; line-height: 1.35; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; }
         
         .info-row {
             display: flex; flex-direction: column; gap: 14px; background: #f8fafc;
@@ -49,6 +49,30 @@
         .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 5px 14px; border-radius: 20px; background: #e2e8f0; color: #475569; font-weight: 700; margin: 0 auto; width: fit-content; }
         .sync-badge.synced { background: #dcfce7; color: #15803d; }
         .sync-badge.syncing { background: #fef9c3; color: #a16207; }
+
+        /* Official Letter Address Block */
+        .letter-block {
+            background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px;
+            padding: 14px 18px; margin-bottom: 16px; text-align: left; color: var(--text-color);
+        }
+        .letter-block p { margin: 4px 0; font-size: 14px; line-height: 1.55; }
+        .letter-block .addressee { font-weight: 700; color: var(--primary-color); margin: 2px 0 2px 18px; }
+        .letter-subject { border-top: 1px dashed var(--border-color); border-bottom: 1px dashed var(--border-color); margin: 10px 0; padding: 8px 0; }
+        .letter-subject p { font-weight: 700; }
+        .letter-body p { text-align: justify; }
+
+        /* Signature Block */
+        .signature-block {
+            display: flex; justify-content: space-between; gap: 24px; margin-top: 26px;
+            padding-top: 14px; border-top: 2px solid var(--primary-color);
+        }
+        .sign-col { flex: 1; text-align: center; }
+        .sign-col p { margin: 3px 0; font-size: 13.5px; }
+        .sign-col .sign-heading { font-weight: 800; color: var(--primary-color); margin-bottom: 6px; }
+        .sign-fill { display: inline-block; min-width: 140px; border-bottom: 1px dotted #94a3b8; padding: 0 4px; text-align: left; }
+        .sign-space { height: 46px; }
+        .sign-title { font-weight: 800; border-top: 1px solid #1f2937; padding-top: 4px; display: inline-block; min-width: 200px; }
+        .sign-subtitle { font-weight: 600; color: var(--primary-color); }
 
         /* Table Layout */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
@@ -175,6 +199,7 @@
             .header-section {
                 display: block !important;
                 position: relative;
+                overflow: visible !important;
                 padding: 10px 10px 12px 10px !important;
                 margin: 0 0 3px 0 !important;
                 border: none !important;
@@ -183,10 +208,14 @@
                 color: #ffffff !important;
             }
             .header-section h1 {
-                font-size: 15pt !important;
+                font-size: 14pt !important;
                 color: #ffffff !important;
                 font-weight: 800 !important;
-                letter-spacing: 0.3px;
+                letter-spacing: 0.2px;
+                line-height: 1.35 !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
             }
             /* triple-stripe "ribbon" under the header, like a diary bookmark band */
             .header-section::after {
@@ -212,6 +241,17 @@
                 border-radius: 0 0 6px 6px !important;
             }
             .info-group, .location-item { color: var(--primary-color) !important; }
+
+            .letter-block {
+                border: 1px solid var(--primary-color) !important; border-radius: 4px !important;
+                padding: 8px 12px !important; margin: 0 0 7px 0 !important; page-break-inside: avoid !important;
+            }
+            .letter-block p { font-size: 9.5pt !important; margin: 3px 0 !important; line-height: 1.5 !important; }
+            .letter-subject { margin: 6px 0 !important; padding: 5px 0 !important; }
+
+            .signature-block { page-break-inside: avoid !important; margin-top: 16px !important; padding-top: 8px !important; }
+            .sign-col p { font-size: 9.5pt !important; }
+            .sign-space { height: 34px !important; }
 
             .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
             .no-screen { display: block !important; }
@@ -274,12 +314,11 @@
             .col-planned .morning-block, .col-actual .morning-block, .col-work .morning-block, .col-remarks .morning-block,
             .col-planned .date-cell-mobile .morning-block-date { }
 
-            .morning-block { background: var(--morning-tint) !important; border-left: 3px solid var(--morning-accent) !important; }
-            .afternoon-block { background: var(--afternoon-tint) !important; border-left: 3px solid var(--afternoon-accent) !important; }
+            .morning-block { background: var(--morning-tint) !important; border: 1px solid var(--morning-accent) !important; border-radius: 3px !important; padding: 4px 6px !important; }
+            .afternoon-block { background: var(--afternoon-tint) !important; border: 1px solid var(--afternoon-accent) !important; border-radius: 3px !important; padding: 4px 6px !important; }
 
             .mode-both .morning-block {
-                border-bottom: 1.5px dashed var(--primary-color) !important;
-                padding-bottom: 5px !important; margin-bottom: 5px !important;
+                margin-bottom: 6px !important;
             }
 
             .morning-block-date {
@@ -294,19 +333,15 @@
             }
             .print-only-date-content { text-align: center !important; margin-top: 5px !important; }
 
-            /* --- Individual task items within a session: small ruled card with a bullet dot --- */
+            /* --- Individual task items within a session: ruled sub-table cell --- */
             textarea { display: none !important; }
             .task-item {
-                border-bottom: 1px dotted #94a3b8 !important;
-                padding: 2px 0 3px 10px !important; margin-bottom: 3px !important;
-                position: relative !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 3px !important;
+                background: #ffffff !important;
+                padding: 2px 6px !important; margin-bottom: 3px !important;
             }
-            .task-item::before {
-                content: "";
-                position: absolute; left: 0; top: 6px;
-                width: 5px; height: 5px; border-radius: 50%;
-                background: var(--accent-color) !important;
-            }
+            .task-item:last-child { margin-bottom: 0 !important; }
             .print-text { display: block !important; font-size: 9.5pt !important; padding: 1px 0 !important; text-align: left !important; }
             .print-task-time {
                 display: inline-block !important; font-size: 7.5pt !important; font-weight: 800 !important;
@@ -333,6 +368,19 @@
         <h1>समूह साधन केंद्र समन्वयक मासिक दैनंदिनी</h1>
     </div>
 
+    <div class="letter-block">
+        <p>प्रति,</p>
+        <p class="addressee">मा. गट शिक्षणाधिकारी,<br>पंचायत समिती, अंबाजोगाई</p>
+        <p class="addressee">मा. शिक्षण विस्तार अधिकारी,<br>पंचायत समिती, अंबाजोगाई</p>
+        <div class="letter-subject">
+            <p>विषय : <span id="subjectMonthYear">___________</span> महिन्याची समूह साधन केंद्र समन्वयक मासिक दैनंदिनी सादर करणेबाबत.</p>
+        </div>
+        <div class="letter-body">
+            <p>महोदय,</p>
+            <p>उपरोक्त विषयान्वये सोबत जोडलेल्या विवरणपत्रकानुसार <span id="letterKendraLine">माझ्या केंद्रातील</span> सदर महिन्याची मासिक दैनंदिनी सविनय सादर करण्यात येत आहे. याची नोंद घ्यावी, ही विनंती.</p>
+        </div>
+    </div>
+
     <div class="info-row">
         <div class="info-group">
             <label>महिना व वर्ष:</label>
@@ -355,15 +403,32 @@
         <thead>
             <tr>
                 <th style="width: 5%;">अ. क्र.</th>
-                <th style="width: 17%;">📅 दिनांक/वार</th>
-                <th style="width: 19%;">🎯 नियोजित भेट</th>
-                <th style="width: 19%;">✅ प्रत्यक्ष भेट</th>
-                <th style="width: 21%;">🗂️ कामाचे स्वरूप</th>
-                <th style="width: 19%;">📝 शेरा</th>
+                <th style="width: 17%;">दिनांक/वार</th>
+                <th style="width: 19%;">नियोजित भेट</th>
+                <th style="width: 19%;">प्रत्यक्ष भेट</th>
+                <th style="width: 21%;">कामाचे स्वरूप</th>
+                <th style="width: 19%;">शेरा</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
+
+    <div class="signature-block">
+        <div class="sign-col">
+            <p class="sign-heading">केंद्रप्रमुख यांची स्वाक्षरी</p>
+            <p>ठिकाण : <span class="sign-fill" id="sigKendraFill"></span></p>
+            <p>दिनांक : <span class="sign-fill">____ / ____ / ________</span></p>
+            <div class="sign-space"></div>
+            <p class="sign-title" id="sigNameFill">केंद्रप्रमुख</p>
+            <p class="sign-subtitle" id="sigKendraTaluka"></p>
+        </div>
+        <div class="sign-col">
+            <p class="sign-heading">कार्यालयीन शेरा / मान्यता</p>
+            <div class="sign-space"></div>
+            <p class="sign-title">स्वाक्षरी</p>
+            <p class="sign-subtitle">गट शिक्षणाधिकारी / शिक्षण विस्तार अधिकारी, अंबाजोगाई</p>
+        </div>
+    </div>
 
     <div class="btn-container no-print">
         <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
@@ -384,7 +449,7 @@
             </div>
         </div>
         <div id="adminControlsStep" style="display:none;">
-            <p style="font-size: 14px; color: #15803d; font-weight: bold; text-align: center; margin: 0 0 15px 0;">✓ केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
+            <p style="font-size: 14px; color: #15803d; font-weight: bold; text-align: center; margin: 0 0 15px 0;">केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
             <div class="switch-container">
                 <span>स्वयंचलित सिंक (Auto-Sync)</span>
                 <label class="switch"><input type="checkbox" id="autoSyncToggle" onchange="toggleAutoSync()"><span class="slider"></span></label>
@@ -694,8 +759,8 @@
                 
                 <!-- Date column print content (sub row headers ONLY) -->
                 <div class="print-only-date-content no-screen">
-                    <div class="morning-block-date">🌅 सकाळ सत्र</div>
-                    <div class="afternoon-block-date">🌇 दुपार सत्र</div>
+                    <div class="morning-block-date">सकाळ सत्र</div>
+                    <div class="afternoon-block-date">दुपार सत्र</div>
                 </div>
             </td>
             <td class="col-planned"><span class="field-label">१. नियोजित भेट:</span>${getCellTemplate()}</td>
@@ -772,8 +837,33 @@
         return `DAINANDINI_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; 
     }
 
+    function updateLetterAndSignature() {
+        const name = (document.getElementById('kendraPramukhNameInput').value || '').trim() || 'केंद्रप्रमुख';
+        const kendra = (document.getElementById('kendraInput').value || '').trim();
+        const taluka = (document.getElementById('talukaInput').value || '').trim();
+        const jilha = (document.getElementById('jilhaInput').value || '').trim();
+        const monthText = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex]?.text || '';
+        const yearText = document.getElementById('yearSelect').value || '';
+
+        const subjEl = document.getElementById('subjectMonthYear');
+        if (subjEl) subjEl.textContent = (monthText && yearText) ? `${monthText} ${yearText}` : '___________';
+
+        const kLineEl = document.getElementById('letterKendraLine');
+        if (kLineEl) kLineEl.textContent = kendra ? `${kendra} केंद्रातील` : 'माझ्या केंद्रातील';
+
+        const sigKendraFill = document.getElementById('sigKendraFill');
+        if (sigKendraFill) sigKendraFill.textContent = [kendra, taluka].filter(Boolean).join(', ');
+
+        const sigNameFill = document.getElementById('sigNameFill');
+        if (sigNameFill) sigNameFill.textContent = name;
+
+        const sigKendraTaluka = document.getElementById('sigKendraTaluka');
+        if (sigKendraTaluka) sigKendraTaluka.textContent = ['केंद्रप्रमुख', kendra, taluka, jilha].filter(Boolean).join(', ');
+    }
+
     function handleFormChange(elem) {
         if (elem && elem.closest('tr')) syncRowVisuals(elem.closest('tr'));
+        updateLetterAndSignature();
         saveToLocalStorage();
         updateSyncBadge("स्थानिक ड्राफ्ट सेव्ह झाला", "synced");
         if (verifiedSessionPin && isAutoSyncEnabled) {
@@ -833,6 +923,7 @@
 
     function loadFormData() {
         generateTableStructure();
+        updateLetterAndSignature();
         const saved = localStorage.getItem(getStorageKey());
         if (!saved) return;
         
@@ -842,6 +933,7 @@
             if (data.kendra) document.getElementById('kendraInput').value = data.kendra;
             if (data.taluka) document.getElementById('talukaInput').value = data.taluka;
             if (data.jilha) document.getElementById('jilhaInput').value = data.jilha;
+            updateLetterAndSignature();
 
             const m = parseInt(document.getElementById('monthSelect').value), y = parseInt(document.getElementById('yearSelect').value);
 
