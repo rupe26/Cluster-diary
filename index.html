@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>समूह साधन केंद्र समन्वयक मासिक दैनंदिनी</title>
+    <style>
+        :root {
+            --primary-color: #003366; /* Official Deep Blue */
+            --accent-color: #FF9933; /* Official Saffron */
+            --bg-color: #f1f5f9;
+            --text-color: #0f172a;
+            --border-color: #cbd5e1;
+            --holiday-bg: #fff1f2;
+            --holiday-color: #be123c;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0; padding: 14px; background-color: var(--bg-color); color: var(--text-color);
+            line-height: 1.5; -webkit-tap-highlight-color: transparent;
+        }
+        .container {
+            max-width: 1250px; margin: 0 auto; background: #ffffff; padding: 18px;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Screen Header (Blue & Saffron) */
+        .header-section {
+            text-align: center; background-color: var(--primary-color); color: #ffffff;
+            padding: 24px 16px; border-radius: 6px 6px 0 0; margin-bottom: 16px;
+            border-bottom: 5px solid var(--accent-color);
+        }
+        .header-section h1 { margin: 0; font-size: clamp(20px, 3vw, 28px); font-weight: 800; letter-spacing: 0.5px; }
+        
+        .info-row {
+            display: flex; flex-direction: column; gap: 14px; background: #f8fafc;
+            padding: 16px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 16px; text-align: center;
+        }
+        .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); }
+        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1.5px solid var(--primary-color); border-radius: 4px; padding: 2px 6px; }
+        .stylish-select-box select { font-family: inherit; font-size: clamp(14px, 1.7vw, 15px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; }
+        .editable-header-input { font-family: inherit; font-size: clamp(13px, 1.7vw, 15px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
+        .name-input { min-width: 190px; }
+        .location-fields { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; }
+        .location-item { display: flex; align-items: center; gap: 6px; font-size: clamp(13px, 1.7vw, 15px); font-weight: 600; }
+
+        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 5px 14px; border-radius: 20px; background: #e2e8f0; color: #475569; font-weight: 700; margin: 0 auto; width: fit-content; }
+        .sync-badge.synced { background: #dcfce7; color: #15803d; }
+        .sync-badge.syncing { background: #fef9c3; color: #a16207; }
+
+        /* Table Layout */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        th, td { border: 1px solid var(--border-color); padding: 8px; text-align: center; vertical-align: top; font-size: clamp(13px, 1.6vw, 14px); }
+        th { background-color: #f1f5f9; color: var(--primary-color); font-weight: 800; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--accent-color); }
+        
+        textarea { width: 100%; min-height: 48px; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: vertical; text-align: left; }
+        .school-select { width: 100%; padding: 6px; font-size: clamp(13px, 1.5vw, 14px); font-family: inherit; border-radius: 4px; border: 1px solid var(--border-color); background: #ffffff; text-align: left; margin-bottom: 4px; font-weight: 600;}
+
+        /* Dynamic Sub-rows & Split Logic */
+        .morning-block, .afternoon-block { display: none; }
+        
+        .mode-whole .morning-block { display: block; }
+        .mode-morning .morning-block { display: block; }
+        .mode-afternoon .afternoon-block { display: block; }
+        .mode-both .morning-block, .mode-both .afternoon-block { display: block; }
+        
+        .mode-both .morning-block { border-bottom: 2px dashed #94a3b8; padding-bottom: 12px; margin-bottom: 12px; }
+
+        .task-item { border-bottom: 1px dotted #cbd5e1; padding-bottom: 8px; margin-bottom: 8px; position: relative; }
+        .task-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
+        /* Session Checkboxes */
+        .session-box { display: flex; flex-direction: column; align-items: flex-start; margin: 8px auto 0 auto; width: fit-content; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 12px; font-size: 13px; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);}
+        .session-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; color: #1f2937; font-weight: 700; }
+
+        /* Add Task Buttons */
+        .add-btn-group { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; align-items: center; }
+        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 4px; font-weight: 700; cursor: pointer; display: none; width: 95%; transition: 0.2s; }
+        .task-btn.morning-add-btn { background: #f0f9ff; color: var(--primary-color); border-color: var(--primary-color); }
+        .task-btn.morning-add-btn:hover { background: var(--primary-color); color: white; }
+        .task-btn.afternoon-add-btn { background: #fff7ed; color: #c2410c; border-color: var(--accent-color); }
+        .task-btn.afternoon-add-btn:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
+
+        /* Timing & Badges */
+        .timing-wrapper { margin-top: 8px; font-size: 12px; background: #f8fafc; padding: 6px; border-radius: 4px; border: 1px solid #e2e8f0; }
+        .time-inputs { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 4px; }
+        .time-input { width: 90px; padding: 2px 4px; font-size: 12px; font-family: inherit; border: 1px solid var(--border-color); border-radius: 4px; text-align: center; }
+        
+        .holiday-toggle-wrapper { margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px; border-radius: 4px; border: 1px dashed #fda4af;}
+        .holiday-row { background-color: var(--holiday-bg) !important; }
+        .holiday-badge { display: inline-block; background: var(--holiday-color); color: white; padding: 2px 6px; border-radius: 2px; font-size: 11px; font-weight: 700; }
+        .holiday-input-container { padding: 10px; text-align: center; }
+        .holiday-input-container input { width: 85%; max-width: 340px; padding: 6px; font-family: inherit; font-size: clamp(13px, 1.6vw, 14px); font-weight: 700; color: var(--holiday-color); border: 1px solid #fca5a5; border-radius: 4px; text-align: center; background: #ffffff; }
+
+        /* Print Date Display Logic */
+        .no-screen { display: none; }
+        .print-only-date-content { margin-top: 8px; font-weight: 800; font-size: 13px; color: var(--primary-color); }
+        .morning-block-date, .afternoon-block-date { display: none; }
+        .mode-morning .morning-block-date { display: block; }
+        .mode-afternoon .afternoon-block-date { display: block; }
+        .mode-both .morning-block-date, .mode-both .afternoon-block-date { display: block; }
+        .mode-both .morning-block-date { border-bottom: 2px dashed #94a3b8; padding-bottom: 12px; margin-bottom: 12px; }
+
+        /* Action Buttons */
+        .btn-container { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+        button.action-btn { width: 100%; padding: 12px 20px; font-size: 15px; font-family: inherit; font-weight: 700; cursor: pointer; border: none; border-radius: 6px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-print { background-color: var(--primary-color); color: white; }
+        .btn-print:hover { background-color: #001a33; }
+        .btn-sync { background-color: #16a34a; color: white; }
+        .btn-admin { background-color: #475569; color: white; }
+        .btn-fetch { background-color: #0284c7; color: white; }
+        .btn-danger { background-color: #dc2626; color: white; }
+
+        /* Admin Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 16px; }
+        .modal-content { background-color: white; padding: 22px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; text-align: left; }
+        .modal-content h3 { margin: 0 0 12px 0; color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 8px; text-align: center; font-size: 18px; font-weight: 800;}
+        .modal-content label { display: block; margin-top: 10px; font-weight: 600; font-size: 14px; }
+        .modal-content input[type="password"] { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;}
+        .modal-actions { margin-top: 18px; display: flex; gap: 10px; }
+        .danger-zone { margin-top: 15px; padding: 12px; border: 1px dashed #f87171; border-radius: 6px; background-color: #fef2f2; }
+        .danger-zone h4 { margin: 0 0 10px 0; color: #b91c1c; font-size: 14px; text-align: center; }
+        
+        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f1f5f9; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 15px; }
+        .switch-container span { font-weight: 700; font-size: 14px; color: var(--primary-color); }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: #16a34a; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: left; }
+
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr { background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 12px; padding: 10px; }
+            td { border: none; padding: 4px 0; text-align: left; }
+            .mobile-serial { display: none; }
+            .date-cell-mobile { display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; font-size: 15px; text-align: center; }
+            .field-label { display: block; font-size: 13px; font-weight: 800; color: var(--primary-color); margin-top: 8px; margin-bottom: 4px; background: #f1f5f9; padding: 4px; border-radius: 4px; border-left: 3px solid var(--accent-color);}
+        }
+        @media screen and (min-width: 769px) {
+            .info-row { flex-direction: row; justify-content: space-between; }
+            .location-fields { width: auto; }
+            .btn-container { flex-direction: row; justify-content: center; }
+            button.action-btn { width: auto; }
+            .field-label { display: none; }
+        }
+
+        /* Colourful & Official Print Settings */
+        @media print {
+            @page { size: A4 portrait; margin: 10mm 8mm; }
+            body { 
+                background: #ffffff !important; 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important; 
+                font-size: 10pt; 
+            }
+            .container { box-shadow: none !important; padding: 0 !important; border: none !important; }
+            
+            .header-section { display: block !important; padding: 8px !important; margin: 0 0 8px 0 !important; border-bottom: 4px solid var(--accent-color) !important; background-color: var(--primary-color) !important; color: #ffffff !important; }
+            .header-section h1 { font-size: 16pt !important; color: #ffffff !important; font-weight: bold !important;}
+            
+            .info-row { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-bottom: 8px !important; padding: 4px 8px !important; background-color: #f8fafc !important; border: 1px solid var(--border-color) !important; }
+            .info-group, .location-item { color: var(--primary-color) !important; }
+            
+            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn { display: none !important; }
+            .no-screen { display: block !important; }
+            
+            table { display: table !important; font-size: 10pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid var(--primary-color) !important; }
+            thead { display: table-header-group !important; }
+            tbody { display: table-row-group !important; }
+            tr { display: table-row !important; page-break-inside: avoid !important; }
+            
+            /* Official Coloured Borders for Print */
+            th, td { display: table-cell !important; padding: 6px 4px !important; border: 1px solid var(--border-color) !important; }
+            th { background-color: #f1f5f9 !important; color: var(--primary-color) !important; border-bottom: 2px solid var(--accent-color) !important; }
+            .mobile-serial { display: table-cell !important; }
+            
+            tr.holiday-row, tr[data-is-holiday="true"] { background-color: var(--holiday-bg) !important; }
+            .holiday-badge { background-color: transparent !important; color: var(--holiday-color) !important; font-weight: bold; padding: 0 !important; border: none !important; }
+            
+            textarea { display: none !important; }
+            .print-text { display: block !important; font-size: 10pt !important; padding: 2px 0 !important; }
+            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; }
+            .field-label { display: none !important; }
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--text-color) !important; font-weight: bold; }
+            .stylish-select-box { border: none !important; box-shadow: none !important; }
+            
+            /* Proper Lining for Sub Rows in Print */
+            .print-only-date-content { font-size: 10pt !important; color: var(--primary-color) !important; margin-top: 6px !important; }
+            .mode-both .morning-block, .mode-both .morning-block-date { 
+                border-bottom: 1.5px solid var(--primary-color) !important; 
+                padding-bottom: 6px !important; 
+                margin-bottom: 6px !important; 
+            }
+            .task-item { border-bottom: 1px dotted #94a3b8 !important; padding-bottom: 4px; margin-bottom: 4px; }
+            .timing-print-text { font-size: 9pt; margin-top: 4px; color: #333; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>समूह साधन केंद्र समन्वयक मासिक दैनंदिनी</h1>
+    </div>
+
+    <div class="info-row">
+        <div class="info-group">
+            <label>महिना व वर्ष:</label>
+            <div class="stylish-select-box"><select id="monthSelect" onchange="onMonthYearChange()"></select></div>
+            <div class="stylish-select-box"><select id="yearSelect" onchange="onMonthYearChange()"></select></div>
+        </div>
+        <div class="location-fields">
+            <div class="location-item"><b>केंद्रप्रमुख नाव:</b><input type="text" id="kendraPramukhNameInput" class="editable-header-input name-input" value="श्री. / सौ. " oninput="handleFormChange()"></div>
+            <div class="location-item"><b>केंद्र:</b><input type="text" id="kendraInput" class="editable-header-input" value="रविवार पेठ" oninput="handleFormChange()"></div>
+            <div class="location-item"><b>तालुका:</b><input type="text" id="talukaInput" class="editable-header-input" value="अंबाजोगाई" oninput="handleFormChange()"></div>
+            <div class="location-item"><b>जिल्हा:</b><input type="text" id="jilhaInput" class="editable-header-input" value="बीड" oninput="handleFormChange()"></div>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-bottom: 10px;" class="no-print">
+        <div id="syncStatus" class="sync-badge">स्थानिक ड्राफ्ट सक्रिय</div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%;">अ. क्र.</th>
+                <th style="width: 17%;">दिनांक/वार/वेळ</th>
+                <th style="width: 19%;">नियोजित भेट</th>
+                <th style="width: 19%;">प्रत्यक्ष भेट</th>
+                <th style="width: 21%;">कामाचे स्वरूप</th>
+                <th style="width: 19%;">शेरा</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="btn-container no-print">
+        <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
+        <button class="action-btn btn-admin" onclick="openAdminPanel('panel')">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
+    </div>
+</div>
+
+<!-- Admin Modal -->
+<div id="adminModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalHeading">केंद्रप्रमुख लॉगिन व सेटिंग्ज</h3>
+        <div id="loginStep">
+            <label>केंद्रप्रमुख PIN टाका:</label>
+            <input type="password" id="authPinInput" placeholder="PIN टाका">
+            <div class="modal-actions">
+                <button type="button" class="action-btn btn-admin" onclick="closeAdminModal()">रद्द करा</button>
+                <button type="button" class="action-btn btn-sync" onclick="verifyAdminLogin()">लॉगिन करा</button>
+            </div>
+        </div>
+        <div id="adminControlsStep" style="display:none;">
+            <p style="font-size: 14px; color: #15803d; font-weight: bold; text-align: center; margin: 0 0 15px 0;">✓ केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
+            <div class="switch-container">
+                <span>स्वयंचलित सिंक (Auto-Sync)</span>
+                <label class="switch"><input type="checkbox" id="autoSyncToggle" onchange="toggleAutoSync()"><span class="slider"></span></label>
+            </div>
+            <div style="margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="action-btn btn-sync" onclick="triggerManualSync()">ऑनलाइन सेव्ह करा</button>
+                <button type="button" class="action-btn btn-fetch" onclick="fetchFromGoogleSheets()">ऑनलाइन डेटा मिळवा</button>
+            </div>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 15px 0;">
+            <label>नवीन PIN:</label>
+            <input type="password" id="newPin" placeholder="नवीन PIN">
+            <label>नवीन PIN ची पुष्टी करा:</label>
+            <input type="password" id="confirmNewPin" placeholder="पुन्हा नवीन PIN टाका">
+            <button type="button" class="action-btn btn-sync" style="margin-top: 10px;" onclick="saveNewPinOnline()">PIN ऑनलाइन बदला</button>
+            <div class="danger-zone">
+                <h4>धोक्याचा इशारा</h4>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिलीट करा</button>
+                    <button type="button" class="action-btn btn-danger" onclick="deleteFromGoogleSheets()">ऑनलाइन शीट मधील डेटा डिलीट करा</button>
+                </div>
+            </div>
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button type="button" class="action-btn btn-danger" onclick="logoutAdmin()" style="width: 100%;">लॉगआउट</button>
+                <button type="button" class="action-btn btn-admin" onclick="closeAdminModal()" style="width: 100%;">बंद करा</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8nCZspj98-skk_zIVhP0V0gPVd8i0koezh5_QefBjAsMdpxvOIHjPKOlOK_Yei8g/exec"; 
+
+    const monthsMarathi = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"];
+    const daysMarathi = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+    
+    const schoolsList = [
+        "सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. क्र. २, अंबाजोगाई", "जि.प.प्रा.शा. साकुड (मराठी)", 
+        "जि.प.प्रा.शा. साकुड (उर्दू)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. काळवटी तांडा क्र. ३", 
+        "जि.प.प्रा.शा. भीमाई वस्ती", "जि.प.प्रा.शा. काळवटी तांडा क्र. २", "जि.प.प्रा.शा. मांडवा पठाण", 
+        "जि.प.प्रा.शा. मांडवा तांडा", "जि.प.प्रा.शा. पोलेवाडी", "जि.प.प्रा.शा. नागझरी वसाहत", 
+        "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. सह्याद्री नगर शेपवाडी", "जि.प.प्रा.शा. पिंपळा धायगुडा (मराठी)", 
+        "जि.प.प्रा.शा. पिंपळा धायगुडा (उर्दू)", "जि.प.प्रा.शा. वरवटी", "जि.प.प्रा.शा. उघडे वस्ती (वरवटी)", 
+        "जि.प.प्रा.शा. तलाव पाटी", "जि.प.प्रा.शा. अंबलवाडी", "जि.प. प्रा. शा. गोलटावस्ती", 
+        "जि.प.प्रा.शा. गिरवली आपेट", "जि.प.हा.स्कू. गिरवली",
+        "समूह साधन केंद्र रविवार पेठ", "गटशिक्षणाधिकारी कार्यालय अंबाजोगाई"
+    ];
+
+    let autoSyncTimer = null;
+    let verifiedSessionPin = sessionStorage.getItem('KP_ADMIN_PIN') || "";
+    let isAutoSyncEnabled = localStorage.getItem('KP_AUTOSYNC') !== 'false';
+
+    function initDates() {
+        const monthSelect = document.getElementById('monthSelect');
+        const yearSelect = document.getElementById('yearSelect');
+        const currentDate = new Date();
+        monthsMarathi.forEach((month, index) => {
+            let option = document.createElement('option');
+            option.value = index; option.textContent = month;
+            if (index === currentDate.getMonth()) option.selected = true;
+            monthSelect.appendChild(option);
+        });
+        let currentYear = currentDate.getFullYear();
+        for (let y = currentYear - 2; y <= currentYear + 5; y++) {
+            let option = document.createElement('option');
+            option.value = y; option.textContent = y;
+            if (y === currentYear) option.selected = true;
+            yearSelect.appendChild(option);
+        }
+        document.getElementById('autoSyncToggle').checked = isAutoSyncEnabled;
+        loadFormData();
+    }
+
+    // Components Generation
+    function getSchoolDropdownHTML(placeholderText, className) {
+        let optionsHTML = `<option value="">-- शाळा निवडा --</option>`;
+        schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
+        optionsHTML += `<option value="manual">इतर (मॅन्युअल)</option>`;
+        return `<select class="school-select no-print" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+                <textarea class="${className}" placeholder="${placeholderText}" oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+    }
+
+    function getWorkNatureDropdownHTML(className) {
+        return `<select class="school-select no-print" onchange="handleDropdownSelect(this)">
+                    <option value="">-- स्वरूप निवडा --</option>
+                    <option value="नियोजित शाळा भेट">नियोजित शाळा भेट</option>
+                    <option value="आकस्मिक शाळा भेट">आकस्मिक शाळा भेट</option>
+                    <option value="manual">इतर (टाइप करा)</option>
+                </select>
+                <textarea class="${className}" placeholder="कामाचे स्वरूप लिहा..." oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+    }
+
+    function handleDropdownSelect(selectElement) {
+        const textarea = selectElement.nextElementSibling;
+        if (selectElement.value === "manual") { textarea.value = ""; textarea.focus(); }
+        else if (selectElement.value !== "") { textarea.value = selectElement.value; }
+        handleFormChange(textarea);
+    }
+
+    function getTaskItemHTMLInner(colType, isRemarks = false) {
+        let inputHTML = '';
+        if (colType === 'planned' || colType === 'actual') {
+            inputHTML = getSchoolDropdownHTML('भेट...', `input-${colType}`);
+        } else if (colType === 'work') {
+            inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
+        } else {
+            inputHTML = `<textarea class="input-${colType}" placeholder="शेरा..." oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+        }
+        
+        let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:4px; padding:2px 6px; cursor:pointer; font-size:11px; margin-left:6px; font-weight:900;">[X]</button>`;
+        
+        if (isRemarks) {
+             return `<div style="display:flex; gap:2px; align-items:flex-start;">
+                        <div style="flex:1; width:100%;">${inputHTML}</div>
+                        ${removeBtn}
+                     </div>`;
+        }
+        return inputHTML;
+    }
+
+    function getCellTemplate(colType) {
+        return `
+            <div class="session-block morning-block">
+                <div class="task-list"></div>
+            </div>
+            <div class="session-block afternoon-block">
+                <div class="task-list"></div>
+            </div>
+        `;
+    }
+
+    // Add/Remove Tasks
+    function addTaskToDOM(tr, sessionType) {
+        const blockClass = sessionType === 'morning' ? '.morning-block' : '.afternoon-block';
+        ['planned', 'actual', 'work', 'remarks'].forEach(col => {
+            const list = tr.querySelector(`.col-${col} ${blockClass} .task-list`);
+            if(list) {
+                const div = document.createElement('div');
+                div.className = 'task-item';
+                div.innerHTML = getTaskItemHTMLInner(col, col === 'remarks');
+                list.appendChild(div);
+            }
+        });
+    }
+
+    function addTaskBtnClick(btn, sessionType) {
+        const tr = btn.closest('tr');
+        addTaskToDOM(tr, sessionType);
+        handleFormChange(tr);
+    }
+
+    function removeTask(btn) {
+        const taskItem = btn.closest('.task-item');
+        const taskList = taskItem.parentElement;
+        const sessionBlock = taskList.parentElement;
+        const tr = sessionBlock.closest('tr');
+
+        const sessionClass = sessionBlock.classList.contains('morning-block') ? '.morning-block' : '.afternoon-block';
+        const taskItems = Array.from(taskList.children);
+        const index = taskItems.indexOf(taskItem);
+
+        if(taskItems.length <= 1) {
+            alert("सत्रातील किमान एक काम ठेवणे आवश्यक आहे. तुम्ही बॉक्स रिकामा सोडू शकता.");
+            return;
+        }
+
+        ['planned', 'actual', 'work', 'remarks'].forEach(col => {
+            const items = tr.querySelectorAll(`.col-${col} ${sessionClass} .task-item`);
+            if(items[index]) items[index].remove();
+        });
+
+        handleFormChange(tr);
+    }
+
+    // Session Logic
+    function handleSessionToggle(checkbox, type) {
+        const row = checkbox.closest('tr');
+        const cbWhole = row.querySelector('.cb-whole');
+        const cbMorning = row.querySelector('.cb-morning');
+        const cbAfternoon = row.querySelector('.cb-afternoon');
+
+        if (type === 'whole' && cbWhole.checked) {
+            cbMorning.checked = false; 
+            cbAfternoon.checked = false;
+        } else if ((type === 'morning' || type === 'afternoon') && checkbox.checked) {
+            cbWhole.checked = false;
+        }
+        
+        // Prevent all unselected -> default back to whole day
+        if (!cbWhole.checked && !cbMorning.checked && !cbAfternoon.checked) {
+            cbWhole.checked = true;
+        }
+
+        updateRowSessionUI(row);
+        
+        // Populate if empty
+        if (cbMorning.checked && row.querySelectorAll('.col-planned .morning-block .task-item').length === 0) addTaskToDOM(row, 'morning');
+        if (cbAfternoon.checked && row.querySelectorAll('.col-planned .afternoon-block .task-item').length === 0) addTaskToDOM(row, 'afternoon');
+        if (cbWhole.checked && row.querySelectorAll('.col-planned .morning-block .task-item').length === 0) addTaskToDOM(row, 'morning');
+
+        handleFormChange(checkbox);
+    }
+
+    function updateRowSessionUI(row) {
+        if (row.getAttribute('data-is-holiday') === 'true') return;
+        
+        const cbWhole = row.querySelector('.cb-whole').checked;
+        const cbMorn = row.querySelector('.cb-morning').checked;
+        const cbAft = row.querySelector('.cb-afternoon').checked;
+
+        row.classList.remove('mode-whole', 'mode-morning', 'mode-afternoon', 'mode-both');
+        
+        if (cbWhole) row.classList.add('mode-whole');
+        else if (cbMorn && cbAft) row.classList.add('mode-both');
+        else if (cbMorn) row.classList.add('mode-morning');
+        else if (cbAft) row.classList.add('mode-afternoon');
+
+        const btnM = row.querySelector('.morning-add-btn');
+        const btnA = row.querySelector('.afternoon-add-btn');
+        if(btnM) btnM.style.display = (cbMorn || cbWhole) ? 'block' : 'none';
+        if(btnA) btnA.style.display = cbAft ? 'block' : 'none';
+    }
+
+    // Table Generation
+    function generateTableStructure() {
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = ''; 
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            let date = new Date(year, month, i);
+            let isSunday = date.getDay() === 0;
+            let dayName = daysMarathi[date.getDay()];
+            let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span> <b>(${dayName})</b>`;
+            let row = document.createElement('tr');
+            row.setAttribute('data-date', `${i} ${monthsMarathi[month]} ${year}`);
+            row.setAttribute('data-day-index', i);
+            row.setAttribute('data-is-sunday', isSunday ? 'true' : 'false');
+
+            if (isSunday) renderHolidayRow(row, i, dateText, "सार्वजनिक सुट्टी (रविवार)", true);
+            else renderNormalRow(row, i, dateText);
+            
+            tbody.appendChild(row);
+        }
+    }
+
+    function renderNormalRow(row, i, dateText) {
+        let isSunday = row.getAttribute('data-is-sunday') === 'true';
+        row.className = 'mode-whole'; 
+        row.setAttribute('data-is-holiday', 'false');
+        
+        let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
+
+        row.innerHTML = `
+            <td class="mobile-serial" style="font-weight:bold;">${i}</td>
+            <td class="date-cell-mobile">
+                <div>${dateText}</div>
+                ${extraBadge}
+                <div class="session-box no-print">
+                    <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण दिवस (Default)</label>
+                    <label><input type="checkbox" class="cb-morning" onchange="handleSessionToggle(this, 'morning')"> सकाळ सत्र</label>
+                    <label><input type="checkbox" class="cb-afternoon" onchange="handleSessionToggle(this, 'afternoon')"> दुपार सत्र</label>
+                </div>
+                <div class="add-btn-group no-print">
+                    <button type="button" class="task-btn morning-add-btn" onclick="addTaskBtnClick(this, 'morning')">+ काम जोडा (सकाळ)</button>
+                    <button type="button" class="task-btn afternoon-add-btn" onclick="addTaskBtnClick(this, 'afternoon')">+ काम जोडा (दुपार)</button>
+                </div>
+                <label class="holiday-toggle-wrapper no-print">
+                    <input type="checkbox" onchange="toggleManualHoliday(this, ${i})">
+                    <span>सुट्टी घोषित करा</span>
+                </label>
+                <div class="timing-wrapper no-print">
+                    <label>वेळ:</label>
+                    <div class="time-inputs"><input type="time" class="time-input time-from" onchange="handleFormChange(this)"><span>ते</span><input type="time" class="time-input time-to" onchange="handleFormChange(this)"></div>
+                </div>
+                
+                <!-- Date column print content (sub row headers) -->
+                <div class="print-only-date-content no-screen">
+                    <div class="morning-block-date">सकाळ सत्र</div>
+                    <div class="afternoon-block-date">दुपार सत्र</div>
+                    <div class="timing-print-text"></div>
+                </div>
+            </td>
+            <td class="col-planned"><span class="field-label">१. नियोजित भेट:</span>${getCellTemplate('planned')}</td>
+            <td class="col-actual"><span class="field-label">२. प्रत्यक्ष भेट:</span>${getCellTemplate('actual')}</td>
+            <td class="col-work"><span class="field-label">३. कामाचे स्वरूप:</span>${getCellTemplate('work')}</td>
+            <td class="col-remarks"><span class="field-label">४. शेरा:</span>${getCellTemplate('remarks')}</td>
+        `;
+        addTaskToDOM(row, 'morning'); // Morning acts as Whole Day base
+        addTaskToDOM(row, 'afternoon'); // Pre-populate afternoon but hidden
+        updateRowSessionUI(row);
+    }
+
+    function renderHolidayRow(row, i, dateText, reasonText, isSunday = false) {
+        row.className = 'holiday-row';
+        row.setAttribute('data-is-holiday', 'true');
+        let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-bottom:4px;">रविवार सुट्टी</div>` : ``;
+
+        row.innerHTML = `
+            <td class="mobile-serial" style="font-weight:bold;">${i}</td>
+            <td class="date-cell-mobile">
+                <div>${dateText}</div>${badgeHTML}
+                <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7;">
+                     <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा (सुट्टी रद्द)</span>
+                </label>
+                <div class="print-only-date-content no-screen">
+                    <div class="timing-print-text" style="font-weight:bold; font-size:10pt;">सुट्टी</div>
+                </div>
+            </td>
+            <td colspan="4" class="holiday-input-container">
+                <input type="text" class="holiday-reason-input" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
+                <input type="hidden" class="time-from" value=""><input type="hidden" class="time-to" value="">
+            </td>
+        `;
+    }
+
+    function toggleManualHoliday(checkbox, i) {
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+        const row = checkbox.closest('tr');
+        const isSunday = row.getAttribute('data-is-sunday') === 'true';
+        let date = new Date(year, month, i);
+        let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span> <b>(${daysMarathi[date.getDay()]})</b>`;
+
+        if (checkbox.checked) {
+            let defReason = isSunday ? "सार्वजनिक सुट्टी (रविवार)" : "सार्वजनिक सुट्टी";
+            let reason = isSunday ? defReason : prompt("सुट्टीचे नाव / स्वरूप लिहा:", defReason);
+            renderHolidayRow(row, i, dateText, reason || defReason, isSunday);
+        } else { renderNormalRow(row, i, dateText); }
+        handleFormChange();
+    }
+
+    function syncRowVisuals(row) {
+        row.querySelectorAll('textarea').forEach(tx => {
+            const printDiv = tx.nextElementSibling;
+            if (printDiv && printDiv.classList.contains('print-text')) printDiv.textContent = tx.value;
+        });
+        
+        if (row.getAttribute('data-is-holiday') === 'false') {
+            const fromTime = row.querySelector('.time-from').value;
+            const toTime = row.querySelector('.time-to').value;
+            const printTimingSpan = row.querySelector('.timing-print-text');
+            if (printTimingSpan) {
+                if (fromTime || toTime) printTimingSpan.textContent = `वेळ: ${fromTime || '--'} ते ${toTime || '--'}`;
+                else printTimingSpan.textContent = '';
+            }
+        }
+    }
+
+    /* Save/Load Pipeline */
+    function getStorageKey() { 
+        return `DAINANDINI_V3_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; 
+    }
+
+    function handleFormChange(elem) {
+        if (elem && elem.closest('tr')) syncRowVisuals(elem.closest('tr'));
+        saveToLocalStorage();
+        updateSyncBadge("स्थानिक ड्राफ्ट सेव्ह झाला", "synced");
+        if (verifiedSessionPin && isAutoSyncEnabled) {
+            clearTimeout(autoSyncTimer);
+            updateSyncBadge("ऑटो-सिंक प्रलंबित...", "syncing");
+            autoSyncTimer = setTimeout(() => syncToGoogleSheets(verifiedSessionPin, true), 3000);
+        }
+    }
+
+    function saveToLocalStorage() {
+        const entries = [];
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            const isHol = row.getAttribute('data-is-holiday') === 'true';
+            let entry = {
+                day: row.getAttribute('data-day-index'), 
+                isHoliday: isHol,
+                holidayReason: isHol ? (row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : '') : '',
+                cbWhole: isHol ? true : row.querySelector('.cb-whole').checked,
+                cbMorning: isHol ? false : row.querySelector('.cb-morning').checked,
+                cbAfternoon: isHol ? false : row.querySelector('.cb-afternoon').checked,
+                fromTime: row.querySelector('.time-from') ? row.querySelector('.time-from').value : '',
+                toTime: row.querySelector('.time-to') ? row.querySelector('.time-to').value : '',
+                morningTasks: [], afternoonTasks: []
+            };
+
+            if (!isHol) {
+                const getVals = (block, cls) => Array.from(row.querySelectorAll(`.col-${cls} ${block} .task-item`)).map(n => n.querySelector(`.input-${cls}`)?.value || '');
+                
+                let pM = getVals('.morning-block', 'planned');
+                let aM = getVals('.morning-block', 'actual');
+                let wM = getVals('.morning-block', 'work');
+                let rM = getVals('.morning-block', 'remarks');
+                for(let i=0; i<pM.length; i++) entry.morningTasks.push({ planned: pM[i], actual: aM[i], work: wM[i], remarks: rM[i] });
+
+                let pA = getVals('.afternoon-block', 'planned');
+                let aA = getVals('.afternoon-block', 'actual');
+                let wA = getVals('.afternoon-block', 'work');
+                let rA = getVals('.afternoon-block', 'remarks');
+                for(let i=0; i<pA.length; i++) entry.afternoonTasks.push({ planned: pA[i], actual: aA[i], work: wA[i], remarks: rA[i] });
+            }
+            entries.push(entry);
+        });
+        localStorage.setItem(getStorageKey(), JSON.stringify({
+            kendraPramukhName: document.getElementById('kendraPramukhNameInput').value,
+            kendra: document.getElementById('kendraInput').value,
+            taluka: document.getElementById('talukaInput').value, jilha: document.getElementById('jilhaInput').value,
+            entries: entries
+        }));
+    }
+
+    function loadFormData() {
+        generateTableStructure();
+        const saved = localStorage.getItem(getStorageKey());
+        if (!saved) return;
+        
+        try {
+            const data = JSON.parse(saved);
+            if (data.kendraPramukhName) document.getElementById('kendraPramukhNameInput').value = data.kendraPramukhName;
+            if (data.kendra) document.getElementById('kendraInput').value = data.kendra;
+            if (data.taluka) document.getElementById('talukaInput').value = data.taluka;
+            if (data.jilha) document.getElementById('jilhaInput').value = data.jilha;
+
+            const m = parseInt(document.getElementById('monthSelect').value), y = parseInt(document.getElementById('yearSelect').value);
+
+            data.entries.forEach(item => {
+                const row = document.querySelector(`#tableBody tr[data-day-index="${item.day}"]`);
+                if (!row) return;
+                
+                let isSun = row.getAttribute('data-is-sunday') === 'true';
+                let dt = new Date(y, m, parseInt(item.day));
+                let dtText = `${item.day} ${monthsMarathi[m]} <span class="no-print">${y}</span> <b>(${daysMarathi[dt.getDay()]})</b>`;
+
+                if (item.isHoliday) {
+                    renderHolidayRow(row, item.day, dtText, item.holidayReason || (isSun ? "सार्वजनिक सुट्टी (रविवार)" : "सुट्टी"), isSun);
+                } else {
+                    renderNormalRow(row, item.day, dtText);
+                    
+                    if (item.cbWhole !== undefined) {
+                        row.querySelector('.cb-whole').checked = item.cbWhole;
+                        row.querySelector('.cb-morning').checked = item.cbMorning;
+                        row.querySelector('.cb-afternoon').checked = item.cbAfternoon;
+                    }
+                    
+                    if (row.querySelector('.time-from')) row.querySelector('.time-from').value = item.fromTime || '';
+                    if (row.querySelector('.time-to')) row.querySelector('.time-to').value = item.toTime || '';
+                    
+                    ['morning', 'afternoon'].forEach(sType => {
+                        let taskArr = sType === 'morning' ? item.morningTasks : item.afternoonTasks;
+                        if (taskArr && taskArr.length > 0) {
+                            const bCls = sType === 'morning' ? '.morning-block' : '.afternoon-block';
+                            ['planned','actual','work','remarks'].forEach(c => row.querySelector(`.col-${c} ${bCls} .task-list`).innerHTML = '');
+                            
+                            taskArr.forEach((tData, idx) => {
+                                addTaskToDOM(row, sType);
+                                row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx].value = tData.planned || '';
+                                row.querySelectorAll(`.col-actual ${bCls} .input-actual`)[idx].value = tData.actual || '';
+                                row.querySelectorAll(`.col-work ${bCls} .input-work`)[idx].value = tData.work || '';
+                                row.querySelectorAll(`.col-remarks ${bCls} .input-remarks`)[idx].value = tData.remarks || '';
+                            });
+                        }
+                    });
+                    
+                    updateRowSessionUI(row);
+                }
+                syncRowVisuals(row);
+            });
+        } catch(e) { console.error("Load error:", e); }
+    }
+
+    function onMonthYearChange() { loadFormData(); }
+    function updateSyncBadge(t, c) { document.getElementById('syncStatus').textContent = t; document.getElementById('syncStatus').className = `sync-badge ${c}`; }
+    function prepareAndPrint() { document.querySelectorAll('#tableBody tr').forEach(row => syncRowVisuals(row)); window.print(); }
+    
+    // Sync to Sheets
+    async function syncToGoogleSheets(pinToUse, isAuto = false) {
+        if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत आहे...", "syncing");
+        
+        let entries = [];
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            let dayIndex = row.getAttribute('data-day-index');
+            let isHol = row.getAttribute('data-is-holiday') === 'true';
+            
+            let fT = row.querySelector('.time-from') ? row.querySelector('.time-from').value : '';
+            let tT = row.querySelector('.time-to') ? row.querySelector('.time-to').value : '';
+            
+            let sMode = '', p = '', a = '', w = '', r = '', hR = '';
+
+            if (isHol) {
+                hR = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value.trim() : "सार्वजनिक सुट्टी";
+                p = hR; a = hR; w = hR; r = "सुट्टी"; sMode = "सुट्टी";
+            } else {
+                let cbW = row.querySelector('.cb-whole').checked;
+                let cbM = row.querySelector('.cb-morning').checked;
+                let cbA = row.querySelector('.cb-afternoon').checked;
+                sMode = cbW ? 'पूर्ण दिवस' : ((cbM && cbA) ? 'सकाळ व दुपार' : (cbM ? 'सकाळ सत्र' : 'दुपार सत्र'));
+
+                const extractList = (colCls, blockCls, inputCls) => {
+                    return Array.from(row.querySelectorAll(`${colCls} ${blockCls} ${inputCls}`)).map(el => el.value.trim()).filter(v=>v);
+                };
+                
+                let pM = (cbM || cbW) ? extractList('.col-planned', '.morning-block', '.input-planned') : [];
+                let pA = cbA ? extractList('.col-planned', '.afternoon-block', '.input-planned') : [];
+                let aM = (cbM || cbW) ? extractList('.col-actual', '.morning-block', '.input-actual') : [];
+                let aA = cbA ? extractList('.col-actual', '.afternoon-block', '.input-actual') : [];
+                let wM = (cbM || cbW) ? extractList('.col-work', '.morning-block', '.input-work') : [];
+                let wA = cbA ? extractList('.col-work', '.afternoon-block', '.input-work') : [];
+                let rM = (cbM || cbW) ? extractList('.col-remarks', '.morning-block', '.input-remarks') : [];
+                let rA = cbA ? extractList('.col-remarks', '.afternoon-block', '.input-remarks') : [];
+
+                const formatText = (arrM, arrA) => {
+                    let textM = arrM.map((t,i) => arrM.length>1 ? `${i+1}) ${t}` : t).join('\n');
+                    let textA = arrA.map((t,i) => arrA.length>1 ? `${i+1}) ${t}` : t).join('\n');
+                    if(cbM && cbA) return (textM ? `सकाळ:\n${textM}` : "") + (textM && textA ? "\n\n" : "") + (textA ? `दुपार:\n${textA}` : "");
+                    return textM || textA;
+                };
+
+                p = formatText(pM, pA);
+                a = formatText(aM, aA);
+                w = formatText(wM, wA);
+                r = formatText(rM, rA);
+            }
+            
+            let tArr = [];
+            if(sMode && sMode !== 'सुट्टी' && sMode !== 'पूर्ण दिवस') tArr.push(`सत्र: ${sMode}`);
+            else if(sMode === 'पूर्ण दिवस') tArr.push('पूर्ण दिवस');
+            if(fT || tT) tArr.push(`${fT} - ${tT}`);
+            let timing = tArr.length > 0 ? tArr.join(' | ') : (isHol ? 'सुट्टी' : '');
+
+            if (p || a || w || r || timing) {
+                entries.push({ day: dayIndex, date: row.getAttribute('data-date'), isHoliday: isHol, holidayReason: hR,
+                               fromTime: fT, toTime: tT, session: sMode, timing: timing, planned: p, actual: a, work: w, remarks: r });
+            }
+        });
+
+        let payload = {
+            action: "syncData", pin: pinToUse, 
+            month: document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text,
+            year: document.getElementById('yearSelect').value,
+            data: {
+                kendraPramukhName: document.getElementById('kendraPramukhNameInput').value.trim(),
+                kendra: document.getElementById('kendraInput').value.trim(),
+                taluka: document.getElementById('talukaInput').value.trim(),
+                jilha: document.getElementById('jilhaInput').value.trim(),
+                entries: entries
+            }
+        };
+
+        try {
+            let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }).then(r=>r.json());
+            if (res.status === 'success') {
+                updateSyncBadge(`ऑनलाइन सिंक पूर्ण`, "synced");
+                if (!isAuto) alert("माहिती Google Sheets मध्ये सेव्ह झाली!");
+            } else {
+                updateSyncBadge("सिंक अयशस्वी", ""); if (!isAuto) alert("त्रुटी: " + res.message);
+            }
+        } catch (error) { updateSyncBadge("ऑफलाइन मोड", ""); if (!isAuto) alert("सर्व्हरशी संपर्क होऊ शकला नाही."); }
+    }
+
+    // Admin Functions
+    function openAdminPanel() { document.getElementById('adminModal').style.display = 'flex'; if (verifiedSessionPin) showAdminControls(); else showAdminLogin(); }
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+    function showAdminLogin() { document.getElementById('loginStep').style.display = 'block'; document.getElementById('adminControlsStep').style.display = 'none'; document.getElementById('authPinInput').value = ''; }
+    function showAdminControls() { document.getElementById('loginStep').style.display = 'none'; document.getElementById('adminControlsStep').style.display = 'block'; }
+    function logoutAdmin() { verifiedSessionPin = ""; sessionStorage.removeItem('KP_ADMIN_PIN'); clearTimeout(autoSyncTimer); updateSyncBadge("लॉगआउट केले", ""); alert("यशस्वीरित्या लॉगआउट."); showAdminLogin(); }
+    function toggleAutoSync() { isAutoSyncEnabled = document.getElementById('autoSyncToggle').checked; localStorage.setItem('KP_AUTOSYNC', isAutoSyncEnabled); updateSyncBadge(isAutoSyncEnabled ? "ऑटो-सिंक चालू" : "ऑटो-सिंक बंद", isAutoSyncEnabled ? "synced" : ""); }
+    function triggerManualSync() { if (!verifiedSessionPin) return alert("लॉगिन करा!"); syncToGoogleSheets(verifiedSessionPin); }
+    
+    async function verifyAdminLogin() {
+        const pin = document.getElementById('authPinInput').value.trim(); if (!pin) return alert("PIN टाका!");
+        updateSyncBadge("पडताळणी सुरू...", "syncing");
+        try {
+            let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "verifyPin", pin: pin }) }).then(r => r.json());
+            if (res.status === 'success') { verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); showAdminControls(); updateSyncBadge("लॉगिन यशस्वी", "synced"); }
+            else { alert("चुकीचा PIN!"); updateSyncBadge("चुकीचा PIN", ""); }
+        } catch (err) { verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); showAdminControls(); } 
+    }
+
+    async function fetchFromGoogleSheets() {
+        if (!verifiedSessionPin) return alert("लॉगिन करा!");
+        updateSyncBadge("डेटा मिळवत आहे...", "syncing");
+        try {
+            let month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
+            let year = document.getElementById('yearSelect').value;
+            let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "fetchData", pin: verifiedSessionPin, month: month, year: year }) }).then(r => r.json());
+            if (res.status === 'success' && res.data) { localStorage.setItem(getStorageKey(), JSON.stringify(res.data)); loadFormData(); updateSyncBadge("डेटा मिळवला", "synced"); alert("ऑनलाइन डेटा अपडेट केला!"); closeAdminModal(); }
+            else { updateSyncBadge("डेटा मिळाला नाही", ""); alert("त्रुटी: " + (res.message || "डेटा नाही.")); }
+        } catch (err) { updateSyncBadge("ऑफलाइन मोड", ""); alert("सर्व्हरशी संपर्क नाही."); }
+    }
+
+    async function deleteFromGoogleSheets() {
+        if (!verifiedSessionPin) return alert("लॉगिन करा!");
+        let month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text; let year = document.getElementById('yearSelect').value;
+        if (!confirm(`${month} ${year} चा ऑनलाइन डेटा कायमचा डिलीट करायचा आहे का?`)) return;
+        updateSyncBadge("डेटा डिलीट करत आहे...", "syncing");
+        try {
+            let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "deleteData", pin: verifiedSessionPin, month: month, year: year }) }).then(r => r.json());
+            if (res.status === 'success') {
+                updateSyncBadge("डेटा डिलीट झाला", "synced"); alert(`ऑनलाइन डेटा डिलीट झाला!`);
+                if (confirm("स्थानिक (Local) ड्राफ्ट पण डिलीट करायचा आहे का?")) { localStorage.removeItem(getStorageKey()); loadFormData(); } closeAdminModal();
+            } else { updateSyncBadge("डिलीट अयशस्वी", ""); alert("त्रुटी: " + res.message); }
+        } catch (err) { updateSyncBadge("ऑफलाइन मोड", ""); alert("सर्व्हरशी संपर्क नाही."); }
+    }
+    
+    function clearLocalStorageDraft() {
+        let m = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text, y = document.getElementById('yearSelect').value;
+        if (confirm(`खात्री आहे का? केवळ या डिव्हाइसवरील ${m} ${y} चा ड्राफ्ट हटवला जाईल.`)) { localStorage.removeItem(getStorageKey()); loadFormData(); updateSyncBadge("ड्राफ्ट हटवला", ""); }
+    }
+
+    async function saveNewPinOnline() {
+        const newPin = document.getElementById('newPin').value.trim(), confirmNewPin = document.getElementById('confirmNewPin').value.trim();
+        if (!newPin || !confirmNewPin) return alert("सर्व पर्याय भरा!");
+        if (newPin !== confirmNewPin) return alert("PIN जुळत नाहीत!");
+        updateSyncBadge("PIN बदलत आहे...", "syncing");
+        try {
+            let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "changePin", currentPin: verifiedSessionPin, newPin: newPin }) }).then(r => r.json());
+            if (res.status === 'success') { alert("PIN बदलला!"); verifiedSessionPin = newPin; sessionStorage.setItem('KP_ADMIN_PIN', newPin); document.getElementById('newPin').value = ''; document.getElementById('confirmNewPin').value = ''; updateSyncBadge("PIN अपडेट झाला", "synced"); }
+            else { alert("त्रुटी: " + res.message); }
+        } catch (e) { alert("सर्व्हर संपर्क तुटला."); }
+    }
+
+    window.onload = initDates;
+</script>
+</body>
+</html>
