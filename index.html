@@ -7,12 +7,12 @@
     <style>
         :root {
             --primary-color: #003366; /* Official Deep Blue */
-            --accent-color: #475569; /* Slate Gray for plain official look */
+            --accent-color: #0369a1; /* Medium Official Blue */
             --bg-color: #f1f5f9;
             --text-color: #0f172a;
             --border-color: #94a3b8;
-            --holiday-bg: #f8fafc;
-            --holiday-color: #334155;
+            --holiday-bg: #fef2f2; /* Light Red */
+            --holiday-color: #dc2626; /* Official Red */
         }
         * { box-sizing: border-box; }
         body {
@@ -31,25 +31,27 @@
             padding: 20px 16px; border-radius: 4px 4px 0 0; margin-bottom: 16px;
             border-bottom: 3px solid var(--accent-color);
         }
-        .header-section h1 { margin: 0; font-size: clamp(20px, 3vw, 26px); font-weight: 700; letter-spacing: 0.5px; }
+        .header-section h1 { margin: 0; font-size: clamp(22px, 3vw, 28px); font-weight: 700; letter-spacing: 0.5px; }
         
         .info-row {
             display: flex; flex-direction: column; gap: 14px; background: #ffffff;
             padding: 16px; border: 1px solid var(--border-color); margin-bottom: 16px; text-align: center;
         }
-        .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); }
-        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 6px; }
-        .stylish-select-box select { font-family: inherit; font-size: clamp(14px, 1.7vw, 15px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; }
         
-        .editable-header-input { font-family: inherit; font-size: clamp(13px, 1.7vw, 15px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
+        /* Increased Font Sizes for Info Row */
+        .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); font-size: 18px; }
+        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 6px; }
+        .stylish-select-box select { font-family: inherit; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; }
+        
+        .editable-header-input { font-family: inherit; font-size: clamp(16px, 2vw, 20px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
         .name-input { min-width: 280px; max-width: 100%; }
         
         .location-fields { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; }
-        .location-item { display: flex; align-items: center; gap: 6px; font-size: clamp(13px, 1.7vw, 15px); font-weight: 600; }
+        .location-item { display: flex; align-items: center; gap: 6px; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); }
 
-        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 5px 14px; border-radius: 2px; background: #e2e8f0; color: #475569; font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #cbd5e1; }
+        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 5px 14px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
         .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
-        .sync-badge.syncing { background: #f1f5f9; color: #334155; border-color: #94a3b8; }
+        .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
         
@@ -58,7 +60,6 @@
         th, td { border: 1px solid var(--border-color); padding: 8px; text-align: center; vertical-align: top; font-size: clamp(13px, 1.6vw, 14px); height: inherit; }
         th { background-color: #f8fafc; color: var(--primary-color); font-weight: 700; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        /* Fixed textarea height to prevent breaking uniform rows */
         textarea { width: 100%; height: 50px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: none; text-align: left; }
         .school-select { width: 100%; padding: 6px; font-size: clamp(13px, 1.5vw, 14px); font-family: inherit; border-radius: 2px; border: 1px solid var(--border-color); background: #ffffff; text-align: left; margin-bottom: 4px; font-weight: 600;}
 
@@ -73,7 +74,7 @@
         .task-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
 
         .session-box { display: flex; flex-direction: column; align-items: flex-start; margin: 8px auto 0 auto; width: fit-content; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 6px 10px; font-size: 13px; gap: 4px; }
-        .session-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; color: #1f2937; font-weight: 600; }
+        .session-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
 
         .add-btn-group { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; align-items: center; }
         .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: 95%; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
@@ -82,11 +83,11 @@
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        .holiday-toggle-wrapper { margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--text-color); font-weight: 600; background: #f1f5f9; padding: 4px; border: 1px solid #cbd5e1;}
-        .holiday-row { background-color: var(--holiday-bg) !important; }
-        .holiday-badge { display: inline-block; background: #e2e8f0; color: var(--text-color); padding: 2px 6px; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 600; }
+        .holiday-toggle-wrapper { margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px; border: 1px solid #fca5a5;}
+        .holiday-row { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; }
+        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 2px 6px; border: 1px solid #fca5a5; font-size: 11px; font-weight: 700; }
         .holiday-input-container { padding: 10px; text-align: center; vertical-align: middle; }
-        .holiday-input-container input { width: 85%; max-width: 340px; padding: 6px; font-family: inherit; font-size: clamp(13px, 1.6vw, 14px); font-weight: 600; color: var(--text-color); border: 1px solid #cbd5e1; text-align: center; background: #ffffff; }
+        .holiday-input-container input { width: 85%; max-width: 340px; padding: 6px; font-family: inherit; font-size: clamp(14px, 1.6vw, 16px); font-weight: 700; color: var(--holiday-color); border: 1px solid #fca5a5; text-align: center; background: #ffffff; }
 
         .no-screen { display: none; }
         .print-only-date-content { margin-top: 8px; font-weight: 700; font-size: 12px; color: var(--primary-color); }
@@ -97,12 +98,12 @@
         .mode-both .morning-block-date { border-bottom: 1px dashed #94a3b8; padding-bottom: 12px; margin-bottom: 12px; }
 
         .btn-container { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
-        button.action-btn { width: 100%; padding: 10px 20px; font-size: 14px; font-family: inherit; font-weight: 600; cursor: pointer; border: 1px solid #334155; border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        button.action-btn { width: 100%; padding: 10px 20px; font-size: 14px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-print { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         .btn-print:hover { background-color: #001a33; }
-        .btn-sync { background-color: #f8fafc; color: var(--text-color); }
+        .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-admin { background-color: #e2e8f0; color: var(--text-color); }
-        .btn-fetch { background-color: #f1f5f9; color: var(--text-color); }
+        .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
         .btn-danger { background-color: #ffffff; color: #dc2626; border-color: #dc2626; }
 
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 16px; }
@@ -125,7 +126,7 @@
 
         .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: left; }
         .print-task-time { display: none; font-size: 9pt; font-weight: 600; color: var(--text-color); margin-bottom: 2px; }
-        .serial-badge { display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+        .serial-badge { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
 
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; height: auto; }
@@ -165,7 +166,7 @@
                 background: #ffffff !important;
                 color: #000000 !important;
             }
-            .header-section h1 { font-size: 14pt !important; color: #000000 !important; font-weight: bold !important; }
+            .header-section h1 { font-size: 16pt !important; color: #000000 !important; font-weight: bold !important; }
             
             .info-row {
                 display: flex !important; flex-direction: row !important; justify-content: space-between !important;
@@ -182,7 +183,7 @@
             table { display: table !important; font-size: 10pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid #000000 !important; }
             thead { display: table-header-group !important; }
             tbody { display: table-row-group !important; }
-            tr { display: table-row !important; page-break-inside: avoid !important; height: 120px !important; } /* Enforce uniform row height in print */
+            tr { display: table-row !important; page-break-inside: avoid !important; height: 120px !important; } 
 
             th, td { display: table-cell !important; padding: 6px 4px !important; border: 1px solid #000000 !important; vertical-align: top !important; height: inherit !important; }
             th {
@@ -194,7 +195,7 @@
 
             tbody tr td.mobile-serial { border-left: 1px solid #000000 !important; }
             tbody tr.holiday-row td.mobile-serial,
-            tbody tr[data-is-holiday="true"] td.mobile-serial { border-left: 1px solid #000000 !important; }
+            tbody tr[data-is-holiday="true"] td.mobile-serial { border-left: 2px solid var(--holiday-color) !important; }
 
             .serial-badge { width: auto; height: auto; border-radius: 0; background: transparent !important; color: #000000 !important; font-size: 10pt; font-weight: bold; }
 
@@ -202,13 +203,16 @@
             .date-cell-mobile > div:first-child { font-weight: bold !important; color: #000000 !important; font-size: 10pt !important; }
 
             tr.holiday-row, tr[data-is-holiday="true"] {
-                background: #f8fafc !important;
+                background: var(--holiday-bg) !important;
             }
-            .holiday-badge { background: transparent !important; color: #000000 !important; font-weight: normal; border: none !important; padding: 0 !important; }
+            tr.holiday-row .date-cell-mobile > div:first-child { color: var(--holiday-color) !important; }
+            .serial-badge.holiday-serial-badge { color: var(--holiday-color) !important; }
+
+            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
             .holiday-input-container input {
                 border: none !important; background: transparent !important; width: 100% !important;
-                color: #000000 !important; font-size: 10pt !important; font-weight: bold !important;
+                color: var(--holiday-color) !important; font-size: 12pt !important; font-weight: bold !important;
             }
 
             .session-block { padding: 0 !important; margin-bottom: 4px; }
@@ -229,10 +233,12 @@
             .print-task-time { display: inline-block !important; font-size: 9pt !important; font-weight: bold !important; color: #000000 !important; background: transparent !important; padding: 0 !important; margin-bottom: 2px !important; }
 
             .field-label { display: none !important; }
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: #000000 !important; font-weight: bold; }
-            .stylish-select-box { border: none !important; }
             
-            /* Remove colored top borders */
+            /* Print mode bigger font sizes for inputs */
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: #000000 !important; font-weight: bold; font-size: 12pt !important; }
+            .stylish-select-box { border: none !important; }
+            .location-item { font-size: 12pt !important; }
+            
             td.col-planned, td.col-actual, td.col-work, td.col-remarks { border-top: 1px solid #000000 !important; }
         }
     </style>
@@ -619,7 +625,7 @@
                      <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा (सुट्टी रद्द)</span>
                 </label>
                 <div class="print-only-date-content no-screen">
-                    <div style="font-weight:bold; font-size:10pt; color:var(--text-color); margin-top:8px;">सुट्टी</div>
+                    <div style="font-weight:bold; font-size:10pt; color:var(--holiday-color); margin-top:8px;">सुट्टी</div>
                 </div>
             </td>
             <td colspan="4" class="holiday-input-container">
