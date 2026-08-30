@@ -78,17 +78,22 @@
         .task-item { border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 8px; position: relative; }
         .task-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
 
-        .session-box { display: flex; flex-direction: column; align-items: flex-start; margin: 8px auto 0 auto; width: fit-content; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 6px 10px; font-size: 13px; gap: 4px; }
-        .session-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
+        /* Setup Section - Horizontal Row Layout */
+        .date-setup-row { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; width: 100%; }
+        .setup-section { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
 
-        .add-btn-group { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; align-items: center; }
-        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: 95%; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
+        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: auto; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 6px; font-size: 11px; gap: 8px; }
+        .session-box label { display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
+
+        .add-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; margin-top: 0; align-items: center; justify-content: center; }
+        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: auto; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
         .task-btn:hover { background: #e2e8f0; }
+
+        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid #fca5a5; border-radius: 2px;}
 
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        .holiday-toggle-wrapper { margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px; border: 1px solid #fca5a5;}
         .holiday-row { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; }
         .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 2px 6px; border: 1px solid #fca5a5; font-size: 11px; font-weight: 700; }
         .holiday-input-container { padding: 10px; text-align: center; vertical-align: middle; }
@@ -405,7 +410,6 @@
         return inputHTML;
     }
 
-    /* Restructured Subrow Pattern */
     function getCellTemplate() {
         return `
             <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
@@ -538,26 +542,32 @@
         
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
 
-        // Date controls naturally sit at the top of the date cell
+        // Refactored to have setup sections horizontally aligned in front of the date
         row.innerHTML = `
             <td class="mobile-serial"><span class="serial-badge">${i}</span></td>
             <td class="date-cell-mobile p-0">
                 <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
                     <div class="date-controls" style="padding: 8px;">
-                        <div class="date-text-print" style="font-weight: 800; color: var(--primary-color);">${dateText}</div>
-                        ${extraBadge}
-                        <div class="session-box no-print">
-                            <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण दिवस (Default)</label>
-                            <label><input type="checkbox" class="cb-morning" onchange="handleSessionToggle(this, 'morning')"> सकाळ सत्र</label>
-                            <label><input type="checkbox" class="cb-afternoon" onchange="handleSessionToggle(this, 'afternoon')"> दुपार सत्र</label>
+                        <div class="date-setup-row">
+                            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div class="date-text-print" style="font-weight: 800; color: var(--primary-color);">${dateText}</div>
+                                ${extraBadge}
+                            </div>
+                            <div class="setup-section no-print">
+                                <div class="session-box">
+                                    <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण दिवस</label>
+                                    <label><input type="checkbox" class="cb-morning" onchange="handleSessionToggle(this, 'morning')"> सकाळ</label>
+                                    <label><input type="checkbox" class="cb-afternoon" onchange="handleSessionToggle(this, 'afternoon')"> दुपार</label>
+                                </div>
+                                <div class="add-btn-group">
+                                    <button type="button" class="task-btn morning-add-btn" onclick="addTaskBtnClick(this, 'morning')">+ सकाळ काम</button>
+                                    <button type="button" class="task-btn afternoon-add-btn" onclick="addTaskBtnClick(this, 'afternoon')">+ दुपार काम</button>
+                                </div>
+                                <label class="holiday-toggle-wrapper">
+                                    <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित</span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="add-btn-group no-print">
-                            <button type="button" class="task-btn morning-add-btn" onclick="addTaskBtnClick(this, 'morning')">+ सकाळ काम जोडा</button>
-                            <button type="button" class="task-btn afternoon-add-btn" onclick="addTaskBtnClick(this, 'afternoon')">+ दुपार काम जोडा</button>
-                        </div>
-                        <label class="holiday-toggle-wrapper no-print">
-                            <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित करा</span>
-                        </label>
                     </div>
                     <div class="morning-label-box" style="padding: 6px; display: flex; flex-direction: column; justify-content: flex-end;">
                         <div style="font-weight: 800; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 4px; border-radius: 4px;">सकाळ सत्र</div>
@@ -586,10 +596,12 @@
             <td class="mobile-serial"><span class="serial-badge holiday-serial-badge">${i}</span></td>
             <td class="date-cell-mobile p-0">
                 <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
-                    <div class="date-controls" style="padding: 8px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                        <div class="date-text-print" style="font-weight: 800;">${dateText}</div>${badgeHTML}
-                        <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7;">
-                             <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा (सुट्टी रद्द)</span>
+                    <div class="date-controls" style="padding: 8px; flex: 1; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div class="date-text-print" style="font-weight: 800;">${dateText}</div>${badgeHTML}
+                        </div>
+                        <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7; margin:0;">
+                             <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा</span>
                         </label>
                     </div>
                 </div>
@@ -616,7 +628,6 @@
         handleFormChange();
     }
 
-    // Flawless alignment engine syncing Morning labels to start seamlessly from the tasks
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
         const isDesktopOrPrint = window.innerWidth > 768 || window.matchMedia("print").matches;
@@ -951,7 +962,7 @@
             let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "deleteData", pin: verifiedSessionPin, month: month, year: year }) }).then(r => r.json());
             if (res.status === 'success') {
                 updateSyncBadge("डेटा डिलीट झाला", "synced"); alert(`ऑनलाइन डेटा डिलीट झाला!`);
-                if (confirm("स्थानिक (Local) ड्राफ्ट पण डिलीट करायचा आहे का?")) { localStorage.removeItem(getStorageKey()); loadFormData(); } closeAdminModal();
+                if (confirm("स्थानिक (Local) ड्राफ्ट पण डिलीट करायचा ছুটি करायचा आहे का?")) { localStorage.removeItem(getStorageKey()); loadFormData(); } closeAdminModal();
             } else { updateSyncBadge("डिलीट अयशस्वी", ""); alert("त्रुटी: " + res.message); }
         } catch (err) { updateSyncBadge("ऑफलाइन मोड", ""); alert("सर्व्हरशी संपर्क नाही."); }
     }
