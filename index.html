@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>समूह साधन केंद्र समन्वयक मासिक दैनंदिनी</title>
+    <!-- Google Font Mukta Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #003366; 
@@ -14,11 +19,11 @@
             --holiday-bg: #fee2e2; 
             --holiday-color: #b91c1c; 
             --holiday-border: #f87171;
-            --holiday-sheracolor: #fca5a5; /* Distinct dark pink highlight for शेरा */
+            --holiday-shera-bg: #fca5a5;
         }
         * { box-sizing: border-box; }
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Mukta', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0; padding: 14px; background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.5; -webkit-tap-highlight-color: transparent;
         }
@@ -33,30 +38,30 @@
             padding: 20px 16px; border-radius: 4px 4px 0 0; margin-bottom: 16px;
             border-bottom: 3px solid var(--accent-color);
         }
-        .header-section h1 { margin: 0; font-size: clamp(22px, 3vw, 28px); font-weight: 700; letter-spacing: 0.5px; }
+        .header-section h1 { margin: 0; font-size: clamp(24px, 3.2vw, 30px); font-weight: 800; letter-spacing: 0.5px; }
         
         .info-row {
             display: flex; flex-direction: column; gap: 14px; background: #ffffff;
             padding: 16px; border: 1px solid var(--border-color); margin-bottom: 16px; text-align: center;
         }
         
-        .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); font-size: 18px; }
+        .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); font-size: 19px; }
         .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 6px; }
-        .stylish-select-box select { font-family: inherit; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; text-align: center; }
+        .stylish-select-box select { font-family: inherit; font-size: clamp(17px, 2.2vw, 21px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; text-align: center; }
         
-        .editable-header-input { font-family: inherit; font-size: clamp(16px, 2vw, 20px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
+        .editable-header-input { font-family: inherit; font-size: clamp(17px, 2.2vw, 21px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
         .name-input { min-width: 280px; max-width: 100%; }
         
         .location-fields { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; }
-        .location-item { display: flex; align-items: center; gap: 6px; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); }
+        .location-item { display: flex; align-items: center; gap: 6px; font-size: clamp(17px, 2.2vw, 21px); font-weight: 700; color: var(--primary-color); }
 
-        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 5px 14px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
+        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 5px 14px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
         .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
         .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
-        th, td { border: 1px solid var(--primary-color); padding: 8px; text-align: center; vertical-align: middle; font-size: clamp(13px, 1.6vw, 14px); }
-        th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 700; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
+        th, td { border: 1px solid var(--primary-color); padding: 8px; text-align: center; vertical-align: middle; font-size: clamp(15px, 1.8vw, 17px); font-weight: 500; }
+        th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: clamp(16px, 1.9vw, 18px); padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
         td.p-0 { padding: 0 !important; vertical-align: top; }
         
@@ -74,14 +79,15 @@
             border-bottom: 2px dotted var(--primary-color) !important;
         }
 
-        /* Center-aligned and wrapped textarea */
+        /* Center aligned & wrapped inputs */
         textarea { 
             width: 100%; 
-            min-height: 48px; 
+            min-height: 52px; 
             border: 1px solid var(--border-color); 
             border-radius: 2px; 
             font-family: inherit; 
-            font-size: clamp(13px, 1.5vw, 14px); 
+            font-size: clamp(15px, 1.7vw, 16.5px); 
+            font-weight: 600;
             padding: 6px; 
             resize: none; 
             text-align: center; 
@@ -92,7 +98,7 @@
         .school-select { 
             width: 100%; 
             padding: 5px; 
-            font-size: 13px; 
+            font-size: 14.5px; 
             font-family: inherit; 
             border-radius: 2px; 
             border: 1px solid var(--border-color); 
@@ -100,10 +106,9 @@
             text-align: center; 
             text-align-last: center; 
             margin-bottom: 4px; 
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* Autofit Sub-rows Layout */
         .task-list { display: flex; flex-direction: column; width: 100%; }
         .task-item { 
             border-bottom: 1px dotted var(--primary-color); 
@@ -119,34 +124,30 @@
         .task-item:last-child { border-bottom: none; }
 
         .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 8px; height: 100%; }
-        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 6px; font-size: 11px; gap: 6px; }
-        .session-box label { display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
+        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 6px; font-size: 13px; gap: 6px; font-weight: 700; }
+        .session-box label { display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 700; }
 
         .add-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; margin-top: 0; align-items: center; justify-content: center; }
-        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: auto; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
+        .task-btn { font-family: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 700; cursor: pointer; display: none; width: auto; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
         .task-btn:hover { background: #e2e8f0; }
 
-        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid var(--holiday-border); border-radius: 2px; width: 100%; }
+        .holiday-toggle-wrapper { margin-top: 0; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid var(--holiday-border); border-radius: 2px; width: 100%; }
 
-        .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: center; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; width: 100%; }
-        .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
+        .task-timing { display: flex; gap: 4px; margin-bottom: 4px; justify-content: center; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; width: 100%; }
+        .task-time-from, .task-time-to { width: 78px; font-size: 13px; font-weight: 700; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        /* Fully Colored Holiday Row & शेरा Column */
-        tr.holiday-row { 
+        /* Complete Holiday Styling */
+        tr.holiday-row td { 
             background-color: var(--holiday-bg) !important; 
             color: var(--holiday-color) !important;
-            border-top: 2px solid var(--holiday-border) !important;
-            border-bottom: 2px solid var(--holiday-border) !important;
+            border-color: var(--holiday-border) !important;
         }
-        tr.holiday-row td { 
-            background-color: var(--holiday-bg) !important;
-            border-color: var(--holiday-border) !important; 
-        }
-        /* Specific override ensuring शेरा column is deeply colored */
+        
         tr.holiday-row td.holiday-shera-cell {
-            background-color: var(--holiday-sheracolor) !important;
+            background-color: var(--holiday-shera-bg) !important;
             color: var(--holiday-color) !important;
             font-weight: 800;
+            font-size: 16px;
             vertical-align: middle !important;
             text-align: center !important;
             border-left: 2px solid var(--holiday-border) !important;
@@ -158,7 +159,7 @@
             color: var(--holiday-color); 
             padding: 3px 8px; 
             border: 1px solid var(--holiday-border); 
-            font-size: 12px; 
+            font-size: 13px; 
             font-weight: 800; 
             border-radius: 4px; 
         }
@@ -168,7 +169,7 @@
             max-width: 450px; 
             padding: 8px 12px; 
             font-family: inherit; 
-            font-size: clamp(15px, 1.8vw, 17px); 
+            font-size: clamp(16px, 2vw, 19px); 
             font-weight: 800; 
             color: var(--holiday-color); 
             border: 1.5px solid var(--holiday-border); 
@@ -178,10 +179,10 @@
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .no-screen { display: none; }
+        .date-text-print { font-size: clamp(15px, 1.8vw, 17px); font-weight: 700; }
 
         .btn-container { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
-        button.action-btn { width: 100%; padding: 10px 20px; font-size: 14px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        button.action-btn { width: 100%; padding: 10px 20px; font-size: 15px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-print { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         .btn-print:hover { background-color: #001a33; }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
@@ -190,16 +191,16 @@
         .btn-danger { background-color: #ffffff; color: #dc2626; border-color: #dc2626; }
 
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 16px; }
-        .modal-content { background-color: white; padding: 22px; border-radius: 4px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; text-align: left; border: 1px solid var(--primary-color); }
-        .modal-content h3 { margin: 0 0 12px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; text-align: center; font-size: 16px; font-weight: 700;}
-        .modal-content label { display: block; margin-top: 10px; font-weight: 600; font-size: 13px; }
-        .modal-content input[type="password"] { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 2px; font-size: 14px;}
+        .modal-content { background-color: white; padding: 22px; border-radius: 4px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; text-align: left; border: 1px solid var(--primary-color); font-family: inherit; }
+        .modal-content h3 { margin: 0 0 12px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; text-align: center; font-size: 18px; font-weight: 800;}
+        .modal-content label { display: block; margin-top: 10px; font-weight: 700; font-size: 14.5px; }
+        .modal-content input[type="password"] { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 2px; font-size: 15px; font-family: inherit; }
         .modal-actions { margin-top: 18px; display: flex; gap: 10px; }
         .danger-zone { margin-top: 15px; padding: 12px; border: 1px solid #94a3b8; background-color: #f8fafc; }
-        .danger-zone h4 { margin: 0 0 10px 0; color: var(--text-color); font-size: 13px; text-align: center; }
+        .danger-zone h4 { margin: 0 0 10px 0; color: var(--text-color); font-size: 14.5px; text-align: center; font-weight: 700; }
         
         .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px 14px; border: 1px solid var(--border-color); margin-bottom: 15px; }
-        .switch-container span { font-weight: 600; font-size: 13px; color: var(--text-color); }
+        .switch-container span { font-weight: 700; font-size: 14.5px; color: var(--text-color); }
         .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 20px; }
@@ -213,25 +214,18 @@
             word-break: break-word; 
             text-align: center; 
             width: 100%;
+            font-weight: 600;
         }
         .print-task-time { 
             display: none; 
-            font-size: 9pt; 
-            font-weight: 600; 
+            font-size: 11pt; 
+            font-weight: 700; 
             color: var(--text-color); 
             margin-bottom: 2px; 
             text-align: center; 
             width: 100%;
         }
 
-        @media screen and (max-width: 768px) {
-            table, thead, tbody, th, td, tr { display: block; }
-            thead { display: none; }
-            tr { background: #ffffff; border: 1px solid var(--border-color); margin-bottom: 12px; padding: 10px; }
-            td { border: none; padding: 4px 0; text-align: center; }
-            .date-cell-mobile { border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; text-align: center; }
-            .mode-both .morning-block { border-bottom: 2px dashed var(--primary-color); }
-        }
         @media screen and (min-width: 769px) {
             .info-row { flex-direction: row; justify-content: space-between; }
             .location-fields { width: auto; }
@@ -242,52 +236,48 @@
         @media print {
             @page { size: A4 portrait; margin: 8mm 6mm; }
 
-            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9.5pt; color: var(--text-color) !important; }
+            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 11pt; color: var(--text-color) !important; font-family: 'Mukta', sans-serif !important; }
             .container { box-shadow: none !important; padding: 0 !important; border: none !important; }
 
             .header-section { display: block !important; padding: 8px !important; margin: 0 0 8px 0 !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: var(--primary-color) !important; color: #ffffff !important; }
-            .header-section h1 { font-size: 15pt !important; color: #ffffff !important; font-weight: bold !important; }
+            .header-section h1 { font-size: 17pt !important; color: #ffffff !important; font-weight: 800 !important; }
             
             .info-row { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin: 0 0 8px 0 !important; padding: 4px 8px !important; background-color: #ffffff !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; }
             .info-group, .location-item { color: var(--primary-color) !important; }
 
             .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
-            .no-screen { display: block !important; }
 
-            table { display: table !important; font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid var(--primary-color) !important; }
+            table { display: table !important; font-size: 11pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid var(--primary-color) !important; }
             thead { display: table-header-group !important; }
             tbody { display: table-row-group !important; }
             tr { display: table-row !important; page-break-inside: avoid !important; } 
 
-            th, td { display: table-cell !important; padding: 4px 3px !important; border: 1px solid var(--primary-color) !important; vertical-align: top !important; text-align: center !important; }
-            td.p-0 { padding: 0 !important; }
-            th { background: #e0f2fe !important; color: var(--primary-color) !important; font-weight: bold !important; border: 1px solid var(--primary-color) !important; padding: 6px 3px !important; }
+            th, td { display: table-cell !important; padding: 5px 4px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
+            td.p-0 { padding: 0 !important; vertical-align: top !important; }
+            th { background: #e0f2fe !important; color: var(--primary-color) !important; font-weight: 800 !important; font-size: 11.5pt !important; border: 1.5px solid var(--primary-color) !important; padding: 6px 3px !important; }
 
             .date-cell-mobile { vertical-align: middle !important; text-align: center !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 2px dotted var(--primary-color) !important; }
-            .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 2px !important; border-radius: 2px !important; font-size: 8.5pt !important;}
+            .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 2px !important; border-radius: 2px !important; font-size: 10pt !important; font-weight: 800 !important;}
             
-            .date-text-print { font-weight: bold !important; color: var(--primary-color) !important; font-size: 10pt !important; }
+            .date-text-print { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 11.5pt !important; }
 
-            /* Color-filled holiday styles in print */
-            tr.holiday-row, tr[data-is-holiday="true"] { background: var(--holiday-bg) !important; }
-            tr.holiday-row td { background: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; }
-            tr.holiday-row .date-text-print { color: var(--holiday-color) !important; }
-            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
+            tr.holiday-row td { background-color: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; color: var(--holiday-color) !important; }
+            tr.holiday-row td.holiday-shera-cell { background-color: var(--holiday-shera-bg) !important; color: var(--holiday-color) !important; text-align: center !important; font-size: 12pt !important; font-weight: 800 !important; }
+            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: 800; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
-            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 11.5pt !important; font-weight: bold !important; text-align: center !important; }
-            tr.holiday-row td.holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; text-align: center !important; }
+            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 13pt !important; font-weight: 800 !important; text-align: center !important; }
 
             textarea { display: none !important; }
             .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 3px 2px !important; text-align: center !important; justify-content: center !important; align-items: center !important; }
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: block !important; font-size: 9.5pt !important; padding: 1px 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; }
-            .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: bold !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 2px !important; text-align: center !important; }
+            .print-text { display: block !important; font-size: 11pt !important; font-weight: 600 !important; padding: 1px 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; }
+            .print-task-time { display: block !important; font-size: 10pt !important; font-weight: 800 !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 2px !important; text-align: center !important; }
 
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: bold; font-size: 11pt !important; text-align: center !important; }
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: 800; font-size: 12.5pt !important; text-align: center !important; }
             .stylish-select-box { border: none !important; }
-            .location-item { font-size: 11pt !important; color: var(--primary-color) !important; }
+            .location-item { font-size: 12.5pt !important; font-weight: 800 !important; color: var(--primary-color) !important; }
         }
     </style>
 </head>
@@ -332,7 +322,7 @@
 
     <div class="btn-container no-print">
         <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
-        <button class="action-btn btn-admin" onclick="openAdminPanel('panel')">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
+        <button class="action-btn btn-admin" onclick="openAdminPanel()">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
     </div>
 </div>
 
@@ -349,7 +339,7 @@
             </div>
         </div>
         <div id="adminControlsStep" style="display:none;">
-            <p style="font-size: 14px; color: #15803d; font-weight: bold; text-align: center; margin: 0 0 15px 0;">✓ केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
+            <p style="font-size: 15px; color: #15803d; font-weight: 800; text-align: center; margin: 0 0 15px 0;">✓ केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
             <div class="switch-container">
                 <span>स्वयंचलित सिंक (Auto-Sync)</span>
                 <label class="switch"><input type="checkbox" id="autoSyncToggle" onchange="toggleAutoSync()"><span class="slider"></span></label>
@@ -405,6 +395,8 @@
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
         const currentDate = new Date();
+        monthSelect.innerHTML = '';
+        yearSelect.innerHTML = '';
         monthsMarathi.forEach((month, index) => {
             let option = document.createElement('option');
             option.value = index; option.textContent = month;
@@ -424,7 +416,7 @@
 
     function autoExpandTextarea(tx) {
         tx.style.height = 'auto';
-        tx.style.height = Math.max(48, tx.scrollHeight) + 'px';
+        tx.style.height = Math.max(52, tx.scrollHeight) + 'px';
     }
 
     function validateTime(input, min, max) {
@@ -476,9 +468,9 @@
             
             timeHTML = `
             <div class="task-timing no-print">
-                <span style="font-size:10px; font-weight:700; color:var(--text-color);">वेळ:</span>
+                <span style="font-size:11px; font-weight:700; color:var(--text-color);">वेळ:</span>
                 <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
-                <span style="font-size:10px;">ते</span>
+                <span style="font-size:11px; font-weight:700;">ते</span>
                 <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
             </div>
             <div class="print-task-time"></div>
@@ -490,7 +482,7 @@
             inputHTML = `<textarea class="input-${colType}" placeholder="शेरा..." oninput="autoExpandTextarea(this); handleFormChange(this);"></textarea><div class="print-text"></div>`;
         }
         
-        let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 6px; cursor:pointer; font-size:11px; margin-left:6px; font-weight:600;">[X]</button>`;
+        let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 6px; cursor:pointer; font-size:12px; margin-left:6px; font-weight:700;">[X]</button>`;
         
         if (isRemarks) {
              return `<div style="display:flex; gap:2px; align-items:center; width:100%;">
@@ -658,10 +650,10 @@
                         </label>
                     </div>
                     <div class="morning-label-box" style="padding: 6px; display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                        <div style="font-weight: 800; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 4px; border-radius: 4px;">सकाळ सत्र</div>
+                        <div style="font-weight: 800; font-size: 15px; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 4px; border-radius: 4px;">सकाळ सत्र</div>
                     </div>
                     <div class="afternoon-label-box" style="padding: 6px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                        <div style="font-weight: 800; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 4px; border-radius: 4px;">दुपार सत्र</div>
+                        <div style="font-weight: 800; font-size: 15px; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 4px; border-radius: 4px;">दुपार सत्र</div>
                     </div>
                 </div>
             </td>
@@ -694,7 +686,7 @@
                 <input type="text" class="holiday-reason-input" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
             </td>
             <td class="holiday-shera-cell">
-                <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.5px;">सुट्टी</div>
+                <div style="font-size: 16px; font-weight: 800; letter-spacing: 0.5px;">सुट्टी</div>
             </td>
         `;
     }
@@ -717,15 +709,11 @@
         handleFormChange();
     }
 
-    /* Autofit Sub-rows & Session Heights */
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
-        const isDesktopOrPrint = window.innerWidth > 768 || window.matchMedia("print").matches;
         
         row.querySelectorAll('.task-item').forEach(el => el.style.minHeight = 'auto');
         row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => el.style.minHeight = 'auto');
-
-        if (!isDesktopOrPrint) return;
 
         ['.morning-block', '.afternoon-block'].forEach(blockCls => {
             const cols = ['planned', 'actual', 'work', 'remarks'];
@@ -803,7 +791,7 @@
         });
     });
 
-    function getStorageKey() { return `DAINANDINI_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
+    function getStorageKey() { return `DAINANDINI_V6_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
 
     function handleFormChange(elem) {
         if (elem && elem.closest('tr')) syncRowVisuals(elem.closest('tr'));
