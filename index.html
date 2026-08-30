@@ -42,7 +42,7 @@
         
         .info-group { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-weight: 700; color: var(--primary-color); font-size: 18px; }
         .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 6px; }
-        .stylish-select-box select { font-family: inherit; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; }
+        .stylish-select-box select { font-family: inherit; font-size: clamp(16px, 2vw, 20px); font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 4px 8px; cursor: pointer; text-align: center; }
         
         .editable-header-input { font-family: inherit; font-size: clamp(16px, 2vw, 20px); padding: 5px 10px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; flex: 1; min-width: 110px; color: #111827; }
         .name-input { min-width: 280px; max-width: 100%; }
@@ -74,8 +74,34 @@
             border-bottom: 2px dotted var(--primary-color) !important;
         }
 
-        textarea { width: 100%; min-height: 48px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: none; text-align: left; overflow: hidden; }
-        .school-select { width: 100%; padding: 5px; font-size: 13px; font-family: inherit; border-radius: 2px; border: 1px solid var(--border-color); background: #ffffff; text-align: left; margin-bottom: 4px; font-weight: 600;}
+        /* Center-aligned and wrapped textarea */
+        textarea { 
+            width: 100%; 
+            min-height: 48px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 2px; 
+            font-family: inherit; 
+            font-size: clamp(13px, 1.5vw, 14px); 
+            padding: 6px; 
+            resize: none; 
+            text-align: center; 
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow: hidden; 
+        }
+        .school-select { 
+            width: 100%; 
+            padding: 5px; 
+            font-size: 13px; 
+            font-family: inherit; 
+            border-radius: 2px; 
+            border: 1px solid var(--border-color); 
+            background: #ffffff; 
+            text-align: center; 
+            text-align-last: center; 
+            margin-bottom: 4px; 
+            font-weight: 600;
+        }
 
         /* Autofit Sub-rows Layout */
         .task-list { display: flex; flex-direction: column; width: 100%; }
@@ -84,9 +110,11 @@
             padding: 6px; 
             display: flex; 
             flex-direction: column; 
-            justify-content: flex-start;
+            justify-content: center;
+            align-items: center;
             box-sizing: border-box;
             width: 100%;
+            text-align: center;
         }
         .task-item:last-child { border-bottom: none; }
 
@@ -100,10 +128,10 @@
 
         .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid var(--holiday-border); border-radius: 2px; width: 100%; }
 
-        .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
+        .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: center; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; width: 100%; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        /* Full Holiday Row and Shera Fill */
+        /* Fully Colored Holiday Row */
         tr.holiday-row { 
             background-color: var(--holiday-bg) !important; 
             color: var(--holiday-color) !important;
@@ -145,6 +173,7 @@
             color: var(--holiday-color) !important;
             font-weight: 800;
             vertical-align: middle !important;
+            text-align: center !important;
             border-left: 2px solid var(--holiday-border) !important;
         }
 
@@ -177,14 +206,28 @@
         input:checked + .slider { background-color: var(--primary-color); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: left; }
-        .print-task-time { display: none; font-size: 9pt; font-weight: 600; color: var(--text-color); margin-bottom: 2px; }
+        .print-text { 
+            display: none; 
+            white-space: pre-wrap; 
+            word-break: break-word; 
+            text-align: center; 
+            width: 100%;
+        }
+        .print-task-time { 
+            display: none; 
+            font-size: 9pt; 
+            font-weight: 600; 
+            color: var(--text-color); 
+            margin-bottom: 2px; 
+            text-align: center; 
+            width: 100%;
+        }
 
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; }
             thead { display: none; }
             tr { background: #ffffff; border: 1px solid var(--border-color); margin-bottom: 12px; padding: 10px; }
-            td { border: none; padding: 4px 0; text-align: left; }
+            td { border: none; padding: 4px 0; text-align: center; }
             .date-cell-mobile { border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; text-align: center; }
             .mode-both .morning-block { border-bottom: 2px dashed var(--primary-color); }
         }
@@ -215,7 +258,7 @@
             tbody { display: table-row-group !important; }
             tr { display: table-row !important; page-break-inside: avoid !important; } 
 
-            th, td { display: table-cell !important; padding: 4px 3px !important; border: 1px solid var(--primary-color) !important; vertical-align: top !important; }
+            th, td { display: table-cell !important; padding: 4px 3px !important; border: 1px solid var(--primary-color) !important; vertical-align: top !important; text-align: center !important; }
             td.p-0 { padding: 0 !important; }
             th { background: #e0f2fe !important; color: var(--primary-color) !important; font-weight: bold !important; border: 1px solid var(--primary-color) !important; padding: 6px 3px !important; }
 
@@ -231,17 +274,17 @@
             tr.holiday-row .date-text-print { color: var(--holiday-color) !important; }
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
-            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 11.5pt !important; font-weight: bold !important; }
-            .holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; }
+            .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 11.5pt !important; font-weight: bold !important; text-align: center !important; }
+            .holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; text-align: center !important; }
 
             textarea { display: none !important; }
-            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 3px 2px !important; }
+            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 3px 2px !important; text-align: center !important; justify-content: center !important; align-items: center !important; }
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: block !important; font-size: 9.5pt !important; padding: 1px 0 !important; text-align: left !important; color: var(--text-color) !important; }
-            .print-task-time { display: inline-block !important; font-size: 8.5pt !important; font-weight: bold !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 2px !important; }
+            .print-text { display: block !important; font-size: 9.5pt !important; padding: 1px 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; }
+            .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: bold !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 2px !important; text-align: center !important; }
 
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: bold; font-size: 11pt !important; }
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: bold; font-size: 11pt !important; text-align: center !important; }
             .stylish-select-box { border: none !important; }
             .location-item { font-size: 11pt !important; color: var(--primary-color) !important; }
         }
@@ -449,7 +492,7 @@
         let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 6px; cursor:pointer; font-size:11px; margin-left:6px; font-weight:600;">[X]</button>`;
         
         if (isRemarks) {
-             return `<div style="display:flex; gap:2px; align-items:flex-start;">
+             return `<div style="display:flex; gap:2px; align-items:center; width:100%;">
                         <div style="flex:1; width:100%;">${inputHTML}</div>
                         ${removeBtn}
                      </div>`;
