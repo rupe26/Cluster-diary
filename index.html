@@ -54,20 +54,23 @@
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
         tbody tr { height: auto; }
-        th, td { border: 1px solid var(--primary-color); padding: 8px; text-align: center; vertical-align: top; font-size: clamp(13px, 1.6vw, 14px); height: inherit; }
+        th, td { border: 1px solid var(--primary-color); padding: 8px; text-align: center; vertical-align: middle; font-size: clamp(13px, 1.6vw, 14px); height: inherit; }
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 700; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        /* Strict Alignment Layout */
-        td.p-0 { padding: 0 !important; }
+        td.p-0 { padding: 0 !important; vertical-align: top; }
         
-        /* Dynamic Session Visibility CSS */
+        /* Session Visibility CSS */
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
-        .mode-whole .morning-block, .mode-whole .morning-label-box { display: flex; flex-direction: column; }
+        
+        /* Whole mode hides specific session tags and dotted splits */
+        .mode-whole .morning-block { display: flex; flex-direction: column; height: 100%; }
+        .mode-whole .morning-label-box { display: none !important; }
+        .mode-whole .afternoon-label-box { display: none !important; }
+        
         .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; }
         .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; }
         .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; }
 
-        /* Auto Dotted Division lines exclusively in mode-both */
         .mode-both .morning-block, .mode-both .morning-label-box {
             border-bottom: 2px dotted var(--primary-color) !important;
         }
@@ -75,28 +78,24 @@
         textarea { width: 100%; height: 50px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: none; text-align: left; }
         .school-select { width: 100%; padding: 6px; font-size: clamp(13px, 1.5vw, 14px); font-family: inherit; border-radius: 2px; border: 1px solid var(--border-color); background: #ffffff; text-align: left; margin-bottom: 4px; font-weight: 600;}
 
-        /* Dotted lines between multiple tasks */
         .task-item { border-bottom: 1px dotted var(--primary-color); padding-bottom: 8px; margin-bottom: 8px; position: relative; }
         .task-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
 
-        /* Setup Section - Horizontal Row Layout */
-        .date-setup-row { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; width: 100%; }
-        .setup-section { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
-
-        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: auto; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 6px; font-size: 11px; gap: 8px; }
+        .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 8px; height: 100%; }
+        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 4px 6px; font-size: 11px; gap: 6px; }
         .session-box label { display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
 
         .add-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; margin-top: 0; align-items: center; justify-content: center; }
         .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: auto; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
         .task-btn:hover { background: #e2e8f0; }
 
-        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid #fca5a5; border-radius: 2px;}
+        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 4px 6px; border: 1px solid #fca5a5; border-radius: 2px; width: 100%; }
 
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
         .holiday-row { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; }
-        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 2px 6px; border: 1px solid #fca5a5; font-size: 11px; font-weight: 700; }
+        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 2px 6px; border: 1px solid #fca5a5; font-size: 11px; font-weight: 700; border-radius: 2px; }
         .holiday-input-container { padding: 10px; text-align: center; vertical-align: middle; }
         .holiday-input-container input { width: 85%; max-width: 340px; padding: 6px; font-family: inherit; font-size: clamp(14px, 1.6vw, 16px); font-weight: 700; color: var(--holiday-color); border: 1px solid #fca5a5; text-align: center; background: #ffffff; }
 
@@ -131,15 +130,13 @@
 
         .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: left; }
         .print-task-time { display: none; font-size: 9pt; font-weight: 600; color: var(--text-color); margin-bottom: 2px; }
-        .serial-badge { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
 
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; height: auto; }
             thead { display: none; }
             tr { background: #ffffff; border: 1px solid var(--border-color); margin-bottom: 12px; padding: 10px; }
             td { border: none; padding: 4px 0; text-align: left; height: auto; }
-            .mobile-serial { display: none; }
-            .date-cell-mobile { display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; font-size: 15px; text-align: center; }
+            .date-cell-mobile { border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; text-align: center; }
             .field-label { display: block; font-size: 13px; font-weight: 700; color: var(--primary-color); margin-top: 8px; margin-bottom: 4px; background: #f8fafc; padding: 4px; border-left: 3px solid var(--primary-color);}
             .mode-both .morning-block { border-bottom: 2px dashed var(--primary-color); }
         }
@@ -151,7 +148,6 @@
             .field-label { display: none; }
         }
 
-        /* Enforced Color Printing (Red / Blue Theme) */
         @media print {
             @page { size: A4 portrait; margin: 9mm 7mm; }
 
@@ -175,22 +171,15 @@
             th, td { display: table-cell !important; padding: 6px 4px !important; border: 1px solid var(--primary-color) !important; vertical-align: top !important; height: inherit !important; }
             td.p-0 { padding: 0 !important; }
             th { background: #e0f2fe !important; color: var(--primary-color) !important; font-weight: bold !important; border: 1px solid var(--primary-color) !important; padding: 8px 4px !important; }
-            
-            .mobile-serial { display: table-cell !important; text-align: center !important; width: 26px; }
-            tbody tr td.mobile-serial { border-left: 1px solid var(--primary-color) !important; }
-            tbody tr.holiday-row td.mobile-serial, tbody tr[data-is-holiday="true"] td.mobile-serial { border-left: 2px solid var(--holiday-color) !important; }
 
-            .serial-badge { width: auto; height: auto; border-radius: 0; background: transparent !important; color: var(--primary-color) !important; font-size: 10pt; font-weight: bold; }
-            
-            /* Print Line Divider settings - Dotted for sessions */
+            .date-cell-mobile { vertical-align: middle !important; text-align: center !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 2px dotted var(--primary-color) !important; }
             .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 2px !important; border-radius: 2px !important; font-size: 9pt !important;}
             
-            .date-text-print { font-weight: bold !important; color: var(--primary-color) !important; font-size: 11pt !important; margin: 4px 0 !important; }
+            .date-text-print { font-weight: bold !important; color: var(--primary-color) !important; font-size: 10.5pt !important; }
 
             tr.holiday-row, tr[data-is-holiday="true"] { background: var(--holiday-bg) !important; }
             tr.holiday-row .date-text-print { color: var(--holiday-color) !important; }
-            .serial-badge.holiday-serial-badge { color: var(--holiday-color) !important; }
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
             .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 12pt !important; font-weight: bold !important; }
@@ -237,12 +226,12 @@
     <table>
         <thead>
             <tr>
-                <th style="width: 5%;">अ. क्र.</th>
-                <th style="width: 15%;">दिनांक/वार</th>
-                <th style="width: 20%;">नियोजित भेट</th>
-                <th style="width: 20%;">प्रत्यक्ष भेट</th>
-                <th style="width: 20%;">कामाचे स्वरूप</th>
-                <th style="width: 20%;">शेरा</th>
+                <th style="width: 14%;">दिनांक व वार</th>
+                <th style="width: 12%;">सत्र / स्वरूप</th>
+                <th style="width: 19%;">नियोजित भेट</th>
+                <th style="width: 19%;">प्रत्यक्ष भेट</th>
+                <th style="width: 18%;">कामाचे स्वरूप</th>
+                <th style="width: 18%;">शेरा</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -525,7 +514,7 @@
             let date = new Date(year, month, i);
             let isSunday = date.getDay() === 0;
             let dayName = daysMarathi[date.getDay()];
-            let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span> <br><b>(${dayName})</b>`;
+            let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${dayName})</b>`;
             let row = document.createElement('tr');
             row.setAttribute('data-date', `${i} ${monthsMarathi[month]} ${year}`);
             row.setAttribute('data-day-index', i);
@@ -546,35 +535,30 @@
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
 
         row.innerHTML = `
-            <td class="mobile-serial"><span class="serial-badge">${i}</span></td>
-            <td class="date-cell-mobile p-0">
+            <td class="date-cell-mobile">
+                <div class="date-text-print">${dateText}</div>
+                ${extraBadge}
+            </td>
+            <td class="col-session p-0">
                 <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
-                    <div class="date-controls" style="padding: 8px;">
-                        <div class="date-setup-row">
-                            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                                <div class="date-text-print" style="font-weight: 800; color: var(--primary-color);">${dateText}</div>
-                                ${extraBadge}
-                            </div>
-                            <div class="setup-section no-print">
-                                <div class="session-box">
-                                    <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण दिवस</label>
-                                    <label><input type="checkbox" class="cb-morning" onchange="handleSessionToggle(this, 'morning')"> सकाळ</label>
-                                    <label><input type="checkbox" class="cb-afternoon" onchange="handleSessionToggle(this, 'afternoon')"> दुपार</label>
-                                </div>
-                                <div class="add-btn-group">
-                                    <button type="button" class="task-btn morning-add-btn" onclick="addTaskBtnClick(this, 'morning')">+ सकाळ काम</button>
-                                    <button type="button" class="task-btn afternoon-add-btn" onclick="addTaskBtnClick(this, 'afternoon')">+ दुपार काम</button>
-                                </div>
-                                <label class="holiday-toggle-wrapper">
-                                    <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित</span>
-                                </label>
-                            </div>
+                    <div class="session-setup-wrapper no-print">
+                        <div class="session-box">
+                            <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण</label>
+                            <label><input type="checkbox" class="cb-morning" onchange="handleSessionToggle(this, 'morning')"> सकाळ</label>
+                            <label><input type="checkbox" class="cb-afternoon" onchange="handleSessionToggle(this, 'afternoon')"> दुपार</label>
                         </div>
+                        <div class="add-btn-group">
+                            <button type="button" class="task-btn morning-add-btn" onclick="addTaskBtnClick(this, 'morning')">+ सकाळ</button>
+                            <button type="button" class="task-btn afternoon-add-btn" onclick="addTaskBtnClick(this, 'afternoon')">+ दुपार</button>
+                        </div>
+                        <label class="holiday-toggle-wrapper">
+                            <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित</span>
+                        </label>
                     </div>
-                    <div class="morning-label-box" style="padding: 6px; display: flex; flex-direction: column; justify-content: flex-end;">
+                    <div class="morning-label-box" style="padding: 6px; display: flex; flex-direction: column; justify-content: center; height: 100%;">
                         <div style="font-weight: 800; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 4px; border-radius: 4px;">सकाळ सत्र</div>
                     </div>
-                    <div class="afternoon-label-box" style="padding: 6px; flex: 1; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <div class="afternoon-label-box" style="padding: 6px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
                         <div style="font-weight: 800; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 4px; border-radius: 4px;">दुपार सत्र</div>
                     </div>
                 </div>
@@ -592,21 +576,17 @@
     function renderHolidayRow(row, i, dateText, reasonText, isSunday = false) {
         row.className = 'holiday-row';
         row.setAttribute('data-is-holiday', 'true');
-        let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-bottom:4px;">रविवार सुट्टी</div>` : ``;
+        let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-top:4px;">रविवार सुट्टी</div>` : ``;
 
         row.innerHTML = `
-            <td class="mobile-serial"><span class="serial-badge holiday-serial-badge">${i}</span></td>
-            <td class="date-cell-mobile p-0">
-                <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
-                    <div class="date-controls" style="padding: 8px; flex: 1; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
-                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                            <div class="date-text-print" style="font-weight: 800;">${dateText}</div>${badgeHTML}
-                        </div>
-                        <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7; margin:0;">
-                             <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा</span>
-                        </label>
-                    </div>
-                </div>
+            <td class="date-cell-mobile">
+                <div class="date-text-print">${dateText}</div>
+                ${badgeHTML}
+            </td>
+            <td class="no-print" style="vertical-align: middle;">
+                <label class="holiday-toggle-wrapper" style="color:#15803d; border-color:#16a34a; background:#dcfce7; margin:0;">
+                     <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा</span>
+                </label>
             </td>
             <td colspan="4" class="holiday-input-container">
                 <input type="text" class="holiday-reason-input" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
@@ -620,7 +600,7 @@
         const row = checkbox.closest('tr');
         const isSunday = row.getAttribute('data-is-sunday') === 'true';
         let date = new Date(year, month, i);
-        let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span> <br><b>(${daysMarathi[date.getDay()]})</b>`;
+        let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${daysMarathi[date.getDay()]})</b>`;
 
         if (checkbox.checked) {
             let defReason = isSunday ? "सार्वजनिक सुट्टी (रविवार)" : "सार्वजनिक सुट्टी";
@@ -639,25 +619,20 @@
         if (!isDesktopOrPrint) return;
 
         if (row.classList.contains('mode-both')) {
-            let dateControls = row.querySelector('.date-controls');
             let mLabel = row.querySelector('.morning-label-box');
-            
             let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
-            let maxM = dateControls.offsetHeight + mLabel.offsetHeight;
+            let maxM = mLabel ? mLabel.offsetHeight : 0;
             
             mBlocks.forEach(b => { if (b.offsetHeight > maxM) maxM = b.offsetHeight; });
-            
             mBlocks.forEach(b => b.style.minHeight = maxM + 'px');
-            if (maxM > dateControls.offsetHeight) {
-                mLabel.style.minHeight = (maxM - dateControls.offsetHeight) + 'px';
-            }
+            if (mLabel) mLabel.style.minHeight = maxM + 'px';
             
             let aLabel = row.querySelector('.afternoon-label-box');
             let aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
-            let maxA = aLabel.offsetHeight;
+            let maxA = aLabel ? aLabel.offsetHeight : 0;
             aBlocks.forEach(b => { if (b.offsetHeight > maxA) maxA = b.offsetHeight; });
             aBlocks.forEach(b => b.style.minHeight = maxA + 'px');
-            aLabel.style.minHeight = maxA + 'px';
+            if (aLabel) aLabel.style.minHeight = maxA + 'px';
         }
     }
 
@@ -772,7 +747,7 @@
                 
                 let isSun = row.getAttribute('data-is-sunday') === 'true';
                 let dt = new Date(y, m, parseInt(item.day));
-                let dtText = `${item.day} ${monthsMarathi[m]} <span class="no-print">${y}</span> <br><b>(${daysMarathi[dt.getDay()]})</b>`;
+                let dtText = `${item.day} ${monthsMarathi[m]} <span class="no-print">${y}</span><br><b>(${daysMarathi[dt.getDay()]})</b>`;
 
                 if (item.isHoliday) {
                     renderHolidayRow(row, item.day, dtText, item.holidayReason || (isSun ? "सार्वजनिक सुट्टी (रविवार)" : "सुट्टी"), isSun);
