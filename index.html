@@ -14,6 +14,7 @@
             --holiday-bg: #fee2e2; 
             --holiday-color: #b91c1c; 
             --holiday-border: #f87171;
+            --holiday-sheracolor: #fecaca;
         }
         * { box-sizing: border-box; }
         body {
@@ -73,10 +74,11 @@
             border-bottom: 2px dotted var(--primary-color) !important;
         }
 
-        textarea { width: 100%; height: 48px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: vertical; text-align: left; }
+        textarea { width: 100%; min-height: 48px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: none; text-align: left; overflow: hidden; }
         .school-select { width: 100%; padding: 5px; font-size: 13px; font-family: inherit; border-radius: 2px; border: 1px solid var(--border-color); background: #ffffff; text-align: left; margin-bottom: 4px; font-weight: 600;}
 
-        /* Task Item and Auto-alignment styles */
+        /* Autofit Sub-rows Layout */
+        .task-list { display: flex; flex-direction: column; width: 100%; }
         .task-item { 
             border-bottom: 1px dotted var(--primary-color); 
             padding: 6px; 
@@ -84,6 +86,7 @@
             flex-direction: column; 
             justify-content: flex-start;
             box-sizing: border-box;
+            width: 100%;
         }
         .task-item:last-child { border-bottom: none; }
 
@@ -100,7 +103,7 @@
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
         .task-time-from, .task-time-to { width: 68px; font-size: 11px; padding: 2px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        /* Colorful Holiday Row Styling */
+        /* Full Holiday Row and Shera Fill */
         tr.holiday-row { 
             background-color: var(--holiday-bg) !important; 
             color: var(--holiday-color) !important;
@@ -135,6 +138,14 @@
             background: #ffffff; 
             border-radius: 4px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .holiday-shera-cell {
+            background-color: var(--holiday-sheracolor) !important;
+            color: var(--holiday-color) !important;
+            font-weight: 800;
+            vertical-align: middle !important;
+            border-left: 2px solid var(--holiday-border) !important;
         }
 
         .no-screen { display: none; }
@@ -214,13 +225,14 @@
             
             .date-text-print { font-weight: bold !important; color: var(--primary-color) !important; font-size: 10pt !important; }
 
-            /* Colorful print support for holidays */
+            /* Color-filled holiday styles in print */
             tr.holiday-row, tr[data-is-holiday="true"] { background: var(--holiday-bg) !important; }
             tr.holiday-row td { background: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; }
             tr.holiday-row .date-text-print { color: var(--holiday-color) !important; }
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
             .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 11.5pt !important; font-weight: bold !important; }
+            .holiday-shera-cell { background-color: var(--holiday-sheracolor) !important; color: var(--holiday-color) !important; }
 
             textarea { display: none !important; }
             .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 3px 2px !important; }
@@ -366,6 +378,11 @@
         loadFormData();
     }
 
+    function autoExpandTextarea(tx) {
+        tx.style.height = 'auto';
+        tx.style.height = Math.max(48, tx.scrollHeight) + 'px';
+    }
+
     function validateTime(input, min, max) {
         if(!input.value) return;
         const row = input.closest('tr');
@@ -384,7 +401,7 @@
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
         optionsHTML += `<option value="manual">इतर (मॅन्युअल)</option>`;
         return `<select class="school-select no-print" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
-                <textarea class="${className}" placeholder="${placeholderText}" oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+                <textarea class="${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange(this);"></textarea><div class="print-text"></div>`;
     }
 
     function getWorkNatureDropdownHTML(className) {
@@ -394,13 +411,14 @@
                     <option value="आकस्मिक शाळा भेट">आकस्मिक शाळा भेट</option>
                     <option value="manual">इतर (टाइप करा)</option>
                 </select>
-                <textarea class="${className}" placeholder="कामाचे स्वरूप लिहा..." oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+                <textarea class="${className}" placeholder="कामाचे स्वरूप लिहा..." oninput="autoExpandTextarea(this); handleFormChange(this);"></textarea><div class="print-text"></div>`;
     }
 
     function handleDropdownSelect(selectElement) {
         const textarea = selectElement.nextElementSibling;
         if (selectElement.value === "manual") { textarea.value = ""; textarea.focus(); }
         else if (selectElement.value !== "") { textarea.value = selectElement.value; }
+        autoExpandTextarea(textarea);
         handleFormChange(textarea);
     }
 
@@ -425,7 +443,7 @@
         } else if (colType === 'work') {
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
         } else {
-            inputHTML = `<textarea class="input-${colType}" placeholder="शेरा..." oninput="handleFormChange(this)"></textarea><div class="print-text"></div>`;
+            inputHTML = `<textarea class="input-${colType}" placeholder="शेरा..." oninput="autoExpandTextarea(this); handleFormChange(this);"></textarea><div class="print-text"></div>`;
         }
         
         let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 6px; cursor:pointer; font-size:11px; margin-left:6px; font-weight:600;">[X]</button>`;
@@ -443,10 +461,10 @@
         return `
             <div class="td-content" style="display: flex; flex-direction: column; height: 100%;">
                 <div class="session-block morning-block">
-                    <div class="task-list" style="display: flex; flex-direction: column;"></div>
+                    <div class="task-list"></div>
                 </div>
                 <div class="session-block afternoon-block" style="flex: 1;">
-                    <div class="task-list" style="display: flex; flex-direction: column;"></div>
+                    <div class="task-list"></div>
                 </div>
             </div>
         `;
@@ -628,8 +646,11 @@
                      <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा</span>
                 </label>
             </td>
-            <td colspan="4" class="holiday-input-container">
+            <td colspan="3" class="holiday-input-container">
                 <input type="text" class="holiday-reason-input" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
+            </td>
+            <td class="holiday-shera-cell">
+                <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.5px;">सुट्टी</div>
             </td>
         `;
     }
@@ -652,12 +673,11 @@
         handleFormChange();
     }
 
-    /* Auto Alignment for Sub-rows/Sub-tasks */
+    /* Autofit Sub-rows & Session Heights */
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
         const isDesktopOrPrint = window.innerWidth > 768 || window.matchMedia("print").matches;
         
-        // Reset subtask min-heights
         row.querySelectorAll('.task-item').forEach(el => el.style.minHeight = 'auto');
         row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => el.style.minHeight = 'auto');
 
@@ -672,8 +692,9 @@
                 let maxHeight = 0;
                 cols.forEach((_, colIdx) => {
                     const item = taskLists[colIdx][i];
-                    if (item && item.offsetHeight > maxHeight) {
-                        maxHeight = item.offsetHeight;
+                    if (item) {
+                        const h = item.scrollHeight || item.offsetHeight;
+                        if (h > maxHeight) maxHeight = h;
                     }
                 });
                 if (maxHeight > 0) {
@@ -685,19 +706,24 @@
             }
         });
 
-        // Align Sessions for mode-both
         if (row.classList.contains('mode-both')) {
             let mLabel = row.querySelector('.morning-label-box');
             let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
-            let maxM = mLabel ? mLabel.offsetHeight : 0;
-            mBlocks.forEach(b => { if (b.offsetHeight > maxM) maxM = b.offsetHeight; });
+            let maxM = mLabel ? (mLabel.scrollHeight || mLabel.offsetHeight) : 0;
+            mBlocks.forEach(b => { 
+                let bh = b.scrollHeight || b.offsetHeight;
+                if (bh > maxM) maxM = bh; 
+            });
             mBlocks.forEach(b => b.style.minHeight = maxM + 'px');
             if (mLabel) mLabel.style.minHeight = maxM + 'px';
             
             let aLabel = row.querySelector('.afternoon-label-box');
             let aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
-            let maxA = aLabel ? aLabel.offsetHeight : 0;
-            aBlocks.forEach(b => { if (b.offsetHeight > maxA) maxA = b.offsetHeight; });
+            let maxA = aLabel ? (aLabel.scrollHeight || aLabel.offsetHeight) : 0;
+            aBlocks.forEach(b => { 
+                let ah = b.scrollHeight || b.offsetHeight;
+                if (ah > maxA) maxA = ah; 
+            });
             aBlocks.forEach(b => b.style.minHeight = maxA + 'px');
             if (aLabel) aLabel.style.minHeight = maxA + 'px';
         }
@@ -837,18 +863,24 @@
                             
                             taskArr.forEach((tData, idx) => {
                                 addTaskToDOM(row, sType);
-                                row.querySelectorAll(`.col-planned ${bCls} .task-time-from`)[idx].value = tData.timeFrom || '';
-                                row.querySelectorAll(`.col-planned ${bCls} .task-time-to`)[idx].value = tData.timeTo || '';
-                                row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx].value = tData.planned || '';
+                                let pTf = row.querySelectorAll(`.col-planned ${bCls} .task-time-from`)[idx];
+                                if (pTf) pTf.value = tData.timeFrom || '';
+                                let pTt = row.querySelectorAll(`.col-planned ${bCls} .task-time-to`)[idx];
+                                if (pTt) pTt.value = tData.timeTo || '';
+                                let pIn = row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx];
+                                if (pIn) { pIn.value = tData.planned || ''; autoExpandTextarea(pIn); }
                                 
                                 let actualTf = row.querySelectorAll(`.col-actual ${bCls} .task-time-from`)[idx];
                                 if(actualTf) actualTf.value = tData.actualTimeFrom || '';
                                 let actualTt = row.querySelectorAll(`.col-actual ${bCls} .task-time-to`)[idx];
                                 if(actualTt) actualTt.value = tData.actualTimeTo || '';
 
-                                row.querySelectorAll(`.col-actual ${bCls} .input-actual`)[idx].value = tData.actual || '';
-                                row.querySelectorAll(`.col-work ${bCls} .input-work`)[idx].value = tData.work || '';
-                                row.querySelectorAll(`.col-remarks ${bCls} .input-remarks`)[idx].value = tData.remarks || '';
+                                let aIn = row.querySelectorAll(`.col-actual ${bCls} .input-actual`)[idx];
+                                if (aIn) { aIn.value = tData.actual || ''; autoExpandTextarea(aIn); }
+                                let wIn = row.querySelectorAll(`.col-work ${bCls} .input-work`)[idx];
+                                if (wIn) { wIn.value = tData.work || ''; autoExpandTextarea(wIn); }
+                                let rIn = row.querySelectorAll(`.col-remarks ${bCls} .input-remarks`)[idx];
+                                if (rIn) { rIn.value = tData.remarks || ''; autoExpandTextarea(rIn); }
                             });
                         }
                     });
