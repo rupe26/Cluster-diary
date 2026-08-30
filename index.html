@@ -11,8 +11,8 @@
             --bg-color: #f1f5f9;
             --text-color: #0f172a;
             --border-color: #94a3b8;
-            --holiday-bg: #fef2f2; /* Light Red */
-            --holiday-color: #dc2626; /* Official Red */
+            --holiday-bg: #fef2f2; 
+            --holiday-color: #dc2626; 
         }
         * { box-sizing: border-box; }
         body {
@@ -53,16 +53,16 @@
         .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
-        
+        tbody tr { height: auto; }
         th, td { border: 1px solid var(--border-color); padding: 8px; text-align: center; vertical-align: top; font-size: clamp(13px, 1.6vw, 14px); height: inherit; }
         th { background-color: #f8fafc; color: var(--primary-color); font-weight: 700; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        /* 0-padding for perfect subrow alignment */
+        /* Strict Alignment Layout */
         td.p-0 { padding: 0 !important; }
         .td-content { display: flex; flex-direction: column; height: 100%; }
         
-        .date-cell-top { padding: 10px; border-bottom: 1px solid var(--border-color); background: #f8fafc; }
-        .col-spacer { border-bottom: 1px solid var(--border-color); width: 100%; background: #f8fafc; }
+        .date-cell-top { padding: 10px; border-bottom: 2px solid var(--border-color); background: #f8fafc; }
+        .col-spacer { border-bottom: 2px solid var(--border-color); width: 100%; background: #f8fafc; }
         
         .session-label-morning, .session-label-afternoon { 
             display: none; align-items: center; justify-content: center; 
@@ -82,8 +82,6 @@
         .mode-morning .morning-block { display: block; }
         .mode-afternoon .afternoon-block { display: block; }
         .mode-both .morning-block, .mode-both .afternoon-block { display: block; }
-        
-        /* Strong division line across all columns */
         .mode-both .morning-block { border-bottom: 2px solid var(--primary-color); }
 
         textarea { width: 100%; height: 50px; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit; font-size: clamp(13px, 1.5vw, 14px); padding: 6px; resize: none; text-align: left; }
@@ -96,7 +94,7 @@
         .session-box label { display: flex; align-items: center; gap: 6px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 600; }
 
         .add-btn-group { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; align-items: center; }
-        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: 95%; transition: 0.2s; background: #ffffff; color: var(--primary-color); border-color: var(--border-color); }
+        .task-btn { font-size: 11px; padding: 4px 8px; border: 1px solid; border-radius: 2px; font-weight: 600; cursor: pointer; display: none; width: 95%; transition: 0.2s; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
         .task-btn:hover { background: #e2e8f0; }
 
         .task-timing { display: flex; gap: 2px; margin-bottom: 4px; justify-content: flex-start; align-items: center; background: #ffffff; padding: 2px 4px; border: 1px solid #cbd5e1; }
@@ -150,7 +148,6 @@
             .date-cell-mobile { display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px !important; margin-bottom: 8px; font-size: 15px; text-align: center; }
             .field-label { display: block; font-size: 13px; font-weight: 700; color: var(--primary-color); margin-top: 8px; margin-bottom: 4px; background: #f8fafc; padding: 4px; border-left: 3px solid var(--primary-color);}
             
-            /* Disable strict layout on mobile */
             .col-spacer { display: none !important; }
             .date-cell-top { border-bottom: none; background: transparent; padding: 0; }
             .session-label-morning, .session-label-afternoon { display: none !important; }
@@ -194,18 +191,15 @@
 
             .serial-badge { width: auto; height: auto; border-radius: 0; background: transparent !important; color: #000000 !important; font-size: 10pt; font-weight: bold; }
             
-            /* Print alignments and borders */
-            .date-cell-top, .col-spacer { border-bottom: 1px solid #000000 !important; background: transparent !important; }
-            .session-label-morning, .session-label-afternoon { background: transparent !important; color: #000000 !important; border-bottom-color: transparent !important; }
-            .mode-both .morning-block { border-bottom: 2px solid #000000 !important; }
-            .mode-both .session-label-morning.mode-morning-only { border-bottom: 2px solid #000000 !important; }
+            .date-cell-top, .col-spacer { border-bottom: 2px solid #000000 !important; background: transparent !important; }
+            .mode-both .morning-block, .mode-both .mode-morning-only { border-bottom: 2px solid #000000 !important; }
+            .session-label-morning, .session-label-afternoon { background: transparent !important; color: #000000 !important; }
             
             .date-text-print { font-weight: bold !important; color: #000000 !important; font-size: 11pt !important; margin: 4px 0 !important; }
 
             tr.holiday-row, tr[data-is-holiday="true"] { background: var(--holiday-bg) !important; }
             tr.holiday-row .date-text-print { color: var(--holiday-color) !important; }
             .serial-badge.holiday-serial-badge { color: var(--holiday-color) !important; }
-
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: bold; border: none !important; padding: 0 !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; }
             .holiday-input-container input { border: none !important; background: transparent !important; width: 100% !important; color: var(--holiday-color) !important; font-size: 12pt !important; font-weight: bold !important; }
@@ -358,7 +352,6 @@
         if(!input.value) return;
         const row = input.closest('tr');
         const isWhole = row.querySelector('.cb-whole').checked;
-        
         let actualMax = max;
         if(isWhole && min === '08:00') { actualMax = '17:00'; }
 
@@ -410,7 +403,6 @@
             </div>
             <div class="print-task-time"></div>
             `;
-            
             inputHTML = timeHTML + getSchoolDropdownHTML('भेट...', `input-${colType}`);
         } else if (colType === 'work') {
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
@@ -429,7 +421,7 @@
         return inputHTML;
     }
 
-    // Template now contains a column spacer to align with the Date Cell controls
+    // New Cell template enforcing the Subrow layout structure globally
     function getCellTemplate() {
         return `
             <div class="td-content">
@@ -563,7 +555,6 @@
         
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
 
-        // Notice the usage of p-0 class to apply 0 padding on <td> elements containing block models.
         row.innerHTML = `
             <td class="mobile-serial"><span class="serial-badge">${i}</span></td>
             <td class="date-cell-mobile p-0">
@@ -609,7 +600,7 @@
             <td class="mobile-serial"><span class="serial-badge holiday-serial-badge">${i}</span></td>
             <td class="date-cell-mobile p-0">
                 <div class="td-content">
-                    <div class="date-cell-top" style="border-bottom:none;">
+                    <div class="date-cell-top" style="border-bottom:none; height:100%;">
                         <div class="date-text-print">${dateText}</div>${badgeHTML}
                         <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7;">
                              <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा (सुट्टी रद्द)</span>
@@ -639,7 +630,56 @@
         handleFormChange();
     }
 
-    // New Highly Accurate Row Visualization Sync
+    // Precise DOM Alignment Engine logic for Subrow Synchronization
+    function alignRowBlocks(row) {
+        if (row.getAttribute('data-is-holiday') === 'true') return;
+        
+        const isDesktopOrPrint = window.innerWidth > 768 || window.matchMedia("print").matches;
+        
+        // 1. Reset heights
+        row.querySelectorAll('.date-cell-top, .col-spacer, .morning-block, .afternoon-block, .session-label-morning, .session-label-afternoon').forEach(el => {
+            el.style.height = 'auto';
+        });
+
+        if (!isDesktopOrPrint) return;
+
+        // 2. Synchronize Top Spacers
+        const dateTop = row.querySelector('.date-cell-top');
+        const spacers = Array.from(row.querySelectorAll('.col-spacer'));
+        if (dateTop && spacers.length) {
+            let maxTop = dateTop.offsetHeight;
+            spacers.forEach(sp => sp.style.height = maxTop + 'px');
+            dateTop.style.height = maxTop + 'px';
+        }
+
+        // 3. Synchronize Morning Sessions
+        const mBlocks = Array.from(row.querySelectorAll('.morning-block'));
+        const mLabels = Array.from(row.querySelectorAll('.session-label-morning'));
+        const activeMLabel = mLabels.find(l => window.getComputedStyle(l).display !== 'none');
+        
+        if (activeMLabel && mBlocks.length && (row.classList.contains('mode-morning') || row.classList.contains('mode-both') || row.classList.contains('mode-whole'))) {
+            let maxM = activeMLabel.offsetHeight;
+            mBlocks.forEach(b => {
+                if (window.getComputedStyle(b).display !== 'none' && b.offsetHeight > maxM) { maxM = b.offsetHeight; }
+            });
+            mBlocks.forEach(b => b.style.height = maxM + 'px');
+            activeMLabel.style.height = maxM + 'px';
+        }
+
+        // 4. Synchronize Afternoon Sessions
+        const aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
+        const aLabel = row.querySelector('.session-label-afternoon');
+        
+        if (aLabel && aBlocks.length && (row.classList.contains('mode-afternoon') || row.classList.contains('mode-both'))) {
+            let maxA = aLabel.offsetHeight;
+            aBlocks.forEach(b => {
+                if (window.getComputedStyle(b).display !== 'none' && b.offsetHeight > maxA) { maxA = b.offsetHeight; }
+            });
+            aBlocks.forEach(b => b.style.height = maxA + 'px');
+            aLabel.style.height = maxA + 'px';
+        }
+    }
+
     function syncRowVisuals(row) {
         row.querySelectorAll('textarea').forEach(tx => {
             const printDiv = tx.nextElementSibling;
@@ -656,63 +696,20 @@
                     else pt.textContent = '';
                 }
             });
-
-            // Handle strict grid block alignment for Desktop and Print modes
-            if (window.innerWidth > 768 || window.matchMedia("print").matches) {
-                let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
-                let aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
-                let mLabels = Array.from(row.querySelectorAll('.session-label-morning'));
-                let activeMLabel = mLabels.find(l => window.getComputedStyle(l).display !== 'none');
-                let aLabel = row.querySelector('.session-label-afternoon');
-                let dateTop = row.querySelector('.date-cell-top');
-                let spacers = Array.from(row.querySelectorAll('.col-spacer'));
-                
-                // Reset manual heights to measure natural reflow height
-                mBlocks.forEach(b => b.style.minHeight = 'auto');
-                aBlocks.forEach(b => b.style.minHeight = 'auto');
-                mLabels.forEach(l => l.style.minHeight = 'auto');
-                if (aLabel) aLabel.style.minHeight = 'auto';
-                spacers.forEach(sp => sp.style.height = 'auto');
-                
-                // Step 1: Push columns down to match the height of the Date controls (spacer logic)
-                if (dateTop && spacers.length) {
-                    let dtHeight = dateTop.offsetHeight;
-                    spacers.forEach(sp => sp.style.height = dtHeight + 'px');
-                }
-                
-                // Step 2: Ensure the top block matching border is perfectly aligned
-                if (activeMLabel && mBlocks.length && (row.classList.contains('mode-morning') || row.classList.contains('mode-both') || row.classList.contains('mode-whole'))) {
-                    let maxM = activeMLabel.offsetHeight;
-                    mBlocks.forEach(b => { if (b.offsetHeight > maxM) maxM = b.offsetHeight; });
-                    mBlocks.forEach(b => b.style.minHeight = maxM + 'px');
-                    activeMLabel.style.minHeight = maxM + 'px';
-                }
-                
-                // Step 3: Ensure bottom subrow blocks are height-synchronized
-                if (aLabel && aBlocks.length && (row.classList.contains('mode-afternoon') || row.classList.contains('mode-both'))) {
-                    let maxA = aLabel.offsetHeight;
-                    aBlocks.forEach(b => { if (b.offsetHeight > maxA) maxA = b.offsetHeight; });
-                    aBlocks.forEach(b => b.style.minHeight = maxA + 'px');
-                    aLabel.style.minHeight = maxA + 'px';
-                }
-            } else {
-                // Mobile Mode fallback
-                row.querySelectorAll('.morning-block, .afternoon-block, .session-label-morning, .session-label-afternoon').forEach(el => el.style.minHeight = 'auto');
-                row.querySelectorAll('.col-spacer').forEach(sp => sp.style.height = 'auto');
-            }
+            
+            alignRowBlocks(row);
         }
     }
 
-    // Trigger alignment check on window resize
+    // Window Listeners to enforce strictly accurate layout calculation
     window.addEventListener('resize', () => {
-        document.querySelectorAll('#tableBody tr').forEach(row => {
-            if(row.getAttribute('data-is-holiday') === 'false') syncRowVisuals(row);
-        });
+        document.querySelectorAll('#tableBody tr').forEach(row => { if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); });
+    });
+    window.addEventListener('beforeprint', () => {
+        document.querySelectorAll('#tableBody tr').forEach(row => { if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); });
     });
 
-    function getStorageKey() { 
-        return `DAINANDINI_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; 
-    }
+    function getStorageKey() { return `DAINANDINI_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
 
     function handleFormChange(elem) {
         if (elem && elem.closest('tr')) syncRowVisuals(elem.closest('tr'));
@@ -841,9 +838,11 @@
 
     function onMonthYearChange() { loadFormData(); }
     function updateSyncBadge(t, c) { document.getElementById('syncStatus').textContent = t; document.getElementById('syncStatus').className = `sync-badge ${c}`; }
-    
     function prepareAndPrint() { 
-        document.querySelectorAll('#tableBody tr').forEach(row => syncRowVisuals(row)); 
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            syncRowVisuals(row);
+            if(row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row);
+        });
         window.print(); 
     }
     
