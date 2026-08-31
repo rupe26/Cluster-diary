@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>प्रत्यक्ष व संभाव्य प्रवास दैनंदिनी</title>
-    <!-- Google Font Mukta Import -->
+    
+    <!-- Google Fonts: Poppins (Modern Numbers/English) & Noto Sans Devanagari (Clean Marathi) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Excel Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
@@ -15,11 +16,11 @@
     
     <style>
         :root {
-            --primary-color: #003366; 
-            --accent-color: #0369a1; 
+            --primary-color: #0f172a; 
+            --accent-color: #0284c7; 
             --bg-color: #f8fafc;
-            --text-color: #0f172a;
-            --border-color: #94a3b8;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
             --holiday-bg: #fee2e2; 
             --holiday-color: #991b1b; 
             --holiday-border: #f87171;
@@ -27,109 +28,115 @@
         }
         * { box-sizing: border-box; }
         body {
-            font-family: 'Mukta', system-ui, -apple-system, sans-serif;
-            margin: 0; padding: 4px; background-color: var(--bg-color); color: var(--text-color);
-            line-height: 1.15; -webkit-tap-highlight-color: transparent;
+            font-family: 'Poppins', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 6px; background-color: var(--bg-color); color: var(--text-color);
+            line-height: 1.4; -webkit-tap-highlight-color: transparent;
         }
         .container {
-            max-width: 1350px; margin: 0 auto; background: #ffffff; padding: 6px;
-            border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border: 1px solid #cbd5e1;
+            max-width: 1350px; margin: 0 auto; background: #ffffff; padding: 8px;
+            border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
         }
 
         .header-section {
             text-align: center; background-color: var(--primary-color); color: #ffffff;
-            padding: 4px 6px; border-radius: 4px 4px 0 0; margin-bottom: 6px;
-            border-bottom: 3px solid var(--accent-color);
+            padding: 14px 10px; border-radius: 6px 6px 0 0; margin-bottom: 10px;
+            border-bottom: 4px solid var(--accent-color);
         }
-        .header-section h1 { margin: 0; font-size: clamp(16px, 2.5vw, 20px); font-weight: 800; letter-spacing: 0.5px; }
+        .header-section h1 { 
+            margin: 0; 
+            font-size: clamp(20px, 4vw, 26px); /* Adaptive, clutter-free size */
+            font-weight: 700; 
+            letter-spacing: 0.3px; 
+            line-height: 1.3;
+        }
         
-        .header-wrapper { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+        .header-wrapper { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
         
         .header-subsection { 
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; 
-            background: #f0f9ff; border: 1px solid var(--accent-color); border-radius: 4px; 
-            padding: 4px 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; 
+            background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; 
+            padding: 8px 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
         }
         
-        .info-item { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: var(--primary-color); font-size: 15px; white-space: nowrap; justify-content: center; }
+        .info-item { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--primary-color); font-size: 15px; white-space: nowrap; justify-content: center; }
         .info-item label { margin: 0; padding: 0; cursor: pointer; }
         
-        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 0 2px; }
-        .stylish-select-box select { font-family: inherit; font-size: 15px; font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 2px 4px; cursor: pointer; text-align: center; }
+        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 2px 4px; }
+        .stylish-select-box select { font-family: inherit; font-size: 15px; font-weight: 700; color: var(--accent-color); background: transparent; border: none; outline: none; padding: 2px; cursor: pointer; text-align: center; }
         
-        .editable-header-input { font-family: inherit; font-size: 16px; padding: 2px 4px; font-weight: 800; border: none; background: transparent; text-align: left; color: var(--primary-color); pointer-events: none; }
-        .name-input { width: 220px; border-bottom: 1px dashed var(--primary-color); }
-        .loc-input { width: 140px; border-bottom: 1px dashed var(--primary-color); }
+        .editable-header-input { font-family: inherit; font-size: 16px; padding: 2px 4px; font-weight: 700; border: none; background: transparent; text-align: left; color: var(--accent-color); pointer-events: none; }
+        .name-input { width: 220px; border-bottom: 1px dashed var(--border-color); }
+        .loc-input { width: 140px; border-bottom: 1px dashed var(--border-color); }
 
-        .sync-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 4px 10px; border-radius: 4px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
-        .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
+        .sync-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; padding: 4px 12px; border-radius: 20px; background: #e0f2fe; color: var(--accent-color); font-weight: 600; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
+        .sync-badge.synced { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
         .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
         /* ================== TABLE ARCHITECTURE ================== */
-        table { width: 100%; border-collapse: collapse; margin-top: 4px; table-layout: fixed; }
-        th, td { border: 1px solid var(--primary-color); padding: 4px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 500; }
-        th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 15px; padding: 6px 4px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; table-layout: fixed; }
+        th, td { border: 1px solid #cbd5e1; padding: 6px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 500; }
+        th { background-color: #e2e8f0; color: var(--primary-color); font-weight: 700; font-size: 15px; padding: 10px 6px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
         td.p-0 { padding: 0 !important; vertical-align: top; height: 1px; }
         .td-content { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; width: 100%; height: 100%; }
         
-        .task-list { display: flex; flex-direction: column; width: 100%; flex: 1 1 0%; padding: 4px; gap: 4px; background: #f1f5f9;}
+        .task-list { display: flex; flex-direction: column; width: 100%; flex: 1 1 0%; padding: 6px; gap: 6px; background: #f8fafc;}
         .task-item { 
             display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch;
-            background: #ffffff; border: 1px solid #cbd5e1; padding: 6px; border-radius: 4px;
-            width: 100%; box-sizing: border-box; box-shadow: 0 1px 2px rgba(0,0,0,0.05); gap: 4px;
+            background: #ffffff; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px;
+            width: 100%; box-sizing: border-box; box-shadow: 0 1px 2px rgba(0,0,0,0.02); gap: 6px;
         }
 
         .input-style {
-            border: 1px solid var(--border-color); border-radius: 4px; padding: 4px 6px;
-            font-size: 13.5px; font-family: inherit; font-weight: 700; width: 100%;
-            color: var(--primary-color); background: #f8fafc; resize: none; overflow: hidden; line-height: 1.3;
+            border: 1px solid var(--border-color); border-radius: 4px; padding: 6px 8px;
+            font-size: 14px; font-family: inherit; font-weight: 600; width: 100%;
+            color: var(--primary-color); background: #f8fafc; resize: none; overflow: hidden; line-height: 1.4;
         }
         .input-style:focus { background: #ffffff; outline: 2px solid var(--accent-color); border-color: transparent;}
-        select.input-style { cursor: pointer; padding: 4px; }
+        select.input-style { cursor: pointer; padding: 6px; }
 
-        .holiday-toggle-wrapper { margin-top: 2px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 800; background: var(--holiday-bg); padding: 4px 8px; border: 1px solid var(--holiday-border); border-radius: 4px; }
+        .holiday-toggle-wrapper { margin-top: 4px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 6px 10px; border: 1px solid var(--holiday-border); border-radius: 4px; }
         .holiday-toggle-wrapper input { width: 16px; height: 16px; cursor: pointer; }
         
-        tr.holiday-row td { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; border-color: var(--holiday-border) !important; padding: 6px 4px !important; }
-        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; width: 100%; }
-        .holiday-icon-label { font-size: 15px; font-weight: 800; color: var(--holiday-color); background: var(--holiday-shera-bg); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--holiday-border); }
-        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 2px 6px; border: 1px solid var(--holiday-border); font-size: 12px; font-weight: 800; border-radius: 4px; margin-top: 4px; }
-        .holiday-input-container { padding: 6px !important; text-align: center; vertical-align: middle; }
-        .holiday-input-container input { width: 90%; max-width: 500px; padding: 4px 8px; font-family: inherit; font-size: 15px; font-weight: 800; color: var(--holiday-color); border: 1px solid var(--holiday-border); text-align: center; background: #ffffff; border-radius: 4px; }
+        tr.holiday-row td { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; border-color: var(--holiday-border) !important; padding: 8px 6px !important; }
+        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; width: 100%; }
+        .holiday-icon-label { font-size: 15px; font-weight: 700; color: var(--holiday-color); background: var(--holiday-shera-bg); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--holiday-border); }
+        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 4px 8px; border: 1px solid var(--holiday-border); font-size: 12px; font-weight: 700; border-radius: 4px; margin-top: 6px; }
+        .holiday-input-container { padding: 8px !important; text-align: center; vertical-align: middle; }
+        .holiday-input-container input { width: 90%; max-width: 500px; padding: 6px 10px; font-family: inherit; font-size: 15px; font-weight: 700; color: var(--holiday-color); border: 1px solid var(--holiday-border); text-align: center; background: #ffffff; border-radius: 4px; }
 
-        .date-text-print { font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center; margin: 0; padding: 0;}
+        .date-text-print { font-size: 15px; font-weight: 700; line-height: 1.4; text-align: center; margin: 0; padding: 0;}
 
         /* Buttons & Modals */
-        .btn-container { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; align-items: center;}
-        button.action-btn { width: 100%; max-width: 400px; padding: 10px 14px; font-size: 15px; font-family: inherit; font-weight: 800; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 4px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-container { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; align-items: center;}
+        button.action-btn { width: 100%; max-width: 400px; padding: 10px 16px; font-size: 15px; font-family: inherit; font-weight: 600; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 6px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-admin { background-color: var(--primary-color); color: white; border-color: var(--primary-color); width: 100%; max-width: none;}
         .btn-admin-modal { background-color: #e2e8f0; color: var(--text-color); border-color: var(--border-color);}
-        .btn-print { background-color: #1e293b; color: white; border-color: #0f172a; }
+        .btn-print { background-color: #334155; color: white; border-color: #1e293b; }
         .btn-excel { background-color: #16a34a; color: white; border-color: #15803d; }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-        .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
+        .btn-fetch { background-color: #e0f2fe; color: var(--accent-color); border-color: #7dd3fc; }
         .btn-danger { background-color: #ffffff; color: #dc2626; border-color: #dc2626; }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 14px; }
-        .modal-content { background-color: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 95vh; overflow-y: auto; text-align: left; border: 2px solid var(--primary-color); font-family: inherit; }
-        .modal-content h3 { margin: 0 0 12px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; text-align: center; font-size: 18px; font-weight: 800;}
-        .modal-content h4 { margin: 16px 0 8px 0; color: var(--primary-color); font-size: 16px; font-weight: 800;}
-        .modal-content label { display: block; margin-top: 10px; font-weight: 700; font-size: 15px; }
-        .modal-content input[type="text"], .modal-content input[type="password"] { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 15px; font-family: inherit; font-weight: 700;}
-        .modal-actions { margin-top: 16px; display: flex; gap: 10px; }
-        .danger-zone { margin-top: 16px; padding: 12px; border: 1px solid #94a3b8; background-color: #f8fafc; border-radius: 4px; }
-        .danger-zone h4 { margin: 0 0 10px 0; color: var(--text-color); font-size: 15px; text-align: center; font-weight: 800; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.8); justify-content: center; align-items: center; padding: 16px; }
+        .modal-content { background-color: white; padding: 24px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 95vh; overflow-y: auto; text-align: left; border: none; font-family: inherit; }
+        .modal-content h3 { margin: 0 0 16px 0; color: var(--primary-color); border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; text-align: center; font-size: 18px; font-weight: 700;}
+        .modal-content h4 { margin: 18px 0 10px 0; color: var(--primary-color); font-size: 16px; font-weight: 700;}
+        .modal-content label { display: block; margin-top: 12px; font-weight: 600; font-size: 14px; color: #475569;}
+        .modal-content input[type="text"], .modal-content input[type="password"] { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; font-family: inherit; font-weight: 600;}
+        .modal-actions { margin-top: 20px; display: flex; gap: 12px; }
+        .danger-zone { margin-top: 20px; padding: 16px; border: 1px solid #f87171; background-color: #fef2f2; border-radius: 8px; }
+        .danger-zone h4 { margin: 0 0 12px 0; color: #991b1b; font-size: 15px; text-align: center; font-weight: 700; }
         
-        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 4px; margin: 12px 0; }
-        .switch-container span { font-weight: 800; font-size: 15px; color: var(--text-color); }
-        .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin: 14px 0; }
+        .switch-container span { font-weight: 600; font-size: 15px; color: var(--text-color); }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 22px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-color); }
-        input:checked + .slider:before { transform: translateX(18px); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
@@ -139,37 +146,36 @@
         /* ================= MOBILE / ADAPTIVE LAYOUT ================= */
         @media screen and (max-width: 768px) {
             body { padding: 6px; }
-            .container { padding: 6px; border-radius: 6px; }
-            .header-section { padding: 8px 6px; }
-            .header-section h1 { font-size: 17px; }
+            .container { padding: 6px; border-radius: 8px; }
+            .header-section { padding: 12px 8px; }
             
-            .header-subsection { flex-direction: column; gap: 8px; justify-content: center; align-items: center; padding: 8px; }
+            .header-subsection { flex-direction: column; gap: 10px; justify-content: center; align-items: center; padding: 10px; }
             .name-input { width: 100%; max-width: 300px; }
             .loc-input { width: 100%; max-width: 200px; }
 
             table, thead, tbody, tr { display: block; width: 100%; }
             thead { display: none; }
-            table { border: none; margin-top: 6px; }
+            table { border: none; margin-top: 8px; }
 
-            tbody tr { display: block; margin-bottom: 16px; border: 2px solid var(--primary-color); border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            tbody tr { display: block; margin-bottom: 20px; border: 2px solid var(--primary-color); border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
-            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: flex-start; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 6px 8px !important; text-align: center; height: auto; }
+            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: flex-start; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 10px !important; text-align: center; height: auto; }
             td:last-child { border-bottom: none; }
 
-            td.date-cell-mobile { background: var(--primary-color); padding: 8px 10px !important; text-align: center; }
+            td.date-cell-mobile { background: var(--primary-color); padding: 12px !important; text-align: center; }
             td.date-cell-mobile .date-text-print { color: #fff; font-size: 16px; text-align: center; }
             tr.holiday-row td.date-cell-mobile { background: var(--holiday-color) !important; }
 
-            td[data-label]::before { content: attr(data-label); display: block; font-size: 13px; font-weight: 800; color: var(--primary-color); background: #e0f2fe; margin: -6px -8px 6px -8px; padding: 6px 8px; text-align: center; width: calc(100% + 16px); border-bottom: 1px solid var(--primary-color); }
+            td[data-label]::before { content: attr(data-label); display: block; font-size: 14px; font-weight: 700; color: var(--primary-color); background: #e0f2fe; margin: -10px -10px 10px -10px; padding: 8px 10px; text-align: center; width: calc(100% + 20px); border-bottom: 1px solid #bae6fd; }
             tr.holiday-row td[data-label]::before { color: var(--holiday-color); background: #fecaca; border-color: var(--holiday-border); }
 
-            .holiday-full-row { flex-direction: column; gap: 8px; justify-content: center; }
-            .holiday-input-container input { width: 100%; font-size: 15px; padding: 6px; }
+            .holiday-full-row { flex-direction: column; gap: 10px; justify-content: center; }
+            .holiday-input-container input { width: 100%; font-size: 15px; padding: 8px; }
 
-            .input-style { padding: 8px; font-size: 15px; min-height: 38px; }
-            select.input-style { min-height: 40px; }
-            .task-item { padding: 10px; margin-bottom: 4px; gap: 8px; border-radius: 6px; }
+            .input-style { padding: 10px; font-size: 15px; min-height: 42px; }
+            select.input-style { min-height: 44px; }
+            .task-item { padding: 12px; margin-bottom: 6px; gap: 10px; border-radius: 8px; }
         }
 
         /* ================= OFFICIAL B&W COMPACT PRINT CSS (SEPARATE PAGES) ================= */
@@ -178,22 +184,16 @@
         }
         @media print {
             @page { size: A4 landscape; margin: 10mm; }
-
-            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 11pt; color: #000 !important; font-family: 'Mukta', sans-serif !important; margin: 0; padding: 0; }
-            
+            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 11pt; color: #000 !important; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif !important; margin: 0; padding: 0; line-height: 1.3;}
             .container, .btn-container, .modal, #syncStatus { display: none !important; }
-            
             #print-container { display: block !important; width: 100%; }
-
             .print-page { width: 100%; margin: 0; padding: 0; }
             .page-break { page-break-before: always; }
-            
-            .print-title { text-align: center; font-size: 16pt; font-weight: 800; margin: 0 0 5px 0; text-decoration: underline; }
-            .print-subtitle { text-align: center; font-size: 13pt; font-weight: 800; margin: 0 0 15px 0; }
-            
+            .print-title { text-align: center; font-size: 16pt; font-weight: 700; margin: 0 0 5px 0; text-decoration: underline; }
+            .print-subtitle { text-align: center; font-size: 13pt; font-weight: 700; margin: 0 0 15px 0; }
             .print-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-            .print-table th, .print-table td { border: 1.5px solid #000; padding: 6px 4px; text-align: center; vertical-align: middle; font-size: 11pt; color: #000; word-wrap: break-word; line-height: 1.2; }
-            .print-table th { background-color: #f0f0f0 !important; font-weight: 800; }
+            .print-table th, .print-table td { border: 1px solid #000; padding: 6px 4px; text-align: center; vertical-align: middle; font-size: 11pt; color: #000; word-wrap: break-word; line-height: 1.3; }
+            .print-table th { background-color: #f0f0f0 !important; font-weight: 700; }
         }
     </style>
 </head>
@@ -232,11 +232,11 @@
         </div>
     </div>
 
-    <div class="btn-container no-print" style="margin-top: 0px; margin-bottom: 12px;">
+    <div class="btn-container no-print" style="margin-top: 0px; margin-bottom: 16px;">
         <button class="action-btn btn-admin" onclick="openAdminPanel()">लॉगिन करा (सेटिंग्ज व डाउनलोड)</button>
     </div>
 
-    <div style="text-align:center; margin-bottom: 8px;" class="no-print">
+    <div style="text-align:center; margin-bottom: 12px;" class="no-print">
         <div id="syncStatus" class="sync-badge">स्थानिक ड्राफ्ट सक्रिय</div>
     </div>
 
@@ -268,7 +268,7 @@
             </div>
         </div>
         <div id="adminControlsStep" style="display:none;">
-            <p style="font-size: 15px; color: #15803d; font-weight: 800; text-align: center; margin: 0 0 12px 0;">✓ प्रमाणीकरण यशस्वी</p>
+            <p style="font-size: 15px; color: #15803d; font-weight: 700; text-align: center; margin: 0 0 12px 0;">✓ प्रमाणीकरण यशस्वी</p>
             
             <h4>माहिती डाउनलोड व प्रिंट (Downloads)</h4>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
@@ -276,7 +276,7 @@
                 <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (Official)</button>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;">
             
             <h4>शीर्षक सेटिंग्ज (Header Autofill Setup)</h4>
             <label>केंद्रप्रमुख नाव:</label>
@@ -289,7 +289,7 @@
             <input type="text" id="adminJilha" placeholder="उदा. बीड">
             <button type="button" class="action-btn btn-sync" style="margin-top: 12px;" onclick="saveAdminHeaders()">हेडर माहिती सेव्ह करा</button>
 
-            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;">
 
             <h4>डेटा सिंक (Cloud Sync)</h4>
             <div class="switch-container">
@@ -301,7 +301,7 @@
                 <button type="button" class="action-btn btn-fetch" onclick="fetchFromGoogleSheets()">ऑनलाइन डेटा मिळवा</button>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 16px 0;">
             
             <h4>सुरक्षा (Security)</h4>
             <label>नवीन PIN:</label>
@@ -378,7 +378,7 @@
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
         optionsHTML += `<option value="manual">इतर (मॅन्युअल टाईप करा)</option>`;
         
-        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; margin-bottom:4px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; margin-bottom:6px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
@@ -389,7 +389,7 @@
             <option value="शाळाभेट, निरीक्षण, मार्गदर्शन, परत.">शाळाभेट, निरीक्षण, मार्गदर्शन, परत.</option>
             <option value="manual">इतर (मॅन्युअल टाईप करा)</option>
         `;
-        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; margin-bottom:4px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; margin-bottom:6px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
@@ -403,10 +403,8 @@
         } else if (selElement.value !== "") {
             let currentVal = textarea.value.trim();
             if (isAppend) {
-                // एकापेक्षा जास्त निवड कॉमाने (,) जोडली जाईल
                 textarea.value = currentVal ? currentVal + ", " + selElement.value : selElement.value;
             } else {
-                // फक्त एकच निवड (जुने नाव खोडून नवीन येईल)
                 textarea.value = selElement.value;
             }
         }
@@ -434,22 +432,20 @@
         const div = document.createElement('div');
         div.className = 'task-item actual-item';
         let tVal = data.transport !== undefined ? data.transport : 'बस';
-        let fVal = data.from !== undefined ? data.from : 'अंबाजोगाई'; // Default From
+        let fVal = data.from !== undefined ? data.from : 'अंबाजोगाई';
         
         div.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
-                <div style="display:flex; gap:6px; align-items:flex-start;">
-                    <!-- 'पासून' साठी isAppend = false (फक्त एकच निवड) -->
+            <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+                <div style="display:flex; gap:8px; align-items:flex-start;">
                     <div style="flex:1;">${getSchoolDropdownHTML('input-from', 'पासून (सुरुवात)', fVal, false)}</div>
-                    <input type="time" class="input-style input-dtime" style="width:110px;" title="निघालेली वेळ" value="${data.dtime || ''}" oninput="handleFormChange()">
+                    <input type="time" class="input-style input-dtime" style="width:115px;" title="निघालेली वेळ" value="${data.dtime || ''}" oninput="handleFormChange()">
                 </div>
-                <div style="display:flex; gap:6px; align-items:flex-start;">
-                    <!-- 'पर्यंत' साठी isAppend = true (अनेक शाळा कॉमाने जोडता येतील) -->
+                <div style="display:flex; gap:8px; align-items:flex-start;">
                     <div style="flex:1;">${getSchoolDropdownHTML('input-to', 'पर्यंत (मुक्काम)', data.to, true)}</div>
-                    <input type="time" class="input-style input-atime" style="width:110px;" title="पोहचलेली वेळ (शेवटचा मुक्काम)" value="${data.atime || ''}" oninput="handleFormChange()">
+                    <input type="time" class="input-style input-atime" style="width:115px;" title="पोहचलेली वेळ (शेवटचा मुक्काम)" value="${data.atime || ''}" oninput="handleFormChange()">
                 </div>
-                <div style="display:flex; gap:6px; align-items:flex-start;">
-                    <input type="number" class="input-style input-dist" style="width:90px;" placeholder="अंतर(km)" value="${data.dist || ''}" oninput="handleFormChange()">
+                <div style="display:flex; gap:8px; align-items:flex-start;">
+                    <input type="number" class="input-style input-dist" style="width:100px;" placeholder="अंतर(km)" value="${data.dist || ''}" oninput="handleFormChange()">
                     <input type="text" class="input-style input-transport" style="flex:1;" placeholder="साधन" value="${tVal}" oninput="handleFormChange()">
                 </div>
                 <textarea class="input-style input-work" placeholder="कार्य विवरण (उदा. SIR व शाळाभेट, परत.)" oninput="autoExpandTextarea(this); handleFormChange()">${data.work || ''}</textarea>
@@ -471,7 +467,7 @@
         for (let i = 1; i <= daysInMonth; i++) {
             let date = new Date(year, month, i);
             let isSunday = date.getDay() === 0;
-            let isMonday = date.getDay() === 1; // सोमवार
+            let isMonday = date.getDay() === 1;
             let dayName = daysMarathi[date.getDay()];
             let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${dayName})</b>`;
             let row = document.createElement('tr');
@@ -489,13 +485,13 @@
     function renderNormalRow(row, i, dateText, isMonday = false) {
         let isSunday = row.getAttribute('data-is-sunday') === 'true';
         row.className = ''; row.setAttribute('data-is-holiday', 'false');
-        let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:4px;">कामकाज (रविवार)</div>` : ``;
+        let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:6px;">कामकाज (रविवार)</div>` : ``;
 
         row.innerHTML = `
             <td class="date-cell-mobile">
                 <div class="date-text-print">${dateText}</div>
                 ${extraBadge}
-                <div class="no-print" style="margin-top:10px;">
+                <div class="no-print" style="margin-top:12px;">
                     <label class="holiday-toggle-wrapper" style="width:100%; justify-content:center;">
                         <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित</span>
                     </label>
@@ -517,22 +513,18 @@
         const year = parseInt(document.getElementById('yearSelect').value);
         const dayOfWeek = new Date(year, month, i).getDay();
         
-        // जर सोमवार ते शुक्रवार (१ ते ५) असेल, तर डिफॉल्ट वेळ ०९:०० सेट करा
         let defaultDTime = (dayOfWeek >= 1 && dayOfWeek <= 5) ? '09:00' : '';
 
         let pData = {};
-        if (isMonday) {
-            pData = { place: "समूह साधन केंद्र", reason: "मुख्यालयीन." };
-        }
+        if (isMonday) { pData = { place: "समूह साधन केंद्र", reason: "मुख्यालयीन." }; }
         
-        // आता प्रत्येक दिवसासाठी फक्त एकच रकाना (Block) तयार होईल.
         addPlannedItem(row.querySelector('.planned-list'), pData); 
         addActualItem(row.querySelector('.actual-list'), { dtime: defaultDTime }); 
     }
 
     function renderHolidayRow(row, i, dateText, reasonText, isSunday = false) {
         row.className = 'holiday-row'; row.setAttribute('data-is-holiday', 'true');
-        let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-top:4px;">रविवार सुट्टी</div>` : `<div class="holiday-badge" style="margin-top:4px;">सार्वजनिक सुट्टी</div>`;
+        let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-top:6px;">रविवार सुट्टी</div>` : `<div class="holiday-badge" style="margin-top:6px;">सार्वजनिक सुट्टी</div>`;
         row.innerHTML = `
             <td class="date-cell-mobile">
                 <div class="date-text-print">${dateText}</div>
@@ -674,7 +666,6 @@
     function onMonthYearChange() { loadFormData(); }
     function updateSyncBadge(t, c) { document.getElementById('syncStatus').textContent = t; document.getElementById('syncStatus').className = `sync-badge ${c}`; }
     
-    // Time Formatter for Print/Excel (e.g. 14:30 to 2:30 PM)
     function formatTime(timeStr) {
         if(!timeStr) return '-';
         let [h, m] = timeStr.split(':'); h = parseInt(h);
@@ -688,7 +679,6 @@
         setTimeout(() => { prepareAndPrint(); }, 300); 
     }
 
-    // ================= TWO PAGE PRINT LOGIC =================
     window.addEventListener('beforeprint', generatePrintLayout);
 
     function generatePrintLayout() {
@@ -753,8 +743,8 @@
 
             if(isHol) {
                 let hr = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सार्वजनिक सुट्टी';
-                html1 += `<tr><td>${dtStrActual}</td><td colspan="7" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
-                html2 += `<tr><td>${dtStrPlanned}</td><td>${dayStr}</td><td colspan="2" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
+                html1 += `<tr><td>${dtStrActual}</td><td colspan="7" style="background:#f5f5f5 !important; font-weight:700;">${hr}</td></tr>`;
+                html2 += `<tr><td>${dtStrPlanned}</td><td>${dayStr}</td><td colspan="2" style="background:#f5f5f5 !important; font-weight:700;">${hr}</td></tr>`;
             } else {
                 let aItems = Array.from(row.querySelectorAll('.actual-item')).filter(i => {
                     return i.querySelector('.input-from').value.trim() || i.querySelector('.input-to').value.trim();
@@ -816,8 +806,8 @@
         const sheet1 = workbook.addWorksheet('प्रत्यक्ष प्रवास दैनंदिनी');
         const sheet2 = workbook.addWorksheet('संभाव्य प्रवास दैनंदिनी');
 
-        const baseFont = { name: 'Mukta', size: 12 };
-        const boldFont = { name: 'Mukta', size: 12, bold: true };
+        const baseFont = { name: 'Noto Sans Devanagari', size: 12 };
+        const boldFont = { name: 'Noto Sans Devanagari', size: 12, bold: true };
         
         const mIdx = parseInt(document.getElementById('monthSelect').value);
         const yVal = parseInt(document.getElementById('yearSelect').value);
@@ -836,7 +826,7 @@
         sheet1.mergeCells('A1:H1');
         const tCell1 = sheet1.getCell('A1');
         tCell1.value = `प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}`; 
-        tCell1.font = { name: 'Mukta', size: 16, bold: true };
+        tCell1.font = { name: 'Noto Sans Devanagari', size: 16, bold: true };
         tCell1.alignment = { vertical: 'middle', horizontal: 'center' };
 
         sheet1.mergeCells('A2:H2');
@@ -858,7 +848,7 @@
         sheet2.mergeCells('A1:D1');
         const tCell2 = sheet2.getCell('A1');
         tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`; 
-        tCell2.font = { name: 'Mukta', size: 16, bold: true }; tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
+        tCell2.font = { name: 'Noto Sans Devanagari', size: 16, bold: true }; tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
         sheet2.mergeCells('A2:D2');
         const infoCell2 = sheet2.getCell('A2');
