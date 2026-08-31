@@ -378,13 +378,14 @@
         tx.style.height = Math.max(26, tx.scrollHeight) + 'px';
     }
 
-    // Dropdown Generator (isAppend = true for adding multiple schools to the same box)
+    // Dropdown Generator - (data-append चा वापर केला आहे जेणेकरून कोणत्याही ब्राउझरमध्ये अडचण येणार नाही)
     function getSchoolDropdownHTML(className, placeholderText, val = '', isAppend = false) {
         let optionsHTML = `<option value="">-- शाळा / ठिकाण निवडा --</option>`;
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
         optionsHTML += `<option value="manual">इतर (मॅन्युअल टाईप करा)</option>`;
-        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this, ${isAppend})">${optionsHTML}</select>
-                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
+        
+        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
     function getReasonDropdownHTML(className, placeholderText, val = '') {
@@ -394,23 +395,29 @@
             <option value="शाळाभेट, निरीक्षण, मार्गदर्शन, परत.">शाळाभेट, निरीक्षण, मार्गदर्शन, परत.</option>
             <option value="manual">इतर (मॅन्युअल टाईप करा)</option>
         `;
-        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this, false)">${optionsHTML}</select>
-                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
+        return `<select class="input-style no-print" data-append="false" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
-    function handleDropdownSelect(selElement, isAppend = false) {
+    // ही मुख्य फंक्शन Multiple Schools (Append) ची अचूक काळजी घेते
+    function handleDropdownSelect(selElement) {
+        const isAppend = selElement.getAttribute('data-append') === 'true';
         const textarea = selElement.nextElementSibling;
+        
         if (selElement.value === "manual") {
             if (!isAppend) textarea.value = "";
             textarea.focus();
         } else if (selElement.value !== "") {
+            let currentVal = textarea.value.trim();
             if (isAppend) {
-                // Append mode for Multiple Schools in 'To' column
-                textarea.value = textarea.value ? textarea.value + ", " + selElement.value : selElement.value;
+                // आधीच नाव असेल तर स्वल्पविराम (,) देऊन नवीन नाव जोडेल
+                textarea.value = currentVal ? currentVal + ", " + selElement.value : selElement.value;
             } else {
                 textarea.value = selElement.value;
             }
         }
+        
+        // निवडल्यानंतर ड्रॉपडाऊन परत मूळ स्थितीवर सेट करा
         selElement.value = ""; 
         autoExpandTextarea(textarea);
         handleFormChange();
@@ -565,7 +572,7 @@
         handleFormChange();
     }
 
-    function getStorageKey() { return `PRAVAS_V3_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
+    function getStorageKey() { return `PRAVAS_V4_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
 
     function handleFormChange() {
         saveToLocalStorage();
@@ -655,12 +662,12 @@
                     let pList = row.querySelector('.planned-list');
                     pList.innerHTML = '';
                     if(item.planned && item.planned.length > 0) item.planned.forEach(pData => addPlannedItem(pList, pData));
-                    else addPlannedItem(pList); // Empty block
+                    else addPlannedItem(pList); 
                     
                     let aList = row.querySelector('.actual-list');
                     aList.innerHTML = '';
                     if(item.actual && item.actual.length > 0) item.actual.forEach(aData => addActualItem(aList, aData));
-                    else addActualItem(aList); // Empty block
+                    else addActualItem(aList); 
                 }
             });
         } catch(e) { console.error("Load error:", e); }
@@ -833,7 +840,7 @@
 
         sheet1.mergeCells('A1:H1');
         const tCell1 = sheet1.getCell('A1');
-        tCell1.value = `प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}`; // Prev Month
+        tCell1.value = `प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}`; 
         tCell1.font = { name: 'Mukta', size: 16, bold: true };
         tCell1.alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -856,7 +863,7 @@
 
         sheet2.mergeCells('A1:D1');
         const tCell2 = sheet2.getCell('A1');
-        tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`; // Current Month
+        tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`; 
         tCell2.font = { name: 'Mukta', size: 16, bold: true }; tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
         sheet2.mergeCells('A2:D2');
@@ -879,8 +886,8 @@
             const dIdx = parseInt(row.getAttribute('data-day-index'));
             const dayStr = daysMarathi[new Date(yVal, mIdx, dIdx).getDay()];
             
-            const dtStrActual = `${dIdx}/${String(prevMonthIdx + 1).padStart(2, '0')}/${prevYearVal}`; // Prev Month
-            const dtStrPlanned = `${dIdx}/${String(mIdx + 1).padStart(2, '0')}/${yVal}`; // Current Month
+            const dtStrActual = `${dIdx}/${String(prevMonthIdx + 1).padStart(2, '0')}/${prevYearVal}`; 
+            const dtStrPlanned = `${dIdx}/${String(mIdx + 1).padStart(2, '0')}/${yVal}`; 
 
             if(isHol) {
                 let hr = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सुट्टी';
@@ -899,7 +906,7 @@
                 let aStartIdx = rIdx1;
                 actualItems.forEach(item => {
                     let rArr = [
-                        dtStrActual, // Prev Month
+                        dtStrActual, 
                         item.querySelector('.input-from').value, formatTime(item.querySelector('.input-dtime').value),
                         item.querySelector('.input-to').value, formatTime(item.querySelector('.input-atime').value),
                         item.querySelector('.input-dist').value, item.querySelector('.input-transport').value,
@@ -916,7 +923,7 @@
                 let plannedItems = row.querySelectorAll('.planned-item');
                 let pStartIdx = rIdx2;
                 plannedItems.forEach(item => {
-                    let rArr = [dtStrPlanned, dayStr, item.querySelector('.input-place').value, item.querySelector('.input-reason').value]; // Current Month
+                    let rArr = [dtStrPlanned, dayStr, item.querySelector('.input-place').value, item.querySelector('.input-reason').value]; 
                     if(rArr.slice(2).some(v => v.trim() !== '')) {
                         sheet2.addRow(rArr).eachCell((c, cIdx) => { c.font = baseFont; c.border = getBorders(); c.alignment={vertical:'middle', wrapText:true, horizontal: (cIdx<=2)?'center':'left'}; });
                         rIdx2++;
@@ -934,7 +941,7 @@
     }
 
     async function syncToGoogleSheets(pinToUse, isAuto = false) {
-        if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत आहे...", "syncing");
+        if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत approach...", "syncing");
         
         let entries = [];
         document.querySelectorAll('#tableBody tr').forEach(row => {
@@ -1053,7 +1060,7 @@
             let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "deleteData", pin: verifiedSessionPin, month: month, year: year }) }).then(r => r.json());
             if (res.status === 'success') {
                 updateSyncBadge("डेटा डिलीट झाला", "synced"); alert(`ऑनलाइन डेटा डिलीट झाला!`);
-                if (confirm("स्थानिक (Local) ड्राफ्ट पण डिलीट करायचा आहे का?")) { localStorage.removeItem(getStorageKey()); loadFormData(); } closeAdminModal();
+                if (confirm("स्थानिक (Local) ड्राफ्ट पण डिलीट करायचा কেজি आहे का?")) { localStorage.removeItem(getStorageKey()); loadFormData(); } closeAdminModal();
             } else { updateSyncBadge("डिलीट अयशस्वी", ""); alert("त्रुटी: " + res.message); }
         } catch (err) { updateSyncBadge("ऑफलाइन मोड", ""); alert("सर्व्हरशी संपर्क नाही."); }
     }
