@@ -67,23 +67,25 @@
         .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
         .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
-        /* Table & Row Tight Autofit Styling */
+        /* Table & Row Strict Fractional Flexbox Styling */
         table { width: 100%; border-collapse: collapse; margin-top: 4px; table-layout: fixed; }
         th, td { border: 1px solid var(--primary-color); padding: 2px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 500; }
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 15px; padding: 4px 2px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        td.p-0 { padding: 0 !important; vertical-align: middle; height: 1px; }
-        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        /* Height 1px allows flex column container to stretch properly */
+        td.p-0 { padding: 0 !important; vertical-align: top; height: 1px; }
+        .td-content { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; width: 100%; height: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+        .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; flex: 1 1 0%; min-height: min-content;}
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
-        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
-        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
-        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
-
+        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1 1 0%; min-height: min-content;}
+        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1 1 0%; min-height: min-content;}
+        
+        /* Force exact 50% split in Both mode */
+        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1 1 0%; min-height: min-content;}
         .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1.5px dotted var(--primary-color) !important; }
 
         /* Compact textareas */
@@ -99,11 +101,14 @@
             margin-bottom: 2px; font-weight: 700;
         }
 
-        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; height: 100%;}
+        .task-list { display: flex; flex-direction: column; width: 100%; height: 100%; flex: 1 1 0%;}
+        
+        /* Force exact fractional split for task items to perfectly align dotted borders horizontally */
         .task-item { 
-            border-bottom: 1px dotted var(--primary-color); padding: 2px 1px; 
+            border-bottom: 1px dotted var(--primary-color); padding: 4px 1px; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            box-sizing: border-box; width: 100%; text-align: center; flex: 1;
+            box-sizing: border-box; width: 100%; text-align: center; 
+            flex: 1 1 0%; min-height: min-content; 
         }
         .task-item:last-child { border-bottom: none; }
 
@@ -237,19 +242,19 @@
             th { background-color: #e5e5e5 !important; font-size: 9.5pt !important; padding: 2px !important; border: 1px solid #000 !important; vertical-align: middle !important; }
             td { display: table-cell !important; padding: 1px !important; border: 1px solid #000 !important; vertical-align: middle !important; text-align: center !important; }
             
-            /* ALLOW ROW HEIGHTS TO EXPAND NATURALLY */
-            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
-            
-            /* ENSURE CONTAINERS HAVE TOP/BOTTOM PADDING */
-            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; width: 100% !important; height: auto !important; min-height: 100% !important; margin: 0 !important; padding: 2px 0 !important;}
+            /* ALLOW ROW HEIGHTS TO EXPAND NATURALLY WHILE FORCING FLEX ALIGNMENT */
+            td.p-0 { padding: 0 !important; vertical-align: top !important; height: 1px !important; }
+            .td-content { display: flex !important; flex-direction: column !important; justify-content: stretch !important; align-items: stretch !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important;}
 
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
             td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 1px !important;}
             td.date-cell-mobile .date-text-print { margin: 0 !important;}
 
-            /* Force perfect vertical division for session rows, eliminating JS height calculations */
-            .mode-both .morning-block, .mode-both .afternoon-block { flex: auto !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: min-content !important; }
+            /* Ensure pure 50/50 partition for dual sessions */
+            .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { 
+                flex: 1 1 0% !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; min-height: min-content !important; 
+            }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1px dotted #000 !important; }
             
             .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: none !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
@@ -265,14 +270,25 @@
             .holiday-reason-input { display: none !important; }
             .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
 
-            /* STOP ITEMS FROM SQUISHING AND INCREASE PADDING (flex-shrink: 0) */
-            .task-item { border-bottom: 1px dotted #000 !important; padding: 6px 2px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important; height: auto !important; flex-shrink: 0 !important;}
-            .task-list { height: auto !important; min-height: 100% !important; justify-content: center !important; }
+            /* EQUAL DIVISION AND ALIGNMENT FOR TASKS - `flex: 1 1 0%` perfectly aligns the dotted boundaries */
+            .task-list { flex: 1 1 0% !important; display: flex !important; flex-direction: column !important; height: 100% !important; justify-content: stretch !important; }
+            .task-item { 
+                flex: 1 1 0% !important; /* Stretches mathematically equally across all columns */
+                border-bottom: 1px dotted #000 !important; 
+                padding: 4px 2px !important; 
+                text-align: center !important; 
+                display: flex !important; 
+                flex-direction: column !important; 
+                justify-content: center !important; 
+                align-items: center !important; 
+                min-height: min-content !important; 
+                margin: 0 !important; 
+                box-sizing: border-box !important;
+            }
             .task-item:last-child { border-bottom: none !important; }
             
-            /* ADD EXPLICIT BOTTOM MARGIN TO SEPARATE TEXT FROM THE LINE */
             .print-text:not(:empty) { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; line-height: 1.2 !important;}
-            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 3px 0 !important; text-align: center !important; line-height: 1.2 !important; }
+            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 2px 0 !important; text-align: center !important; line-height: 1.2 !important; }
         }
     </style>
 </head>
@@ -554,7 +570,6 @@
                 list.appendChild(div);
             }
         });
-        alignRowBlocks(tr); // Kept for screen view
     }
 
     function addTaskBtnClick(btn, sessionType) {
@@ -574,7 +589,7 @@
         const index = taskItems.indexOf(taskItem);
 
         if(taskItems.length <= 1) {
-            alert("सत्रातील किमान एक काम असणे आवश्यक সুবিধা. तुम्ही बॉक्स रिकामा सोडू शकता.");
+            alert("सत्रातील किमान एक काम असणे आवश्यक आहे. तुम्ही बॉक्स रिकामा सोडू शकता.");
             return;
         }
 
@@ -583,7 +598,6 @@
             if(items[index]) items[index].remove();
         });
 
-        alignRowBlocks(tr); // Kept for screen view
         handleFormChange(tr);
     }
 
@@ -610,7 +624,6 @@
         if (cbAfternoon.checked && row.querySelectorAll('.col-planned .afternoon-block .task-item').length === 0) addTaskToDOM(row, 'afternoon');
         if (cbWhole.checked && row.querySelectorAll('.col-planned .morning-block .task-item').length === 0) addTaskToDOM(row, 'morning');
 
-        alignRowBlocks(row);
         handleFormChange(checkbox);
     }
 
@@ -744,36 +757,7 @@
         handleFormChange();
     }
 
-    // This runs only for screen view to keep lines mostly aligned visually while editing
-    function alignRowBlocks(row) {
-        if (row.getAttribute('data-is-holiday') === 'true') return;
-        
-        row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => {
-            el.style.minHeight = '0px'; el.style.height = 'auto';
-        });
-        row.querySelectorAll('.task-item').forEach(el => {
-            el.style.minHeight = '0px'; el.style.height = 'auto';
-        });
-
-        if (row.classList.contains('mode-both')) {
-            let mLabel = row.querySelector('.morning-label-box');
-            let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
-            let maxM = mLabel ? mLabel.offsetHeight : 0;
-            mBlocks.forEach(b => { if (b.offsetHeight > maxM) maxM = b.offsetHeight; });
-            mBlocks.forEach(b => b.style.minHeight = maxM + 'px');
-            if (mLabel) mLabel.style.minHeight = maxM + 'px';
-            
-            let aLabel = row.querySelector('.afternoon-label-box');
-            let aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
-            let maxA = aLabel ? aLabel.offsetHeight : 0;
-            aBlocks.forEach(b => { if (b.offsetHeight > maxA) maxA = b.offsetHeight; });
-            aBlocks.forEach(b => b.style.minHeight = maxA + 'px');
-            if (aLabel) aLabel.style.minHeight = maxA + 'px';
-        }
-    }
-
     function syncRowVisuals(row) {
-        // Sync Text values purely to DOM so CSS :empty works perfectly
         row.querySelectorAll('textarea').forEach(tx => {
             const printDiv = tx.nextElementSibling;
             if (printDiv && printDiv.classList.contains('print-text')) {
@@ -802,24 +786,10 @@
             });
         }
     }
-
-    window.addEventListener('resize', () => {
-        document.querySelectorAll('#tableBody tr').forEach(row => { if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); });
-    });
     
-    // Crucial fix: Completely obliterate JavaScript's manual row height scaling before printing. Let Flexbox do its job.
     window.addEventListener('beforeprint', () => {
         document.querySelectorAll('#tableBody tr').forEach(row => { 
             syncRowVisuals(row);
-            row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block, .task-item').forEach(el => {
-                el.style.minHeight = ''; el.style.height = '';
-            });
-        });
-    });
-
-    window.addEventListener('afterprint', () => {
-        document.querySelectorAll('#tableBody tr').forEach(row => { 
-            if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); 
         });
     });
 
@@ -985,9 +955,6 @@
         window.print(); 
     }
 
-    /* ========================================================================================= */
-    /* Random DEMO Data Filler                                                                   */
-    /* ========================================================================================= */
     function fillDemoData() {
         const schools = ["सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. तलाव पाटी"];
         const workTypes = ["नियोजित शाळा भेट", "आकस्मिक शाळा भेट", "विद्यार्थी गुणवत्ता तपासणी", "दप्तर तपासणी", "पटनोंदणी व उपस्थिती आढावा"];
@@ -1034,9 +1001,6 @@
         alert("डेमो डेटा यशस्वीरित्या भरण्यात आला आहे! आता तुम्ही PDF किंवा Excel डाउनलोड करू शकता.");
     }
 
-    /* ========================================================================================= */
-    /* Official B&W Excel Download Logic using ExcelJS                                           */
-    /* ========================================================================================= */
     async function exportToExcel() {
         if(typeof ExcelJS === 'undefined') return alert("Excel लायब्ररी लोड होत आहे, कृपया थोडे थांबा...");
         
@@ -1169,8 +1133,6 @@
         updateSyncBadge("Excel डाउनलोड पूर्ण", "synced");
     }
 
-    /* ========================================================================================= */
-    
     async function syncToGoogleSheets(pinToUse, isAuto = false) {
         if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत आहे...", "syncing");
         
@@ -1305,7 +1267,7 @@
 
     async function fetchFromGoogleSheets() {
         if (!verifiedSessionPin) return alert("लॉगिन करा!");
-        updateSyncBadge("डेटा मिळवत ছুটি...", "syncing");
+        updateSyncBadge("डेटा मिळवत आहे...", "syncing");
         try {
             let month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
             let year = document.getElementById('yearSelect').value;
