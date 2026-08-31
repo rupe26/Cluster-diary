@@ -81,15 +81,15 @@
             width: 100%; box-sizing: border-box; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .input-grid { display: grid; gap: 4px; width: 100%; }
         .input-style {
             border: 1px solid var(--border-color); border-radius: 2px; padding: 3px 4px;
             font-size: 13.5px; font-family: inherit; font-weight: 700; width: 100%;
             color: var(--primary-color); background: #f8fafc; resize: none; overflow: hidden; line-height: 1.15;
         }
         .input-style:focus { background: #ffffff; outline: 1px solid var(--accent-color); }
+        select.input-style { cursor: pointer; padding: 2px; }
 
-        .add-btn-wrapper { background: #e0f2fe; padding: 4px; border-bottom: 1px solid var(--border-color); }
+        .add-btn-wrapper { background: #e0f2fe; padding: 4px; border-bottom: 1px solid var(--border-color); text-align: center; }
         .task-btn { font-family: inherit; font-size: 12px; padding: 2px 8px; border: 1px solid var(--accent-color); border-radius: 2px; font-weight: 800; cursor: pointer; display: inline-block; background: #ffffff; color: var(--primary-color); }
         .task-btn:hover { background: var(--accent-color); color: #fff; }
 
@@ -137,9 +137,6 @@
         input:checked + .slider { background-color: var(--primary-color); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        .print-text { display: none; font-size: 13px; text-align: left; background: #fff; padding: 4px; border-radius: 2px; line-height: 1.3; }
-        .print-text b { color: var(--primary-color); }
-
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
             button.action-btn { width: auto; }
@@ -177,55 +174,30 @@
             .holiday-input-container input { width: 100%; font-size: 14px; }
         }
 
-        /* ================= OFFICIAL B&W COMPACT PRINT CSS ================= */
+        /* ================= OFFICIAL B&W COMPACT PRINT CSS (SEPARATE PAGES) ================= */
+        @media screen {
+            #print-container { display: none; }
+        }
         @media print {
-            @page { size: A4 portrait; margin: 5mm 4mm; }
+            @page { size: A4 landscape; margin: 10mm; }
 
-            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9pt; line-height: 1 !important; color: #000 !important; font-family: 'Mukta', sans-serif !important; }
-            .container { box-shadow: none !important; padding: 0 !important; border: none !important; margin: 0 !important; }
+            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 11pt; color: #000 !important; font-family: 'Mukta', sans-serif !important; margin: 0; padding: 0; }
+            
+            /* Hide the interactive interface */
+            .container, .btn-container, .modal, #syncStatus { display: none !important; }
+            
+            /* Show the generated print layout */
+            #print-container { display: block !important; width: 100%; }
 
-            * { color: #000 !important; border-color: #000 !important; }
-
-            .header-section { display: block !important; padding: 2px !important; margin: 0 0 2px 0 !important; border: 1px solid #000 !important; border-radius: 0 !important; background: #fff !important; }
-            .header-section h1 { font-size: 12pt !important; font-weight: 800 !important; margin: 0 !important; text-transform: uppercase; }
+            .print-page { width: 100%; margin: 0; padding: 0; }
+            .page-break { page-break-before: always; }
             
-            .header-wrapper { gap: 2px !important; margin-bottom: 4px !important; flex-direction: column !important; }
-            .header-subsection { padding: 2px 4px !important; border: 1px solid #000 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
+            .print-title { text-align: center; font-size: 16pt; font-weight: 800; margin: 0 0 5px 0; text-decoration: underline; }
+            .print-subtitle { text-align: center; font-size: 13pt; font-weight: 800; margin: 0 0 15px 0; }
             
-            .info-item { font-size: 10.5pt !important; gap: 2px !important; margin: 0 !important;}
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; font-weight: 800; font-size: 10.5pt !important; text-align: left !important; margin: 0 !important;}
-            
-            .no-print, .sync-badge, .add-btn-wrapper, .remove-task-btn, .input-grid, textarea { display: none !important; }
-
-            table, thead, tbody, tr { display: revert !important; }
-            table { font-size: 9pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid #000 !important; table-layout: fixed !important; margin-top: 0 !important; }
-            thead { display: table-header-group !important; }
-            tbody { display: table-row-group !important; }
-            tr { display: table-row !important; page-break-inside: avoid !important; }
-
-            th { background-color: #e5e5e5 !important; font-size: 9.5pt !important; padding: 2px !important; border: 1px solid #000 !important; vertical-align: middle !important; }
-            td { display: table-cell !important; padding: 1px !important; border: 1px solid #000 !important; vertical-align: middle !important; text-align: center !important; }
-            
-            td.p-0 { padding: 0 !important; vertical-align: top !important; height: 1px !important; }
-            .td-content { display: flex !important; flex-direction: column !important; justify-content: stretch !important; align-items: stretch !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important;}
-            
-            .date-text-print { font-weight: 800 !important; font-size: 9.5pt !important; text-align: center !important; margin: 0 !important;}
-
-            tr.holiday-row td { background-color: #f5f5f5 !important; padding: 1px !important; }
-            .holiday-badge { background: transparent !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8pt !important; margin: 0 !important;}
-            .holiday-input-container { text-align: center !important; vertical-align: middle !important; padding: 1px !important; }
-            .holiday-full-row { display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 4px !important; margin: 0 !important; }
-            .holiday-icon-label { background: transparent !important; border: none !important; font-size: 9.5pt !important; font-weight: 800 !important; padding: 0 !important; margin: 0 !important; }
-            
-            .holiday-reason-input { display: none !important; }
-            .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
-
-            .task-list { background: transparent !important; padding: 0 !important; gap: 0 !important; }
-            .task-item { border: none !important; border-bottom: 1px dotted #000 !important; padding: 2px !important; margin: 0 !important; box-shadow: none !important; border-radius: 0 !important; }
-            .task-item:last-child { border-bottom: none !important; }
-            
-            .print-text { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 2px !important; text-align: left !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; border: none !important; }
-            .print-text b { color: #000 !important; }
+            .print-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+            .print-table th, .print-table td { border: 1.5px solid #000; padding: 6px 4px; text-align: center; vertical-align: middle; font-size: 11pt; color: #000; word-wrap: break-word; line-height: 1.2; }
+            .print-table th { background-color: #f0f0f0 !important; font-weight: 800; }
         }
     </style>
 </head>
@@ -272,7 +244,7 @@
         <div id="syncStatus" class="sync-badge">स्थानिक ड्राफ्ट सक्रिय</div>
     </div>
 
-    <table>
+    <table id="main-table">
         <thead>
             <tr>
                 <th style="width: 10%;">दिनांक व वार</th>
@@ -283,6 +255,9 @@
         <tbody id="tableBody"></tbody>
     </table>
 </div>
+
+<!-- Print Container (Only visible during printing) -->
+<div id="print-container"></div>
 
 <!-- Admin Modal -->
 <div id="adminModal" class="modal">
@@ -356,11 +331,18 @@
 </div>
 
 <script>
-    // Note: Do not change GOOGLE_WEB_APP_URL, it uses backwards compatible data payload wrapping.
     const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8nCZspj98-skk_zIVhP0V0gPVd8i0koezh5_QefBjAsMdpxvOIHjPKOlOK_Yei8g/exec"; 
 
     const monthsMarathi = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"];
     const daysMarathi = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+    const schoolsList = [
+        "गटशिक्षणाधिकारी कार्यालय अंबाजोगाई", "समूह साधन केंद्र रविवार पेठ", "सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. क्र. २, अंबाजोगाई", 
+        "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. साकुड (उर्दू)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. काळवटी तांडा क्र. ३", 
+        "जि.प.प्रा.शा. भीमाई वस्ती", "जि.प.प्रा.शा. काळवटी तांडा क्र. २", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. मांडवा तांडा", 
+        "जि.प.प्रा.शा. पोलेवाडी", "जि.प.प्रा.शा. नागझरी वसाहत", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. सह्याद्री नगर शेपवाडी", 
+        "जि.प.प्रा.शा. पिंपळा धायगुडा (मराठी)", "जि.प.प्रा.शा. पिंपळा धायगुडा (उर्दू)", "जि.प.प्रा.शा. वरवटी", "जि.प.प्रा.शा. उघडे वस्ती (वरवटी)", 
+        "जि.प.प्रा.शा. तलाव पाटी", "जि.प.प्रा.शा. अंबलवाडी", "जि.प. प्रा. शा. गोलटावस्ती", "जि.प.प्रा.शा. गिरवली आपेट", "जि.प.हा.स्कू. गिरवली"
+    ];
     
     let autoSyncTimer = null;
     let verifiedSessionPin = sessionStorage.getItem('KP_ADMIN_PIN') || "";
@@ -370,8 +352,7 @@
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
         const currentDate = new Date();
-        monthSelect.innerHTML = '';
-        yearSelect.innerHTML = '';
+        monthSelect.innerHTML = ''; yearSelect.innerHTML = '';
         monthsMarathi.forEach((month, index) => {
             let option = document.createElement('option');
             option.value = index; option.textContent = month;
@@ -394,59 +375,80 @@
         tx.style.height = Math.max(26, tx.scrollHeight) + 'px';
     }
 
+    function getSchoolDropdownHTML(className, placeholderText, val = '') {
+        let optionsHTML = `<option value="">-- शाळा / ठिकाण निवडा --</option>`;
+        schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
+        optionsHTML += `<option value="manual">इतर (मॅन्युअल टाईप करा)</option>`;
+        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
+    }
+
+    function getReasonDropdownHTML(className, placeholderText, val = '') {
+        let optionsHTML = `
+            <option value="">-- कारण निवडा --</option>
+            <option value="मुख्यालयीन.">मुख्यालयीन.</option>
+            <option value="शाळाभेट, निरीक्षण, मार्गदर्शन, परत.">शाळाभेट, निरीक्षण, मार्गदर्शन, परत.</option>
+            <option value="manual">इतर (मॅन्युअल टाईप करा)</option>
+        `;
+        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+                <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
+    }
+
+    function handleDropdownSelect(selElement) {
+        const textarea = selElement.nextElementSibling;
+        if (selElement.value === "manual") { textarea.value = ""; textarea.focus(); }
+        else if (selElement.value !== "") { textarea.value = selElement.value; }
+        selElement.value = ""; 
+        autoExpandTextarea(textarea);
+        handleFormChange();
+    }
+
     function addPlannedItem(container, data = {}) {
         const div = document.createElement('div');
         div.className = 'task-item planned-item';
         div.innerHTML = `
-            <div class="input-grid" style="grid-template-columns: 1fr;">
-                <input type="text" class="input-style input-place" placeholder="भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)" value="${data.place || ''}" oninput="handleFormChange(this)">
-                <textarea class="input-style input-reason" placeholder="भेटीचे कारण (उदा. शाळाभेट, मार्गदर्शन)" oninput="autoExpandTextarea(this); handleFormChange(this)">${data.reason || ''}</textarea>
+            <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+                ${getSchoolDropdownHTML('input-place', 'भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)', data.place)}
+                ${getReasonDropdownHTML('input-reason', 'भेटीचे कारण (उदा. शाळाभेट)', data.reason)}
             </div>
-            <div class="print-text"></div>
             <button type="button" class="remove-task-btn no-print" onclick="removeTask(this)">[X] काढा</button>
         `;
         container.appendChild(div);
-        if(data.reason) { autoExpandTextarea(div.querySelector('textarea')); }
+        autoExpandTextarea(div.querySelector('.input-place'));
+        autoExpandTextarea(div.querySelector('.input-reason'));
     }
 
     function addActualItem(container, data = {}) {
         const div = document.createElement('div');
         div.className = 'task-item actual-item';
+        let tVal = data.transport !== undefined ? data.transport : 'बस';
         div.innerHTML = `
-            <div class="input-grid" style="grid-template-columns: 1fr 80px;">
-                <input type="text" class="input-style input-from" placeholder="पासून (प्रवास सुरुवात)" value="${data.from || ''}" oninput="handleFormChange(this)">
-                <input type="text" class="input-style input-dtime" placeholder="निघ. वेळ" value="${data.dtime || ''}" oninput="handleFormChange(this)">
+            <div style="display:flex; flex-direction:column; gap:6px; width:100%;">
+                <div style="display:flex; gap:4px; align-items:flex-start;">
+                    <div style="flex:1;">${getSchoolDropdownHTML('input-from', 'पासून (सुरुवात)', data.from)}</div>
+                    <input type="time" class="input-style input-dtime" style="width:90px;" title="निघालेली वेळ" value="${data.dtime || ''}" onchange="handleFormChange()">
+                </div>
+                <div style="display:flex; gap:4px; align-items:flex-start;">
+                    <div style="flex:1;">${getSchoolDropdownHTML('input-to', 'पर्यंत (मुक्काम)', data.to)}</div>
+                    <input type="time" class="input-style input-atime" style="width:90px;" title="पोहचलेली वेळ" value="${data.atime || ''}" onchange="handleFormChange()">
+                </div>
+                <div style="display:flex; gap:4px; align-items:flex-start;">
+                    <input type="number" class="input-style input-dist" style="width:80px;" placeholder="अंतर(km)" value="${data.dist || ''}" oninput="handleFormChange()">
+                    <input type="text" class="input-style input-transport" style="flex:1;" placeholder="साधन" value="${tVal}" oninput="handleFormChange()">
+                </div>
+                <textarea class="input-style input-work" placeholder="कार्य विवरण (उदा. SIR व शाळाभेट, परत.)" oninput="autoExpandTextarea(this); handleFormChange()">${data.work || ''}</textarea>
             </div>
-            <div class="input-grid" style="grid-template-columns: 1fr 80px; margin-top: 4px;">
-                <input type="text" class="input-style input-to" placeholder="पर्यंत (मुक्काम)" value="${data.to || ''}" oninput="handleFormChange(this)">
-                <input type="text" class="input-style input-atime" placeholder="पोहच. वेळ" value="${data.atime || ''}" oninput="handleFormChange(this)">
-            </div>
-            <div class="input-grid" style="grid-template-columns: 80px 1fr; margin-top: 4px;">
-                <input type="number" class="input-style input-dist" placeholder="अंतर(km)" value="${data.dist || ''}" oninput="handleFormChange(this)">
-                <input type="text" class="input-style input-transport" placeholder="साधन (उदा. बस)" value="${data.transport || ''}" oninput="handleFormChange(this)">
-            </div>
-            <textarea class="input-style input-work" style="margin-top: 4px;" placeholder="कार्य विवरण (उदा. SIR व शाळाभेट, परत.)" oninput="autoExpandTextarea(this); handleFormChange(this)">${data.work || ''}</textarea>
-            <div class="print-text"></div>
             <button type="button" class="remove-task-btn no-print" onclick="removeTask(this)">[X] काढा</button>
         `;
         container.appendChild(div);
-        if(data.work) { autoExpandTextarea(div.querySelector('textarea')); }
+        autoExpandTextarea(div.querySelector('.input-from'));
+        autoExpandTextarea(div.querySelector('.input-to'));
+        autoExpandTextarea(div.querySelector('.input-work'));
     }
 
-    function addPlannedItemWrapper(btn) {
-        addPlannedItem(btn.closest('.td-content').querySelector('.planned-list'));
-        handleFormChange();
-    }
-    
-    function addActualItemWrapper(btn) {
-        addActualItem(btn.closest('.td-content').querySelector('.actual-list'));
-        handleFormChange();
-    }
-
-    function removeTask(btn) {
-        btn.closest('.task-item').remove();
-        handleFormChange();
-    }
+    function addPlannedItemWrapper(btn) { addPlannedItem(btn.closest('.td-content').querySelector('.planned-list')); handleFormChange(); }
+    function addActualItemWrapper(btn) { addActualItem(btn.closest('.td-content').querySelector('.actual-list')); handleFormChange(); }
+    function removeTask(btn) { btn.closest('.task-item').remove(); handleFormChange(); }
 
     function generateTableStructure() {
         const month = parseInt(document.getElementById('monthSelect').value);
@@ -474,9 +476,7 @@
 
     function renderNormalRow(row, i, dateText) {
         let isSunday = row.getAttribute('data-is-sunday') === 'true';
-        row.className = ''; 
-        row.setAttribute('data-is-holiday', 'false');
-        
+        row.className = ''; row.setAttribute('data-is-holiday', 'false');
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:2px;">कामकाज (रविवार)</div>` : ``;
 
         row.innerHTML = `
@@ -491,17 +491,13 @@
             </td>
             <td class="col-planned p-0" data-label="संभाव्य प्रवास">
                 <div class="td-content">
-                    <div class="add-btn-wrapper no-print" style="text-align:center;">
-                        <button type="button" class="task-btn" onclick="addPlannedItemWrapper(this)">+ संभाव्य जोडा</button>
-                    </div>
+                    <div class="add-btn-wrapper no-print"><button type="button" class="task-btn" onclick="addPlannedItemWrapper(this)">+ संभाव्य जोडा</button></div>
                     <div class="task-list planned-list"></div>
                 </div>
             </td>
             <td class="col-actual p-0" data-label="प्रत्यक्ष प्रवास">
                 <div class="td-content">
-                     <div class="add-btn-wrapper no-print" style="text-align:center;">
-                        <button type="button" class="task-btn" onclick="addActualItemWrapper(this)">+ प्रत्यक्ष जोडा</button>
-                    </div>
+                     <div class="add-btn-wrapper no-print"><button type="button" class="task-btn" onclick="addActualItemWrapper(this)">+ प्रत्यक्ष जोडा</button></div>
                     <div class="task-list actual-list"></div>
                 </div>
             </td>
@@ -511,10 +507,8 @@
     }
 
     function renderHolidayRow(row, i, dateText, reasonText, isSunday = false) {
-        row.className = 'holiday-row';
-        row.setAttribute('data-is-holiday', 'true');
+        row.className = 'holiday-row'; row.setAttribute('data-is-holiday', 'true');
         let badgeHTML = isSunday ? `<div class="holiday-badge" style="margin-top:2px;">रविवार सुट्टी</div>` : `<div class="holiday-badge" style="margin-top:2px;">सार्वजनिक सुट्टी</div>`;
-
         row.innerHTML = `
             <td class="date-cell-mobile">
                 <div class="date-text-print">${dateText}</div>
@@ -524,7 +518,6 @@
                 <div class="holiday-full-row">
                     <span class="holiday-icon-label">सुट्टी</span>
                     <input type="text" class="holiday-reason-input no-print" value="${reasonText}" oninput="handleFormChange()" placeholder="सुट्टीचे कारण लिहा...">
-                    <div class="print-text holiday-print-text" style="display:none;">${reasonText}</div>
                     <label class="holiday-toggle-wrapper no-print" style="color:#15803d; border-color:#16a34a; background:#dcfce7; margin:0;">
                          <input type="checkbox" checked onchange="toggleManualHoliday(this, ${i})"><span>काम नोंदवा</span>
                     </label>
@@ -538,65 +531,19 @@
         const year = parseInt(document.getElementById('yearSelect').value);
         const row = checkbox.closest('tr');
         const isSunday = row.getAttribute('data-is-sunday') === 'true';
-        let date = new Date(year, month, i);
-        let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${daysMarathi[date.getDay()]})</b>`;
+        let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${daysMarathi[new Date(year, month, i).getDay()]})</b>`;
 
         if (checkbox.checked) {
             let defReason = isSunday ? "सार्वजनिक सुट्टी (रविवार)" : "सार्वजनिक सुट्टी";
             let reason = isSunday ? defReason : prompt("सुट्टीचे नाव / स्वरूप लिहा:", defReason);
             renderHolidayRow(row, i, dateText, reason || defReason, isSunday);
-        } else { 
-            renderNormalRow(row, i, dateText); 
-        }
+        } else { renderNormalRow(row, i, dateText); }
         handleFormChange();
     }
 
-    function syncRowVisuals(row) {
-        row.querySelectorAll('.task-item').forEach(item => {
-            if(item.classList.contains('planned-item')) {
-                let place = item.querySelector('.input-place').value.trim();
-                let reason = item.querySelector('.input-reason').value.trim();
-                let pDiv = item.querySelector('.print-text');
-                pDiv.innerHTML = (place || reason) ? `<b>ठिकाण:</b> ${place}<br><b>कारण:</b> ${reason}` : '';
-            }
-            if(item.classList.contains('actual-item')) {
-                let frm = item.querySelector('.input-from').value.trim();
-                let dt = item.querySelector('.input-dtime').value.trim();
-                let to = item.querySelector('.input-to').value.trim();
-                let at = item.querySelector('.input-atime').value.trim();
-                let dist = item.querySelector('.input-dist').value.trim();
-                let trans = item.querySelector('.input-transport').value.trim();
-                let work = item.querySelector('.input-work').value.trim();
-                let pDiv = item.querySelector('.print-text');
-                
-                let routeStr = '';
-                if(frm || to) routeStr = `<b>प्रवास:</b> ${frm} ${dt ? '('+dt+')' : ''} ➝ ${to} ${at ? '('+at+')' : ''}<br>`;
-                let distStr = '';
-                if(dist || trans) distStr = `<b>अंतर:</b> ${dist ? dist+'km' : '-'}, <b>साधन:</b> ${trans || '-'}<br>`;
-                let workStr = '';
-                if(work) workStr = `<b>विवरण:</b> ${work}`;
-                
-                pDiv.innerHTML = routeStr + distStr + workStr;
-            }
-        });
-        
-        let holInput = row.querySelector('.holiday-reason-input');
-        let holPrint = row.querySelector('.holiday-print-text');
-        if(holInput && holPrint) {
-            holPrint.textContent = holInput.value.trim();
-        }
-    }
-    
-    window.addEventListener('beforeprint', () => {
-        document.querySelectorAll('#tableBody tr').forEach(row => { 
-            syncRowVisuals(row);
-        });
-    });
+    function getStorageKey() { return `PRAVAS_V2_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
 
-    function getStorageKey() { return `PRAVAS_V1_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
-
-    function handleFormChange(elem) {
-        if (elem && elem.closest('tr')) syncRowVisuals(elem.closest('tr'));
+    function handleFormChange() {
         saveToLocalStorage();
         updateSyncBadge("स्थानिक ड्राफ्ट सेव्ह झाला", "synced");
         if (verifiedSessionPin && isAutoSyncEnabled) {
@@ -611,8 +558,7 @@
         document.getElementById('kendraInput').value = document.getElementById('adminKendra').value;
         document.getElementById('talukaInput').value = document.getElementById('adminTaluka').value;
         document.getElementById('jilhaInput').value = document.getElementById('adminJilha').value;
-        handleFormChange();
-        alert("शीर्षक माहिती सेव्ह झाली!");
+        handleFormChange(); alert("शीर्षक माहिती सेव्ह झाली!");
     }
 
     function saveToLocalStorage() {
@@ -623,8 +569,7 @@
                 day: row.getAttribute('data-day-index'), 
                 isHoliday: isHol,
                 holidayReason: isHol ? (row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : '') : '',
-                planned: [],
-                actual: []
+                planned: [], actual: []
             };
 
             if (!isHol) {
@@ -682,20 +627,16 @@
                     renderHolidayRow(row, item.day, dtText, item.holidayReason || (isSun ? "सार्वजनिक सुट्टी (रविवार)" : "सुट्टी"), isSun);
                 } else {
                     renderNormalRow(row, item.day, dtText);
-                    
                     let pList = row.querySelector('.planned-list');
                     pList.innerHTML = '';
-                    if(item.planned && item.planned.length > 0) {
-                        item.planned.forEach(pData => addPlannedItem(pList, pData));
-                    } else { addPlannedItem(pList); }
+                    if(item.planned && item.planned.length > 0) item.planned.forEach(pData => addPlannedItem(pList, pData));
+                    else addPlannedItem(pList);
                     
                     let aList = row.querySelector('.actual-list');
                     aList.innerHTML = '';
-                    if(item.actual && item.actual.length > 0) {
-                        item.actual.forEach(aData => addActualItem(aList, aData));
-                    } else { addActualItem(aList); }
+                    if(item.actual && item.actual.length > 0) item.actual.forEach(aData => addActualItem(aList, aData));
+                    else addActualItem(aList);
                 }
-                syncRowVisuals(row);
             });
         } catch(e) { console.error("Load error:", e); }
     }
@@ -703,19 +644,133 @@
     function onMonthYearChange() { loadFormData(); }
     function updateSyncBadge(t, c) { document.getElementById('syncStatus').textContent = t; document.getElementById('syncStatus').className = `sync-badge ${c}`; }
     
+    // Time Formatter for Print/Excel (e.g. 14:30 to 2:30 PM)
+    function formatTime(timeStr) {
+        if(!timeStr) return '-';
+        let [h, m] = timeStr.split(':'); h = parseInt(h);
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        return `${h}:${m} ${ampm}`;
+    }
+
     function triggerPrintFromModal() {
         closeAdminModal();
         setTimeout(() => { prepareAndPrint(); }, 300); 
     }
 
-    function prepareAndPrint() { 
-        document.querySelectorAll('#tableBody tr').forEach(row => { syncRowVisuals(row); });
-        window.print(); 
+    // ================= TWO PAGE PRINT LOGIC =================
+    window.addEventListener('beforeprint', generatePrintLayout);
+
+    function generatePrintLayout() {
+        const printContainer = document.getElementById('print-container');
+        const mName = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
+        const mIdx = document.getElementById('monthSelect').value;
+        const yVal = document.getElementById('yearSelect').value;
+        const kpName = document.getElementById('kendraPramukhNameInput').value;
+        const kendra = document.getElementById('kendraInput').value;
+        const taluka = document.getElementById('talukaInput').value;
+        const jilha = document.getElementById('jilhaInput').value;
+
+        // --- Sheet 1: Actual ---
+        let html1 = `
+            <div class="print-page">
+                <h2 class="print-title">प्रत्यक्ष प्रवास दैनंदिनी माहे - ${mName} - ${yVal}</h2>
+                <h3 class="print-subtitle">श्री.${kpName}, केंद्रप्रमुख समूह साधन केंद्र ${kendra}, तालुका - ${taluka}, जिल्हा - ${jilha}</h3>
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">दिनांक</th>
+                            <th style="width:15%;">पासून</th>
+                            <th style="width:8%;">निघालेली वेळ</th>
+                            <th style="width:15%;">पर्यंत</th>
+                            <th style="width:8%;">पोहचलेली वेळ</th>
+                            <th style="width:8%;">अंतर</th>
+                            <th style="width:10%;">प्रवासाचे साधन</th>
+                            <th style="width:26%;">कार्य विवरण</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        // --- Sheet 2: Planned ---
+        let html2 = `
+            <div class="print-page page-break">
+                <h2 class="print-title">संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}</h2>
+                <h3 class="print-subtitle">श्री.${kpName}, केंद्रप्रमुख स.सा.कें. ${kendra}, ता.- ${taluka}, जि.- ${jilha}</h3>
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th style="width:15%;">दिनांक</th>
+                            <th style="width:15%;">वार</th>
+                            <th style="width:35%;">भेटीचे ठिकाण</th>
+                            <th style="width:35%;">भेटीचे कारण</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            const isHol = row.getAttribute('data-is-holiday') === 'true';
+            const dIdx = row.getAttribute('data-day-index');
+            const dtObj = new Date(yVal, mIdx, parseInt(dIdx));
+            const dtStr = `${dIdx}/${String(parseInt(mIdx)+1).padStart(2, '0')}/${yVal}`;
+            const dayStr = daysMarathi[dtObj.getDay()];
+
+            if(isHol) {
+                let hr = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सार्वजनिक सुट्टी';
+                html1 += `<tr><td>${dtStr}</td><td colspan="7" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
+                html2 += `<tr><td>${dtStr}</td><td>${dayStr}</td><td colspan="2" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
+            } else {
+                // Actual Body Processing
+                let aItems = Array.from(row.querySelectorAll('.actual-item')).filter(i => {
+                    return i.querySelector('.input-from').value.trim() || i.querySelector('.input-to').value.trim();
+                });
+                
+                if(aItems.length === 0) { html1 += `<tr><td>${dtStr}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`; } 
+                else {
+                    aItems.forEach((item, idx) => {
+                        let rowStr = `
+                            <td>${item.querySelector('.input-from').value}</td>
+                            <td>${formatTime(item.querySelector('.input-dtime').value)}</td>
+                            <td>${item.querySelector('.input-to').value}</td>
+                            <td>${formatTime(item.querySelector('.input-atime').value)}</td>
+                            <td>${item.querySelector('.input-dist').value}</td>
+                            <td>${item.querySelector('.input-transport').value}</td>
+                            <td style="text-align:left;">${item.querySelector('.input-work').value}</td>
+                        `;
+                        if(idx === 0) html1 += `<tr><td rowspan="${aItems.length}">${dtStr}</td>${rowStr}</tr>`;
+                        else html1 += `<tr>${rowStr}</tr>`;
+                    });
+                }
+
+                // Planned Body Processing
+                let pItems = Array.from(row.querySelectorAll('.planned-item')).filter(i => {
+                    return i.querySelector('.input-place').value.trim() || i.querySelector('.input-reason').value.trim();
+                });
+
+                if(pItems.length === 0) { html2 += `<tr><td>${dtStr}</td><td>${dayStr}</td><td>-</td><td>-</td></tr>`; } 
+                else {
+                    pItems.forEach((item, idx) => {
+                        let rowStr = `
+                            <td>${item.querySelector('.input-place').value}</td>
+                            <td style="text-align:left;">${item.querySelector('.input-reason').value}</td>
+                        `;
+                        if(idx === 0) html2 += `<tr><td rowspan="${pItems.length}">${dtStr}</td><td rowspan="${pItems.length}">${dayStr}</td>${rowStr}</tr>`;
+                        else html2 += `<tr>${rowStr}</tr>`;
+                    });
+                }
+            }
+        });
+
+        html1 += `</tbody></table></div>`;
+        html2 += `</tbody></table></div>`;
+        printContainer.innerHTML = html1 + html2;
     }
+
+    function prepareAndPrint() { window.print(); }
 
     async function exportToExcel() {
         if(typeof ExcelJS === 'undefined') return alert("Excel लायब्ररी लोड होत आहे, कृपया थोडे थांबा...");
-        
         updateSyncBadge("Excel फाईल बनवत आहे...", "syncing");
         
         const workbook = new ExcelJS.Workbook();
@@ -724,9 +779,8 @@
 
         const baseFont = { name: 'Mukta', size: 12 };
         const boldFont = { name: 'Mukta', size: 12, bold: true };
-        const officialBlack = 'FF000000';
         
-        // ================= SHEET 1: प्रत्यक्ष प्रवास =================
+        // --- Sheet 1: प्रत्यक्ष प्रवास ---
         sheet1.columns = [
             { key: 'date', width: 15 }, { key: 'from', width: 22 }, { key: 'dtime', width: 15 },
             { key: 'to', width: 22 }, { key: 'atime', width: 15 }, { key: 'dist', width: 10 },
@@ -745,8 +799,7 @@
         sheet1.mergeCells('A2:H2');
         const infoCell1 = sheet1.getCell('A2');
         infoCell1.value = `श्री.${document.getElementById('kendraPramukhNameInput').value}, केंद्रप्रमुख समूह साधन केंद्र ${document.getElementById('kendraInput').value}, तालुका - ${document.getElementById('talukaInput').value}, जिल्हा - ${document.getElementById('jilhaInput').value}`;
-        infoCell1.font = boldFont;
-        infoCell1.alignment = { vertical: 'middle', horizontal: 'center' };
+        infoCell1.font = boldFont; infoCell1.alignment = { vertical: 'middle', horizontal: 'center' };
 
         const hRow1 = sheet1.getRow(3);
         hRow1.values = ['दिनांक', 'पासून', 'निघालेली वेळ', 'पर्यंत', 'पोहचलेली वेळ', 'अंतर', 'प्रवासाचे साधन', 'कार्य विवरण'];
@@ -754,7 +807,7 @@
 
         let rIdx1 = 4;
         
-        // ================= SHEET 2: संभाव्य प्रवास =================
+        // --- Sheet 2: संभाव्य प्रवास ---
         sheet2.columns = [
             { key: 'date', width: 15 }, { key: 'day', width: 15 }, 
             { key: 'place', width: 40 }, { key: 'reason', width: 45 }
@@ -763,14 +816,12 @@
         sheet2.mergeCells('A1:D1');
         const tCell2 = sheet2.getCell('A1');
         tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`;
-        tCell2.font = { name: 'Mukta', size: 16, bold: true };
-        tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
+        tCell2.font = { name: 'Mukta', size: 16, bold: true }; tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
         sheet2.mergeCells('A2:D2');
         const infoCell2 = sheet2.getCell('A2');
         infoCell2.value = `श्री.${document.getElementById('kendraPramukhNameInput').value}, केंद्रप्रमुख स.सा.कें. ${document.getElementById('kendraInput').value}, ता.- ${document.getElementById('talukaInput').value}, जि.- ${document.getElementById('jilhaInput').value}`;
-        infoCell2.font = boldFont;
-        infoCell2.alignment = { vertical: 'middle', horizontal: 'center' };
+        infoCell2.font = boldFont; infoCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
         const hRow2 = sheet2.getRow(3);
         hRow2.values = ['दिनांक', 'वार', 'भेटीचे ठिकाण', 'भेटीचे कारण'];
@@ -778,7 +829,6 @@
 
         let rIdx2 = 4;
 
-        // Helper functions
         function getBorders() { return { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} }; }
         function getFill() { return { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEEEEEE' } }; }
         function getHolFill() { return { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF5F5F5' } }; }
@@ -803,51 +853,35 @@
                 s2Row.eachCell(c => { c.font = boldFont; c.border = getBorders(); c.fill = getHolFill(); c.alignment={horizontal:'center', vertical:'middle'}; });
                 rIdx2++;
             } else {
-                // Sheet 1 Processing (Actual)
                 let actualItems = row.querySelectorAll('.actual-item');
                 let aStartIdx = rIdx1;
                 actualItems.forEach(item => {
                     let rArr = [
                         dtStr,
-                        item.querySelector('.input-from').value, item.querySelector('.input-dtime').value,
-                        item.querySelector('.input-to').value, item.querySelector('.input-atime').value,
+                        item.querySelector('.input-from').value, formatTime(item.querySelector('.input-dtime').value),
+                        item.querySelector('.input-to').value, formatTime(item.querySelector('.input-atime').value),
                         item.querySelector('.input-dist').value, item.querySelector('.input-transport').value,
                         item.querySelector('.input-work').value
                     ];
-                    // Only add if there's some data
-                    if(rArr.slice(1).some(v => v.trim() !== '')) {
-                        sheet1.addRow(rArr).eachCell((c, cIdx) => { c.font = baseFont; c.border = getBorders(); c.alignment={vertical:'middle', wrapText:true, horizontal: (cIdx===1 || cIdx===3 || cIdx===6 || cIdx===8)?'left':'center'}; });
+                    if(rArr.slice(1).some(v => v.trim() !== '' && v.trim() !== '-')) {
+                        sheet1.addRow(rArr).eachCell((c, cIdx) => { c.font = baseFont; c.border = getBorders(); c.alignment={vertical:'middle', wrapText:true, horizontal: (cIdx===1 || cIdx===3 || cIdx===8)?'left':'center'}; });
                         rIdx1++;
                     }
                 });
                 if(rIdx1 > aStartIdx + 1) sheet1.mergeCells(`A${aStartIdx}:A${rIdx1-1}`);
-                else if (rIdx1 === aStartIdx) { // Empty Row if no data at all
-                    sheet1.addRow([dtStr, '','','','','','','']).eachCell(c => { c.border = getBorders(); });
-                    rIdx1++;
-                }
+                else if (rIdx1 === aStartIdx) { sheet1.addRow([dtStr, '','','','','','','']).eachCell(c => { c.border = getBorders(); }); rIdx1++; }
 
-                // Sheet 2 Processing (Planned)
                 let plannedItems = row.querySelectorAll('.planned-item');
                 let pStartIdx = rIdx2;
                 plannedItems.forEach(item => {
-                    let rArr = [
-                        dtStr, dayStr,
-                        item.querySelector('.input-place').value,
-                        item.querySelector('.input-reason').value
-                    ];
+                    let rArr = [dtStr, dayStr, item.querySelector('.input-place').value, item.querySelector('.input-reason').value];
                     if(rArr.slice(2).some(v => v.trim() !== '')) {
                         sheet2.addRow(rArr).eachCell((c, cIdx) => { c.font = baseFont; c.border = getBorders(); c.alignment={vertical:'middle', wrapText:true, horizontal: (cIdx<=2)?'center':'left'}; });
                         rIdx2++;
                     }
                 });
-                if(rIdx2 > pStartIdx + 1) {
-                    sheet2.mergeCells(`A${pStartIdx}:A${rIdx2-1}`);
-                    sheet2.mergeCells(`B${pStartIdx}:B${rIdx2-1}`);
-                }
-                else if (rIdx2 === pStartIdx) {
-                     sheet2.addRow([dtStr, dayStr, '', '']).eachCell(c => { c.border = getBorders(); });
-                     rIdx2++;
-                }
+                if(rIdx2 > pStartIdx + 1) { sheet2.mergeCells(`A${pStartIdx}:A${rIdx2-1}`); sheet2.mergeCells(`B${pStartIdx}:B${rIdx2-1}`); }
+                else if (rIdx2 === pStartIdx) { sheet2.addRow([dtStr, dayStr, '', '']).eachCell(c => { c.border = getBorders(); }); rIdx2++; }
             }
         });
 
@@ -918,9 +952,7 @@
             if (res.status === 'success') {
                 updateSyncBadge(`ऑनलाइन सिंक पूर्ण`, "synced");
                 if (!isAuto) alert("माहिती Google Sheets मध्ये सेव्ह झाली!");
-            } else {
-                updateSyncBadge("सिंक अयशस्वी", ""); if (!isAuto) alert("त्रुटी: " + res.message);
-            }
+            } else { updateSyncBadge("सिंक अयशस्वी", ""); if (!isAuto) alert("त्रुटी: " + res.message); }
         } catch (error) { updateSyncBadge("ऑफलाइन मोड", ""); if (!isAuto) alert("सर्व्हरशी संपर्क होऊ शकला नाही."); }
     }
 
@@ -932,9 +964,7 @@
             document.getElementById('adminTaluka').value = document.getElementById('talukaInput').value;
             document.getElementById('adminJilha').value = document.getElementById('jilhaInput').value;
             showAdminControls(); 
-        } else {
-            showAdminLogin(); 
-        }
+        } else { showAdminLogin(); }
     }
     
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
@@ -956,8 +986,7 @@
                 document.getElementById('adminTaluka').value = document.getElementById('talukaInput').value;
                 document.getElementById('adminJilha').value = document.getElementById('jilhaInput').value;
                 showAdminControls(); updateSyncBadge("लॉगिन यशस्वी", "synced"); 
-            }
-            else { alert("चुकीचा PIN!"); updateSyncBadge("चुकीचा PIN", ""); }
+            } else { alert("चुकीचा PIN!"); updateSyncBadge("चुकीचा PIN", ""); }
         } catch (err) { verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); showAdminControls(); } 
     }
 
@@ -996,7 +1025,7 @@
         const newPin = document.getElementById('newPin').value.trim(), confirmNewPin = document.getElementById('confirmNewPin').value.trim();
         if (!newPin || !confirmNewPin) return alert("सर्व पर्याय भरा!");
         if (newPin !== confirmNewPin) return alert("PIN जुळत नाहीत!");
-        updateSyncBadge("PIN बदलतচেতন...", "syncing");
+        updateSyncBadge("PIN बदलत आहे...", "syncing");
         try {
             let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "changePin", currentPin: verifiedSessionPin, newPin: newPin }) }).then(r => r.json());
             if (res.status === 'success') { alert("PIN बदलला!"); verifiedSessionPin = newPin; sessionStorage.setItem('KP_ADMIN_PIN', newPin); document.getElementById('newPin').value = ''; document.getElementById('confirmNewPin').value = ''; updateSyncBadge("PIN अपडेट झाला", "synced"); }
