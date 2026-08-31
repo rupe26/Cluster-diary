@@ -335,7 +335,10 @@
 
     const monthsMarathi = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"];
     const daysMarathi = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+    
+    // शाळांची अद्ययावत यादी ('अंबाजोगाई' पहिल्या क्रमांकावर)
     const schoolsList = [
+        "अंबाजोगाई",
         "गटशिक्षणाधिकारी कार्यालय अंबाजोगाई", "समूह साधन केंद्र रविवार पेठ", "सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. क्र. २, अंबाजोगाई", 
         "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. साकुड (उर्दू)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. काळवटी तांडा क्र. ३", 
         "जि.प.प्रा.शा. भीमाई वस्ती", "जि.प.प्रा.शा. काळवटी तांडा क्र. २", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. मांडवा तांडा", 
@@ -375,11 +378,12 @@
         tx.style.height = Math.max(26, tx.scrollHeight) + 'px';
     }
 
-    function getSchoolDropdownHTML(className, placeholderText, val = '') {
+    // Dropdown Generator (isAppend = true for adding multiple schools to the same box)
+    function getSchoolDropdownHTML(className, placeholderText, val = '', isAppend = false) {
         let optionsHTML = `<option value="">-- शाळा / ठिकाण निवडा --</option>`;
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
         optionsHTML += `<option value="manual">इतर (मॅन्युअल टाईप करा)</option>`;
-        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this, ${isAppend})">${optionsHTML}</select>
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
     }
 
@@ -390,14 +394,23 @@
             <option value="शाळाभेट, निरीक्षण, मार्गदर्शन, परत.">शाळाभेट, निरीक्षण, मार्गदर्शन, परत.</option>
             <option value="manual">इतर (मॅन्युअल टाईप करा)</option>
         `;
-        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+        return `<select class="input-style no-print" style="width:100%; font-size:12px; margin-bottom:2px;" onchange="handleDropdownSelect(this, false)">${optionsHTML}</select>
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val}</textarea>`;
     }
 
-    function handleDropdownSelect(selElement) {
+    function handleDropdownSelect(selElement, isAppend = false) {
         const textarea = selElement.nextElementSibling;
-        if (selElement.value === "manual") { textarea.value = ""; textarea.focus(); }
-        else if (selElement.value !== "") { textarea.value = selElement.value; }
+        if (selElement.value === "manual") {
+            if (!isAppend) textarea.value = "";
+            textarea.focus();
+        } else if (selElement.value !== "") {
+            if (isAppend) {
+                // Append mode for Multiple Schools in 'To' column
+                textarea.value = textarea.value ? textarea.value + ", " + selElement.value : selElement.value;
+            } else {
+                textarea.value = selElement.value;
+            }
+        }
         selElement.value = ""; 
         autoExpandTextarea(textarea);
         handleFormChange();
@@ -408,7 +421,7 @@
         div.className = 'task-item planned-item';
         div.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
-                ${getSchoolDropdownHTML('input-place', 'भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)', data.place)}
+                ${getSchoolDropdownHTML('input-place', 'भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)', data.place, false)}
                 ${getReasonDropdownHTML('input-reason', 'भेटीचे कारण (उदा. शाळाभेट)', data.reason)}
             </div>
             <button type="button" class="remove-task-btn no-print" onclick="removeTask(this)">[X] काढा</button>
@@ -422,14 +435,16 @@
         const div = document.createElement('div');
         div.className = 'task-item actual-item';
         let tVal = data.transport !== undefined ? data.transport : 'बस';
+        let fVal = data.from !== undefined ? data.from : 'अंबाजोगाई'; // Default From
+        
         div.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:6px; width:100%;">
                 <div style="display:flex; gap:4px; align-items:flex-start;">
-                    <div style="flex:1;">${getSchoolDropdownHTML('input-from', 'पासून (सुरुवात)', data.from)}</div>
+                    <div style="flex:1;">${getSchoolDropdownHTML('input-from', 'पासून (सुरुवात)', fVal, false)}</div>
                     <input type="time" class="input-style input-dtime" style="width:90px;" title="निघालेली वेळ" value="${data.dtime || ''}" onchange="handleFormChange()">
                 </div>
                 <div style="display:flex; gap:4px; align-items:flex-start;">
-                    <div style="flex:1;">${getSchoolDropdownHTML('input-to', 'पर्यंत (मुक्काम)', data.to)}</div>
+                    <div style="flex:1;">${getSchoolDropdownHTML('input-to', 'पर्यंत (मुक्काम)', data.to, true)}</div>
                     <input type="time" class="input-style input-atime" style="width:90px;" title="पोहचलेली वेळ" value="${data.atime || ''}" onchange="handleFormChange()">
                 </div>
                 <div style="display:flex; gap:4px; align-items:flex-start;">
@@ -460,6 +475,7 @@
         for (let i = 1; i <= daysInMonth; i++) {
             let date = new Date(year, month, i);
             let isSunday = date.getDay() === 0;
+            let isMonday = date.getDay() === 1; // सोमवार
             let dayName = daysMarathi[date.getDay()];
             let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${dayName})</b>`;
             let row = document.createElement('tr');
@@ -468,13 +484,13 @@
             row.setAttribute('data-is-sunday', isSunday ? 'true' : 'false');
 
             if (isSunday) renderHolidayRow(row, i, dateText, "सार्वजनिक सुट्टी (रविवार)", true);
-            else renderNormalRow(row, i, dateText);
+            else renderNormalRow(row, i, dateText, isMonday);
             
             tbody.appendChild(row);
         }
     }
 
-    function renderNormalRow(row, i, dateText) {
+    function renderNormalRow(row, i, dateText, isMonday = false) {
         let isSunday = row.getAttribute('data-is-sunday') === 'true';
         row.className = ''; row.setAttribute('data-is-holiday', 'false');
         let extraBadge = isSunday ? `<div class="holiday-badge working-sunday-badge" style="margin-top:2px;">कामकाज (रविवार)</div>` : ``;
@@ -502,7 +518,14 @@
                 </div>
             </td>
         `;
-        addPlannedItem(row.querySelector('.planned-list')); 
+        
+        let pData = {};
+        // सोमवार असल्यास 'समूह साधन केंद्र' आणि 'मुख्यालयीन.' डिफॉल्ट
+        if (isMonday) {
+            pData = { place: "समूह साधन केंद्र", reason: "मुख्यालयीन." };
+        }
+        
+        addPlannedItem(row.querySelector('.planned-list'), pData); 
         addActualItem(row.querySelector('.actual-list')); 
     }
 
@@ -531,17 +554,18 @@
         const year = parseInt(document.getElementById('yearSelect').value);
         const row = checkbox.closest('tr');
         const isSunday = row.getAttribute('data-is-sunday') === 'true';
+        let isMonday = new Date(year, month, i).getDay() === 1;
         let dateText = `${i} ${monthsMarathi[month]} <span class="no-print">${year}</span><br><b>(${daysMarathi[new Date(year, month, i).getDay()]})</b>`;
 
         if (checkbox.checked) {
             let defReason = isSunday ? "सार्वजनिक सुट्टी (रविवार)" : "सार्वजनिक सुट्टी";
             let reason = isSunday ? defReason : prompt("सुट्टीचे नाव / स्वरूप लिहा:", defReason);
             renderHolidayRow(row, i, dateText, reason || defReason, isSunday);
-        } else { renderNormalRow(row, i, dateText); }
+        } else { renderNormalRow(row, i, dateText, isMonday); }
         handleFormChange();
     }
 
-    function getStorageKey() { return `PRAVAS_V2_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
+    function getStorageKey() { return `PRAVAS_V3_${document.getElementById('monthSelect').value}_${document.getElementById('yearSelect').value}`; }
 
     function handleFormChange() {
         saveToLocalStorage();
@@ -620,22 +644,23 @@
                 if (!row) return;
                 
                 let isSun = row.getAttribute('data-is-sunday') === 'true';
-                let dt = new Date(y, m, parseInt(item.day));
-                let dtText = `${item.day} ${monthsMarathi[m]} <span class="no-print">${y}</span><br><b>(${daysMarathi[dt.getDay()]})</b>`;
+                let isMonday = new Date(y, m, parseInt(item.day)).getDay() === 1;
+                let dtText = `${item.day} ${monthsMarathi[m]} <span class="no-print">${y}</span><br><b>(${daysMarathi[new Date(y, m, parseInt(item.day)).getDay()]})</b>`;
 
                 if (item.isHoliday) {
                     renderHolidayRow(row, item.day, dtText, item.holidayReason || (isSun ? "सार्वजनिक सुट्टी (रविवार)" : "सुट्टी"), isSun);
                 } else {
-                    renderNormalRow(row, item.day, dtText);
+                    renderNormalRow(row, item.day, dtText, isMonday);
+                    
                     let pList = row.querySelector('.planned-list');
                     pList.innerHTML = '';
                     if(item.planned && item.planned.length > 0) item.planned.forEach(pData => addPlannedItem(pList, pData));
-                    else addPlannedItem(pList);
+                    else addPlannedItem(pList); // Empty block
                     
                     let aList = row.querySelector('.actual-list');
                     aList.innerHTML = '';
                     if(item.actual && item.actual.length > 0) item.actual.forEach(aData => addActualItem(aList, aData));
-                    else addActualItem(aList);
+                    else addActualItem(aList); // Empty block
                 }
             });
         } catch(e) { console.error("Load error:", e); }
@@ -658,23 +683,30 @@
         setTimeout(() => { prepareAndPrint(); }, 300); 
     }
 
-    // ================= TWO PAGE PRINT LOGIC =================
+    // ================= TWO PAGE PRINT LOGIC (PREVIOUS MONTH FOR ACTUAL) =================
     window.addEventListener('beforeprint', generatePrintLayout);
 
     function generatePrintLayout() {
         const printContainer = document.getElementById('print-container');
-        const mName = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
-        const mIdx = document.getElementById('monthSelect').value;
-        const yVal = document.getElementById('yearSelect').value;
+        
+        // Month Calculations
+        const mIdx = parseInt(document.getElementById('monthSelect').value);
+        const yVal = parseInt(document.getElementById('yearSelect').value);
+        const prevMonthIdx = mIdx === 0 ? 11 : mIdx - 1;
+        const prevYearVal = mIdx === 0 ? yVal - 1 : yVal;
+
+        const mName = monthsMarathi[mIdx];
+        const prevMName = monthsMarathi[prevMonthIdx];
+
         const kpName = document.getElementById('kendraPramukhNameInput').value;
         const kendra = document.getElementById('kendraInput').value;
         const taluka = document.getElementById('talukaInput').value;
         const jilha = document.getElementById('jilhaInput').value;
 
-        // --- Sheet 1: Actual ---
+        // --- Sheet 1: Actual (Previous Month Title) ---
         let html1 = `
             <div class="print-page">
-                <h2 class="print-title">प्रत्यक्ष प्रवास दैनंदिनी माहे - ${mName} - ${yVal}</h2>
+                <h2 class="print-title">प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}</h2>
                 <h3 class="print-subtitle">श्री.${kpName}, केंद्रप्रमुख समूह साधन केंद्र ${kendra}, तालुका - ${taluka}, जिल्हा - ${jilha}</h3>
                 <table class="print-table">
                     <thead>
@@ -692,7 +724,7 @@
                     <tbody>
         `;
 
-        // --- Sheet 2: Planned ---
+        // --- Sheet 2: Planned (Current Month Title) ---
         let html2 = `
             <div class="print-page page-break">
                 <h2 class="print-title">संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}</h2>
@@ -711,22 +743,25 @@
 
         document.querySelectorAll('#tableBody tr').forEach(row => {
             const isHol = row.getAttribute('data-is-holiday') === 'true';
-            const dIdx = row.getAttribute('data-day-index');
-            const dtObj = new Date(yVal, mIdx, parseInt(dIdx));
-            const dtStr = `${dIdx}/${String(parseInt(mIdx)+1).padStart(2, '0')}/${yVal}`;
-            const dayStr = daysMarathi[dtObj.getDay()];
+            const dIdx = parseInt(row.getAttribute('data-day-index'));
+            const dayStr = daysMarathi[new Date(yVal, mIdx, dIdx).getDay()];
+            
+            // Previous month date format for Actual Sheet
+            const dtStrActual = `${dIdx}/${String(prevMonthIdx + 1).padStart(2, '0')}/${prevYearVal}`;
+            // Current month date format for Planned Sheet
+            const dtStrPlanned = `${dIdx}/${String(mIdx + 1).padStart(2, '0')}/${yVal}`;
 
             if(isHol) {
                 let hr = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सार्वजनिक सुट्टी';
-                html1 += `<tr><td>${dtStr}</td><td colspan="7" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
-                html2 += `<tr><td>${dtStr}</td><td>${dayStr}</td><td colspan="2" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
+                html1 += `<tr><td>${dtStrActual}</td><td colspan="7" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
+                html2 += `<tr><td>${dtStrPlanned}</td><td>${dayStr}</td><td colspan="2" style="background:#f5f5f5 !important; font-weight:bold;">${hr}</td></tr>`;
             } else {
-                // Actual Body Processing
+                // Actual Body Processing (Uses previous month date)
                 let aItems = Array.from(row.querySelectorAll('.actual-item')).filter(i => {
                     return i.querySelector('.input-from').value.trim() || i.querySelector('.input-to').value.trim();
                 });
                 
-                if(aItems.length === 0) { html1 += `<tr><td>${dtStr}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`; } 
+                if(aItems.length === 0) { html1 += `<tr><td>${dtStrActual}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`; } 
                 else {
                     aItems.forEach((item, idx) => {
                         let rowStr = `
@@ -738,24 +773,24 @@
                             <td>${item.querySelector('.input-transport').value}</td>
                             <td style="text-align:left;">${item.querySelector('.input-work').value}</td>
                         `;
-                        if(idx === 0) html1 += `<tr><td rowspan="${aItems.length}">${dtStr}</td>${rowStr}</tr>`;
+                        if(idx === 0) html1 += `<tr><td rowspan="${aItems.length}">${dtStrActual}</td>${rowStr}</tr>`;
                         else html1 += `<tr>${rowStr}</tr>`;
                     });
                 }
 
-                // Planned Body Processing
+                // Planned Body Processing (Uses current month date)
                 let pItems = Array.from(row.querySelectorAll('.planned-item')).filter(i => {
                     return i.querySelector('.input-place').value.trim() || i.querySelector('.input-reason').value.trim();
                 });
 
-                if(pItems.length === 0) { html2 += `<tr><td>${dtStr}</td><td>${dayStr}</td><td>-</td><td>-</td></tr>`; } 
+                if(pItems.length === 0) { html2 += `<tr><td>${dtStrPlanned}</td><td>${dayStr}</td><td>-</td><td>-</td></tr>`; } 
                 else {
                     pItems.forEach((item, idx) => {
                         let rowStr = `
                             <td>${item.querySelector('.input-place').value}</td>
                             <td style="text-align:left;">${item.querySelector('.input-reason').value}</td>
                         `;
-                        if(idx === 0) html2 += `<tr><td rowspan="${pItems.length}">${dtStr}</td><td rowspan="${pItems.length}">${dayStr}</td>${rowStr}</tr>`;
+                        if(idx === 0) html2 += `<tr><td rowspan="${pItems.length}">${dtStrPlanned}</td><td rowspan="${pItems.length}">${dayStr}</td>${rowStr}</tr>`;
                         else html2 += `<tr>${rowStr}</tr>`;
                     });
                 }
@@ -780,19 +815,25 @@
         const baseFont = { name: 'Mukta', size: 12 };
         const boldFont = { name: 'Mukta', size: 12, bold: true };
         
-        // --- Sheet 1: प्रत्यक्ष प्रवास ---
+        // Month Calculations
+        const mIdx = parseInt(document.getElementById('monthSelect').value);
+        const yVal = parseInt(document.getElementById('yearSelect').value);
+        const prevMonthIdx = mIdx === 0 ? 11 : mIdx - 1;
+        const prevYearVal = mIdx === 0 ? yVal - 1 : yVal;
+
+        const mName = monthsMarathi[mIdx];
+        const prevMName = monthsMarathi[prevMonthIdx];
+        
+        // --- Sheet 1: प्रत्यक्ष प्रवास (Previous Month) ---
         sheet1.columns = [
             { key: 'date', width: 15 }, { key: 'from', width: 22 }, { key: 'dtime', width: 15 },
             { key: 'to', width: 22 }, { key: 'atime', width: 15 }, { key: 'dist', width: 10 },
             { key: 'transport', width: 18 }, { key: 'work', width: 35 }
         ];
 
-        const mName = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
-        const yVal = document.getElementById('yearSelect').value;
-        
         sheet1.mergeCells('A1:H1');
         const tCell1 = sheet1.getCell('A1');
-        tCell1.value = `प्रत्यक्ष प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`;
+        tCell1.value = `प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}`; // Prev Month
         tCell1.font = { name: 'Mukta', size: 16, bold: true };
         tCell1.alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -807,7 +848,7 @@
 
         let rIdx1 = 4;
         
-        // --- Sheet 2: संभाव्य प्रवास ---
+        // --- Sheet 2: संभाव्य प्रवास (Current Month) ---
         sheet2.columns = [
             { key: 'date', width: 15 }, { key: 'day', width: 15 }, 
             { key: 'place', width: 40 }, { key: 'reason', width: 45 }
@@ -815,7 +856,7 @@
 
         sheet2.mergeCells('A1:D1');
         const tCell2 = sheet2.getCell('A1');
-        tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`;
+        tCell2.value = `संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}`; // Current Month
         tCell2.font = { name: 'Mukta', size: 16, bold: true }; tCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
         sheet2.mergeCells('A2:D2');
@@ -835,20 +876,21 @@
 
         document.querySelectorAll('#tableBody tr').forEach(row => {
             const isHol = row.getAttribute('data-is-holiday') === 'true';
-            const dIdx = row.getAttribute('data-day-index');
-            const dtObj = new Date(yVal, document.getElementById('monthSelect').value, parseInt(dIdx));
-            const dtStr = `${dIdx}/${String(parseInt(document.getElementById('monthSelect').value)+1).padStart(2, '0')}/${yVal}`;
-            const dayStr = daysMarathi[dtObj.getDay()];
+            const dIdx = parseInt(row.getAttribute('data-day-index'));
+            const dayStr = daysMarathi[new Date(yVal, mIdx, dIdx).getDay()];
+            
+            const dtStrActual = `${dIdx}/${String(prevMonthIdx + 1).padStart(2, '0')}/${prevYearVal}`; // Prev Month
+            const dtStrPlanned = `${dIdx}/${String(mIdx + 1).padStart(2, '0')}/${yVal}`; // Current Month
 
             if(isHol) {
                 let hr = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सुट्टी';
                 
-                let s1Row = sheet1.addRow([dtStr, hr, '', '', '', '', '', '']);
+                let s1Row = sheet1.addRow([dtStrActual, hr, '', '', '', '', '', '']);
                 sheet1.mergeCells(`B${rIdx1}:H${rIdx1}`);
                 s1Row.eachCell(c => { c.font = boldFont; c.border = getBorders(); c.fill = getHolFill(); c.alignment={horizontal:'center', vertical:'middle'}; });
                 rIdx1++;
                 
-                let s2Row = sheet2.addRow([dtStr, dayStr, hr, '']);
+                let s2Row = sheet2.addRow([dtStrPlanned, dayStr, hr, '']);
                 sheet2.mergeCells(`C${rIdx2}:D${rIdx2}`);
                 s2Row.eachCell(c => { c.font = boldFont; c.border = getBorders(); c.fill = getHolFill(); c.alignment={horizontal:'center', vertical:'middle'}; });
                 rIdx2++;
@@ -857,7 +899,7 @@
                 let aStartIdx = rIdx1;
                 actualItems.forEach(item => {
                     let rArr = [
-                        dtStr,
+                        dtStrActual, // Prev Month
                         item.querySelector('.input-from').value, formatTime(item.querySelector('.input-dtime').value),
                         item.querySelector('.input-to').value, formatTime(item.querySelector('.input-atime').value),
                         item.querySelector('.input-dist').value, item.querySelector('.input-transport').value,
@@ -869,19 +911,19 @@
                     }
                 });
                 if(rIdx1 > aStartIdx + 1) sheet1.mergeCells(`A${aStartIdx}:A${rIdx1-1}`);
-                else if (rIdx1 === aStartIdx) { sheet1.addRow([dtStr, '','','','','','','']).eachCell(c => { c.border = getBorders(); }); rIdx1++; }
+                else if (rIdx1 === aStartIdx) { sheet1.addRow([dtStrActual, '','','','','','','']).eachCell(c => { c.border = getBorders(); }); rIdx1++; }
 
                 let plannedItems = row.querySelectorAll('.planned-item');
                 let pStartIdx = rIdx2;
                 plannedItems.forEach(item => {
-                    let rArr = [dtStr, dayStr, item.querySelector('.input-place').value, item.querySelector('.input-reason').value];
+                    let rArr = [dtStrPlanned, dayStr, item.querySelector('.input-place').value, item.querySelector('.input-reason').value]; // Current Month
                     if(rArr.slice(2).some(v => v.trim() !== '')) {
                         sheet2.addRow(rArr).eachCell((c, cIdx) => { c.font = baseFont; c.border = getBorders(); c.alignment={vertical:'middle', wrapText:true, horizontal: (cIdx<=2)?'center':'left'}; });
                         rIdx2++;
                     }
                 });
                 if(rIdx2 > pStartIdx + 1) { sheet2.mergeCells(`A${pStartIdx}:A${rIdx2-1}`); sheet2.mergeCells(`B${pStartIdx}:B${rIdx2-1}`); }
-                else if (rIdx2 === pStartIdx) { sheet2.addRow([dtStr, dayStr, '', '']).eachCell(c => { c.border = getBorders(); }); rIdx2++; }
+                else if (rIdx2 === pStartIdx) { sheet2.addRow([dtStrPlanned, dayStr, '', '']).eachCell(c => { c.border = getBorders(); }); rIdx2++; }
             }
         });
 
