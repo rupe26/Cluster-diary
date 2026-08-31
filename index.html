@@ -58,9 +58,10 @@
         .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 0 2px; }
         .stylish-select-box select { font-family: inherit; font-size: 15px; font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 1px 2px; cursor: pointer; text-align: center; }
         
-        .editable-header-input { font-family: inherit; font-size: 15px; padding: 1px 4px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; color: #111827; }
-        .name-input { width: 200px; }
-        .loc-input { width: 120px; }
+        /* Auto-filled Read-only Headers */
+        .editable-header-input { font-family: inherit; font-size: 16px; padding: 0 4px; font-weight: 800; border: none; background: transparent; text-align: left; color: var(--primary-color); pointer-events: none; }
+        .name-input { width: 200px; border-bottom: 1px dashed var(--primary-color); }
+        .loc-input { width: 120px; border-bottom: 1px dashed var(--primary-color); }
 
         .sync-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 2px 8px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
         .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
@@ -128,30 +129,30 @@
 
         .date-text-print { font-size: 14px; font-weight: 700; line-height: 1.15; text-align: center; margin: 0; padding: 0;}
 
-        .btn-container { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-        button.action-btn { width: 100%; padding: 6px 12px; font-size: 14px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-print { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
-        .btn-print:hover { background-color: #001a33; }
-        .btn-excel { background-color: #16a34a; color: white; border-color: #16a34a; }
-        .btn-excel:hover { background-color: #15803d; }
-        .btn-demo { background-color: #8b5cf6; color: white; border-color: #8b5cf6; }
-        .btn-demo:hover { background-color: #7c3aed; }
-        .btn-admin { background-color: #e2e8f0; color: var(--text-color); }
+        .btn-container { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; align-items: center;}
+        button.action-btn { width: 100%; max-width: 400px; padding: 8px 12px; font-size: 15px; font-family: inherit; font-weight: 800; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        
+        .btn-admin { background-color: var(--primary-color); color: white; border-color: var(--primary-color); width: 100%; max-width: none;}
+        .btn-admin-modal { background-color: #e2e8f0; color: var(--text-color); border-color: var(--border-color);}
+        .btn-print { background-color: #1e293b; color: white; border-color: #0f172a; }
+        .btn-excel { background-color: #16a34a; color: white; border-color: #15803d; }
+        .btn-demo { background-color: #8b5cf6; color: white; border-color: #7c3aed; }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
         .btn-danger { background-color: #ffffff; color: #dc2626; border-color: #dc2626; }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 14px; }
-        .modal-content { background-color: white; padding: 18px; border-radius: 4px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; text-align: left; border: 1px solid var(--primary-color); font-family: inherit; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 14px; }
+        .modal-content { background-color: white; padding: 18px; border-radius: 4px; width: 100%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 95vh; overflow-y: auto; text-align: left; border: 2px solid var(--primary-color); font-family: inherit; }
         .modal-content h3 { margin: 0 0 10px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 6px; text-align: center; font-size: 17px; font-weight: 800;}
+        .modal-content h4 { margin: 12px 0 6px 0; color: var(--primary-color); font-size: 15px; font-weight: 800;}
         .modal-content label { display: block; margin-top: 8px; font-weight: 700; font-size: 14px; }
-        .modal-content input[type="password"] { width: 100%; padding: 6px; margin-top: 3px; border: 1px solid var(--border-color); border-radius: 2px; font-size: 14px; font-family: inherit; }
+        .modal-content input[type="text"], .modal-content input[type="password"] { width: 100%; padding: 6px; margin-top: 3px; border: 1px solid var(--border-color); border-radius: 2px; font-size: 14px; font-family: inherit; font-weight: 700;}
         .modal-actions { margin-top: 14px; display: flex; gap: 8px; }
         .danger-zone { margin-top: 12px; padding: 10px; border: 1px solid #94a3b8; background-color: #f8fafc; }
-        .danger-zone h4 { margin: 0 0 8px 0; color: var(--text-color); font-size: 14px; text-align: center; font-weight: 700; }
+        .danger-zone h4 { margin: 0 0 8px 0; color: var(--text-color); font-size: 14px; text-align: center; font-weight: 800; }
         
-        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border: 1px solid var(--border-color); margin-bottom: 12px; }
-        .switch-container span { font-weight: 700; font-size: 14px; color: var(--text-color); }
+        .switch-container { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border: 1px solid var(--border-color); margin: 12px 0; }
+        .switch-container span { font-weight: 800; font-size: 14px; color: var(--text-color); }
         .switch { position: relative; display: inline-block; width: 36px; height: 18px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 20px; }
@@ -161,7 +162,7 @@
 
         .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: center; width: 100%; font-weight: 600; line-height: 1.15; justify-content: center; align-items: center; margin: 0; padding: 0; }
         .holiday-print-text { font-size: 15px; font-weight: 800; color: var(--holiday-color); text-align: center; width: 100%; margin: 0; padding: 0; }
-        .print-task-time { display: none; font-size: 9pt; font-weight: 700; color: var(--text-color); text-align: center; width: 100%; margin: 0; padding: 0; }
+        .print-task-time { display: none; font-size: 9pt; font-weight: 800; color: var(--text-color); text-align: center; width: 100%; margin: 0; padding: 0; }
 
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
@@ -177,7 +178,6 @@
             
             .header-subsection { flex-direction: column; gap: 6px; justify-content: center; align-items: center; padding: 6px; }
             .info-item { font-size: 14px; gap: 4px; justify-content: center; width: auto; }
-            .editable-header-input { font-size: 14px; padding: 2px 4px; }
             .name-input { width: 100%; max-width: 250px; }
             .loc-input { width: 100%; max-width: 150px; }
             .stylish-select-box select { font-size: 14px; }
@@ -207,65 +207,65 @@
             .btn-container button.action-btn { font-size: 14px; padding: 8px 10px; }
         }
 
-        /* ================= PRINT CSS (ZERO WHITESPACE / AUTOFIT) ================= */
+        /* ================= OFFICIAL B&W COMPACT PRINT CSS ================= */
         @media print {
             @page { size: A4 portrait; margin: 5mm 4mm; }
 
-            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9.5pt; line-height: 1.1 !important; color: var(--text-color) !important; font-family: 'Mukta', sans-serif !important; }
+            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9pt; line-height: 1 !important; color: #000 !important; font-family: 'Mukta', sans-serif !important; }
             .container { box-shadow: none !important; padding: 0 !important; border: none !important; margin: 0 !important; }
 
-            .header-section { display: block !important; padding: 2px !important; margin: 0 0 2px 0 !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: var(--primary-color) !important; color: #ffffff !important; }
-            .header-section h1 { font-size: 12pt !important; color: #ffffff !important; font-weight: 800 !important; margin: 0 !important; }
+            * { color: #000 !important; border-color: #000 !important; }
+
+            .header-section { display: block !important; padding: 2px !important; margin: 0 0 2px 0 !important; border: 1px solid #000 !important; border-radius: 0 !important; background: #fff !important; }
+            .header-section h1 { font-size: 12pt !important; font-weight: 800 !important; margin: 0 !important; text-transform: uppercase; }
             
             .header-wrapper { gap: 2px !important; margin-bottom: 4px !important; flex-direction: column !important; }
-            .header-subsection { padding: 2px 4px !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
+            .header-subsection { padding: 2px 4px !important; border: 1px solid #000 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
             
-            .info-item { color: var(--primary-color) !important; font-size: 10.5pt !important; gap: 2px !important; margin: 0 !important;}
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: 800; font-size: 10.5pt !important; text-align: left !important; margin: 0 !important;}
+            .info-item { font-size: 10.5pt !important; gap: 2px !important; margin: 0 !important;}
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; font-weight: 800; font-size: 10.5pt !important; text-align: left !important; margin: 0 !important;}
             .stylish-select-box { border: none !important; padding: 0 !important; margin: 0 !important;}
-            .name-input { width: auto !important; min-width: 150px !important; }
-            .loc-input { width: auto !important; min-width: 80px !important; }
 
             .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
 
             table, thead, tbody, tr { display: revert !important; }
-            table { font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid var(--primary-color) !important; table-layout: fixed !important; margin-top: 0 !important; }
+            table { font-size: 9pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid #000 !important; table-layout: fixed !important; margin-top: 0 !important; }
             thead { display: table-header-group !important; }
             tbody { display: table-row-group !important; }
             tr { display: table-row !important; page-break-inside: avoid !important; }
 
-            th, td { display: table-cell !important; padding: 2px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
+            th { background-color: #e5e5e5 !important; font-size: 9.5pt !important; padding: 2px !important; border: 1px solid #000 !important; vertical-align: middle !important; }
+            td { display: table-cell !important; padding: 1px !important; border: 1px solid #000 !important; vertical-align: middle !important; text-align: center !important; }
             
             td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
             .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin: 0 !important; padding: 0 !important;}
 
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
-            td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 2px !important;}
-            td.date-cell-mobile .date-text-print { color: var(--primary-color) !important; margin: 0 !important;}
+            td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 1px !important;}
+            td.date-cell-mobile .date-text-print { margin: 0 !important;}
 
-            .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1.5px dotted var(--primary-color) !important; }
-            .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 0 2px !important; border-radius: 1px !important; font-size: 8.5pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
+            .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1px dotted #000 !important; }
+            .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: 1px solid #000 !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
             
-            .date-text-print { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 10pt !important; text-align: center !important; margin: 0 !important;}
+            .date-text-print { font-weight: 800 !important; font-size: 9.5pt !important; text-align: center !important; margin: 0 !important;}
 
-            tr.holiday-row td { background-color: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; color: var(--holiday-color) !important; padding: 2px !important; }
-            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8pt !important; margin: 0 !important;}
-            .holiday-input-container { text-align: center !important; vertical-align: middle !important; padding: 2px !important; }
+            tr.holiday-row td { background-color: #f5f5f5 !important; padding: 1px !important; }
+            .holiday-badge { background: transparent !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8pt !important; margin: 0 !important;}
+            .holiday-input-container { text-align: center !important; vertical-align: middle !important; padding: 1px !important; }
             .holiday-full-row { display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 4px !important; margin: 0 !important; }
-            .holiday-icon-label { background: transparent !important; border: none !important; font-size: 9.5pt !important; font-weight: 800 !important; color: var(--holiday-color) !important; padding: 0 !important; margin: 0 !important; }
+            .holiday-icon-label { background: transparent !important; border: none !important; font-size: 9.5pt !important; font-weight: 800 !important; padding: 0 !important; margin: 0 !important; }
             
             .holiday-reason-input { display: none !important; }
-            .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important;}
+            .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
 
             textarea { display: none !important; }
             
-            /* Remove ANY flex expansion to guarantee perfect autofit */
-            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important;}
+            .task-item { border-bottom: 1px dotted #000 !important; padding: 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important;}
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: block !important; font-size: 9.5pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important;}
-            .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: 800 !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
+            .print-text { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important;}
+            .print-task-time { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
         }
     </style>
 </head>
@@ -285,21 +285,22 @@
             </div>
             <div class="info-item">
                 <label>केंद्रप्रमुख नाव:</label>
-                <input type="text" id="kendraPramukhNameInput" class="editable-header-input name-input" value="श्री. / सौ. " oninput="handleFormChange()">
+                <!-- Inputs are strictly read-only on the main view -->
+                <input type="text" id="kendraPramukhNameInput" class="editable-header-input name-input" readonly>
             </div>
         </div>
         <div class="header-subsection">
             <div class="info-item">
                 <label>केंद्र:</label>
-                <input type="text" id="kendraInput" class="editable-header-input loc-input" value="रविवार पेठ" oninput="handleFormChange()">
+                <input type="text" id="kendraInput" class="editable-header-input loc-input" readonly>
             </div>
             <div class="info-item">
                 <label>तालुका:</label>
-                <input type="text" id="talukaInput" class="editable-header-input loc-input" value="अंबाजोगाई" oninput="handleFormChange()">
+                <input type="text" id="talukaInput" class="editable-header-input loc-input" readonly>
             </div>
             <div class="info-item">
                 <label>जिल्हा:</label>
-                <input type="text" id="jilhaInput" class="editable-header-input loc-input" value="बीड" oninput="handleFormChange()">
+                <input type="text" id="jilhaInput" class="editable-header-input loc-input" readonly>
             </div>
         </div>
     </div>
@@ -322,10 +323,8 @@
     </table>
 
     <div class="btn-container no-print">
-        <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
-        <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (सर्व फॉरमॅटसह)</button>
-        <button class="action-btn btn-demo" onclick="fillDemoData()">डेमो डेटा भरा (Fill Demo Data)</button>
-        <button class="action-btn btn-admin" onclick="openAdminPanel()">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
+        <!-- Download/Print functionality is restricted behind the admin panel -->
+        <button class="action-btn btn-admin" onclick="openAdminPanel()">लॉगिन करा (सेटिंग्ज व डाउनलोड)</button>
     </div>
 </div>
 
@@ -337,12 +336,36 @@
             <label>केंद्रप्रमुख PIN टाका:</label>
             <input type="password" id="authPinInput" placeholder="PIN टाका">
             <div class="modal-actions">
-                <button type="button" class="action-btn btn-admin" onclick="closeAdminModal()">रद्द करा</button>
+                <button type="button" class="action-btn btn-admin-modal" onclick="closeAdminModal()">रद्द करा</button>
                 <button type="button" class="action-btn btn-sync" onclick="verifyAdminLogin()">लॉगिन करा</button>
             </div>
         </div>
         <div id="adminControlsStep" style="display:none;">
-            <p style="font-size: 15px; color: #15803d; font-weight: 800; text-align: center; margin: 0 0 12px 0;">✓ केंद्रप्रमुख प्रमाणीकरण यशस्वी</p>
+            <p style="font-size: 15px; color: #15803d; font-weight: 800; text-align: center; margin: 0 0 8px 0;">✓ प्रमाणीकरण यशस्वी</p>
+            
+            <h4>माहिती डाउनलोड व प्रिंट (Downloads)</h4>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+                <button class="action-btn btn-print" onclick="triggerPrintFromModal()">PDF डाउनलोड करा / प्रिंट करा</button>
+                <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (Official)</button>
+                <button class="action-btn btn-demo" onclick="fillDemoData()">डेमो डेटा भरा (Fill Demo Data)</button>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 12px 0;">
+            
+            <h4>शीर्षक सेटिंग्ज (Header Autofill Setup)</h4>
+            <label>केंद्रप्रमुख नाव:</label>
+            <input type="text" id="adminKendraPramukh" placeholder="उदा. श्री. रुपेश लोढे">
+            <label>केंद्र:</label>
+            <input type="text" id="adminKendra" placeholder="उदा. रविवार पेठ">
+            <label>तालुका:</label>
+            <input type="text" id="adminTaluka" placeholder="उदा. अंबाजोगाई">
+            <label>जिल्हा:</label>
+            <input type="text" id="adminJilha" placeholder="उदा. बीड">
+            <button type="button" class="action-btn btn-sync" style="margin-top: 10px;" onclick="saveAdminHeaders()">हेडर माहिती सेव्ह करा</button>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 12px 0;">
+
+            <h4>डेटा सिंक (Cloud Sync)</h4>
             <div class="switch-container">
                 <span>स्वयंचलित सिंक (Auto-Sync)</span>
                 <label class="switch"><input type="checkbox" id="autoSyncToggle" onchange="toggleAutoSync()"><span class="slider"></span></label>
@@ -351,22 +374,27 @@
                 <button type="button" class="action-btn btn-sync" onclick="triggerManualSync()">ऑनलाइन सेव्ह करा</button>
                 <button type="button" class="action-btn btn-fetch" onclick="fetchFromGoogleSheets()">ऑनलाइन डेटा मिळवा</button>
             </div>
+
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 12px 0;">
+            
+            <h4>सुरक्षा (Security)</h4>
             <label>नवीन PIN:</label>
             <input type="password" id="newPin" placeholder="नवीन PIN">
             <label>नवीन PIN ची पुष्टी करा:</label>
             <input type="password" id="confirmNewPin" placeholder="पुन्हा नवीन PIN टाका">
             <button type="button" class="action-btn btn-sync" style="margin-top: 8px;" onclick="saveNewPinOnline()">PIN ऑनलाइन बदला</button>
+            
             <div class="danger-zone">
                 <h4>धोक्याचा इशारा</h4>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिलीट करा</button>
+                    <button type="button" class="action-btn btn-admin-modal" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिलीट करा</button>
                     <button type="button" class="action-btn btn-danger" onclick="deleteFromGoogleSheets()">ऑनलाइन शीट मधील डेटा डिलीट करा</button>
                 </div>
             </div>
+            
             <div class="modal-actions" style="margin-top: 12px;">
                 <button type="button" class="action-btn btn-danger" onclick="logoutAdmin()" style="width: 100%;">लॉगआउट</button>
-                <button type="button" class="action-btn btn-admin" onclick="closeAdminModal()" style="width: 100%;">बंद करा</button>
+                <button type="button" class="action-btn btn-admin-modal" onclick="closeAdminModal()" style="width: 100%;">बंद करा</button>
             </div>
         </div>
     </div>
@@ -712,19 +740,16 @@
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
         
-        // Reset heights aggressively to allow auto-fitting
         row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => {
             el.style.minHeight = '0px';
             el.style.height = 'auto';
         });
         
-        // Let task items perfectly shrink wrap
         row.querySelectorAll('.task-item').forEach(el => {
             el.style.minHeight = '0px';
             el.style.height = 'auto';
         });
 
-        // Reapply container minimum heights to match ONLY the tallest block in the row for perfectly straight dotted lines
         if (row.classList.contains('mode-both')) {
             let mLabel = row.querySelector('.morning-label-box');
             let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
@@ -748,7 +773,7 @@
             if (printDiv && printDiv.classList.contains('print-text')) {
                 printDiv.textContent = tx.value;
                 if(tx.value.trim() === '') {
-                    printDiv.style.display = 'none'; // Hide completely if empty to eliminate gap
+                    printDiv.style.display = 'none'; 
                 } else {
                     printDiv.style.display = 'block';
                 }
@@ -772,7 +797,7 @@
                         pt.style.display = 'block';
                     } else {
                         pt.textContent = '';
-                        pt.style.display = 'none'; // Hide empty times to eliminate gap
+                        pt.style.display = 'none'; 
                     }
                 }
             });
@@ -801,6 +826,15 @@
             updateSyncBadge("ऑटो-सिंक प्रलंबित...", "syncing");
             autoSyncTimer = setTimeout(() => syncToGoogleSheets(verifiedSessionPin, true), 3000);
         }
+    }
+
+    function saveAdminHeaders() {
+        document.getElementById('kendraPramukhNameInput').value = document.getElementById('adminKendraPramukh').value;
+        document.getElementById('kendraInput').value = document.getElementById('adminKendra').value;
+        document.getElementById('talukaInput').value = document.getElementById('adminTaluka').value;
+        document.getElementById('jilhaInput').value = document.getElementById('adminJilha').value;
+        handleFormChange();
+        alert("शीर्षक माहिती सेव्ह झाली!");
     }
 
     function saveToLocalStorage() {
@@ -856,10 +890,22 @@
         
         try {
             const data = JSON.parse(saved);
-            if (data.kendraPramukhName) document.getElementById('kendraPramukhNameInput').value = data.kendraPramukhName;
-            if (data.kendra) document.getElementById('kendraInput').value = data.kendra;
-            if (data.taluka) document.getElementById('talukaInput').value = data.taluka;
-            if (data.jilha) document.getElementById('jilhaInput').value = data.jilha;
+            if (data.kendraPramukhName) {
+                document.getElementById('kendraPramukhNameInput').value = data.kendraPramukhName;
+                document.getElementById('adminKendraPramukh').value = data.kendraPramukhName;
+            }
+            if (data.kendra) {
+                document.getElementById('kendraInput').value = data.kendra;
+                document.getElementById('adminKendra').value = data.kendra;
+            }
+            if (data.taluka) {
+                document.getElementById('talukaInput').value = data.taluka;
+                document.getElementById('adminTaluka').value = data.taluka;
+            }
+            if (data.jilha) {
+                document.getElementById('jilhaInput').value = data.jilha;
+                document.getElementById('adminJilha').value = data.jilha;
+            }
 
             const m = parseInt(document.getElementById('monthSelect').value), y = parseInt(document.getElementById('yearSelect').value);
 
@@ -916,6 +962,14 @@
 
     function onMonthYearChange() { loadFormData(); }
     function updateSyncBadge(t, c) { document.getElementById('syncStatus').textContent = t; document.getElementById('syncStatus').className = `sync-badge ${c}`; }
+    
+    function triggerPrintFromModal() {
+        closeAdminModal();
+        setTimeout(() => {
+            prepareAndPrint();
+        }, 300); // Give the modal time to fully disappear before print dialogue triggers
+    }
+
     function prepareAndPrint() { 
         document.querySelectorAll('#tableBody tr').forEach(row => {
             syncRowVisuals(row);
@@ -931,7 +985,11 @@
         const schools = ["सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. तलाव पाटी"];
         const workTypes = ["नियोजित शाळा भेट", "आकस्मिक शाळा भेट", "विद्यार्थी गुणवत्ता तपासणी", "दप्तर तपासणी", "पटनोंदणी व उपस्थिती आढावा"];
         
-        document.getElementById('kendraPramukhNameInput').value = "श्री. रमेश पाटील";
+        document.getElementById('adminKendraPramukh').value = "श्री. रमेश पाटील";
+        document.getElementById('adminKendra').value = "रविवार पेठ";
+        document.getElementById('adminTaluka').value = "अंबाजोगाई";
+        document.getElementById('adminJilha').value = "बीड";
+        saveAdminHeaders();
         
         document.querySelectorAll('#tableBody tr').forEach(row => {
             if (row.getAttribute('data-is-holiday') === 'true') return;
@@ -970,7 +1028,7 @@
     }
 
     /* ========================================================================================= */
-    /* Excel Download Logic using ExcelJS                                                        */
+    /* Official B&W Excel Download Logic using ExcelJS                                           */
     /* ========================================================================================= */
     async function exportToExcel() {
         if(typeof ExcelJS === 'undefined') return alert("Excel लायब्ररी लोड होत आहे, कृपया थोडे थांबा...");
@@ -982,7 +1040,7 @@
 
         const baseFont = { name: 'Mukta', size: 18 };
         const boldFont = { name: 'Mukta', size: 18, bold: true };
-        const primaryColorStr = 'FF003366';
+        const officialBlack = 'FF000000';
         
         sheet.columns = [
             { key: 'date', width: 20 },
@@ -995,7 +1053,7 @@
         sheet.mergeCells('A1:E1');
         const titleCell = sheet.getCell('A1');
         titleCell.value = 'समूह साधन केंद्र समन्वयक मासिक दैनंदिनी';
-        titleCell.font = { name: 'Mukta', size: 22, bold: true, color: { argb: primaryColorStr } };
+        titleCell.font = { name: 'Mukta', size: 22, bold: true, color: { argb: officialBlack } };
         titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
         
         const monthSelect = document.getElementById('monthSelect');
@@ -1009,16 +1067,16 @@
             `तालुका: ${document.getElementById('talukaInput').value.trim()}`,
             `जिल्हा: ${document.getElementById('jilhaInput').value.trim()}`
         ];
-        sheet.getRow(2).font = { name: 'Mukta', size: 16, bold: true, color: { argb: primaryColorStr } };
+        sheet.getRow(2).font = { name: 'Mukta', size: 16, bold: true, color: { argb: officialBlack } };
         sheet.getRow(2).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
 
         const headerRow = sheet.getRow(3);
         headerRow.values = ['दिनांक व वार', 'सत्र / स्वरूप', 'नियोजित भेट', 'प्रत्यक्ष भेट', 'कामाचे स्वरूप'];
         headerRow.eachCell(cell => {
-            cell.font = { ...boldFont, color: { argb: primaryColorStr } };
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE0F2FE' } }; 
+            cell.font = { ...boldFont, color: { argb: officialBlack } };
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEEEEEE' } }; 
             cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-            cell.border = { top: {style:'medium', color: {argb:primaryColorStr}}, bottom: {style:'medium', color: {argb:primaryColorStr}}, left: {style:'thin', color: {argb:primaryColorStr}}, right: {style:'thin', color: {argb:primaryColorStr}} };
+            cell.border = { top: {style:'medium', color: {argb:officialBlack}}, bottom: {style:'medium', color: {argb:officialBlack}}, left: {style:'thin', color: {argb:officialBlack}}, right: {style:'thin', color: {argb:officialBlack}} };
         });
 
         let rowIndex = 4;
@@ -1037,10 +1095,10 @@
                 const newRow = sheet.addRow([dateStr, reason, '', '', '']);
                 sheet.mergeCells(`B${rowIndex}:E${rowIndex}`);
                 newRow.eachCell(cell => {
-                    cell.font = { ...boldFont, color: { argb: 'FF991B1B' } }; 
-                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEE2E2' } }; 
+                    cell.font = { ...boldFont, color: { argb: officialBlack } }; 
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF5F5F5' } }; 
                     cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-                    cell.border = { top: {style:'thin', color: {argb:'FFF87171'}}, left: {style:'thin', color: {argb:'FFF87171'}}, bottom: {style:'thin', color: {argb:'FFF87171'}}, right: {style:'thin', color: {argb:'FFF87171'}} };
+                    cell.border = { top: {style:'thin', color: {argb:officialBlack}}, left: {style:'thin', color: {argb:officialBlack}}, bottom: {style:'thin', color: {argb:officialBlack}}, right: {style:'thin', color: {argb:officialBlack}} };
                 });
             } else {
                 let cbW = row.querySelector('.cb-whole')?.checked;
@@ -1053,8 +1111,12 @@
                         let texts = [];
                         let items = row.querySelectorAll(`.${colClass} ${blockCls} .task-item`);
                         items.forEach(item => {
-                            let tf = item.querySelector('.task-time-from')?.value || '';
-                            let tt = item.querySelector('.task-time-to')?.value || '';
+                            let tf = '', tt = '';
+                            if (colClass === 'col-actual') {
+                                tf = item.querySelector('.task-time-from')?.value || '';
+                                tt = item.querySelector('.task-time-to')?.value || '';
+                            }
+
                             let val = '';
                             if (colClass === 'col-planned') val = item.querySelector('.input-planned')?.value || '';
                             if (colClass === 'col-actual') val = item.querySelector('.input-actual')?.value || '';
@@ -1088,7 +1150,7 @@
                 newRow.eachCell((cell, colNumber) => {
                     cell.font = (colNumber === 1 || colNumber === 2) ? boldFont : baseFont;
                     cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-                    cell.border = { top: {style:'thin', color: {argb:primaryColorStr}}, left: {style:'thin', color: {argb:primaryColorStr}}, bottom: {style:'thin', color: {argb:primaryColorStr}}, right: {style:'thin', color: {argb:primaryColorStr}} };
+                    cell.border = { top: {style:'thin', color: {argb:officialBlack}}, left: {style:'thin', color: {argb:officialBlack}}, bottom: {style:'thin', color: {argb:officialBlack}}, right: {style:'thin', color: {argb:officialBlack}} };
                 });
             }
             rowIndex++;
@@ -1127,9 +1189,6 @@
                     rows.forEach((item, i) => {
                        let actualNode = row.querySelectorAll(`.col-actual ${blockCls} .task-item`)[i];
                        
-                       let tf = actualNode?.querySelector('.task-time-from')?.value || '';
-                       let tt = actualNode?.querySelector('.task-time-to')?.value || '';
-                       
                        let atf = actualNode?.querySelector('.task-time-from')?.value || '';
                        let att = actualNode?.querySelector('.task-time-to')?.value || '';
 
@@ -1137,7 +1196,7 @@
                        let aVal = actualNode?.querySelector('.input-actual')?.value.trim() || '';
                        let wVal = row.querySelectorAll(`.col-work ${blockCls} .input-work`)[i]?.value.trim() || '';
                        
-                       if(pVal || aVal || wVal) tasks.push({tf, tt, atf, att, p:pVal, a:aVal, w:wVal});
+                       if(pVal || aVal || wVal) tasks.push({atf, att, p:pVal, a:aVal, w:wVal});
                     });
                     return tasks;
                 };
@@ -1200,7 +1259,19 @@
         } catch (error) { updateSyncBadge("ऑफलाइन मोड", ""); if (!isAuto) alert("सर्व्हरशी संपर्क होऊ शकला नाही."); }
     }
 
-    function openAdminPanel() { document.getElementById('adminModal').style.display = 'flex'; if (verifiedSessionPin) showAdminControls(); else showAdminLogin(); }
+    function openAdminPanel() { 
+        document.getElementById('adminModal').style.display = 'flex'; 
+        if (verifiedSessionPin) {
+            document.getElementById('adminKendraPramukh').value = document.getElementById('kendraPramukhNameInput').value;
+            document.getElementById('adminKendra').value = document.getElementById('kendraInput').value;
+            document.getElementById('adminTaluka').value = document.getElementById('talukaInput').value;
+            document.getElementById('adminJilha').value = document.getElementById('jilhaInput').value;
+            showAdminControls(); 
+        } else {
+            showAdminLogin(); 
+        }
+    }
+    
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
     function showAdminLogin() { document.getElementById('loginStep').style.display = 'block'; document.getElementById('adminControlsStep').style.display = 'none'; document.getElementById('authPinInput').value = ''; }
     function showAdminControls() { document.getElementById('loginStep').style.display = 'none'; document.getElementById('adminControlsStep').style.display = 'block'; }
@@ -1213,7 +1284,14 @@
         updateSyncBadge("पडताळणी सुरू...", "syncing");
         try {
             let res = await fetch(GOOGLE_WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: "verifyPin", pin: pin }) }).then(r => r.json());
-            if (res.status === 'success') { verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); showAdminControls(); updateSyncBadge("लॉगिन यशस्वी", "synced"); }
+            if (res.status === 'success') { 
+                verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); 
+                document.getElementById('adminKendraPramukh').value = document.getElementById('kendraPramukhNameInput').value;
+                document.getElementById('adminKendra').value = document.getElementById('kendraInput').value;
+                document.getElementById('adminTaluka').value = document.getElementById('talukaInput').value;
+                document.getElementById('adminJilha').value = document.getElementById('jilhaInput').value;
+                showAdminControls(); updateSyncBadge("लॉगिन यशस्वी", "synced"); 
+            }
             else { alert("चुकीचा PIN!"); updateSyncBadge("चुकीचा PIN", ""); }
         } catch (err) { verifiedSessionPin = pin; sessionStorage.setItem('KP_ADMIN_PIN', pin); showAdminControls(); } 
     }
