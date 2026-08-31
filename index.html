@@ -249,7 +249,8 @@
             .mode-both .morning-block, .mode-both .afternoon-block { flex: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1px dotted #000 !important; }
             
-            .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: 1px solid #000 !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
+            /* FIXED: Remove border around morning/afternoon session labels */
+            .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: none !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
             
             .date-text-print { font-weight: 800 !important; font-size: 9.5pt !important; text-align: center !important; margin: 0 !important;}
 
@@ -262,8 +263,9 @@
             .holiday-reason-input { display: none !important; }
             .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
 
-            /* Make tasks wrap text tightly */
-            .task-item { border-bottom: 1px dotted #000 !important; padding: 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important;}
+            /* FIXED: Increase padding and set height auto for task items and task list */
+            .task-item { border-bottom: 1px dotted #000 !important; padding: 4px 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important; height: auto !important;}
+            .task-list { height: auto !important; min-height: 100% !important; justify-content: center !important; }
             .task-item:last-child { border-bottom: none !important; }
             
             /* CSS Logic to show text ONLY if not empty, prevents DOM reflow bugs */
