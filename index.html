@@ -28,171 +28,116 @@
         * { box-sizing: border-box; }
         body {
             font-family: 'Mukta', system-ui, -apple-system, sans-serif;
-            margin: 0; padding: 10px; background-color: var(--bg-color); color: var(--text-color);
-            line-height: 1.35; -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 4px; background-color: var(--bg-color); color: var(--text-color);
+            line-height: 1.15; -webkit-tap-highlight-color: transparent;
         }
         .container {
-            max-width: 1250px; margin: 0 auto; background: #ffffff; padding: 12px;
+            max-width: 1250px; margin: 0 auto; background: #ffffff; padding: 6px;
             border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             border: 1px solid #cbd5e1;
         }
 
         .header-section {
             text-align: center; background-color: var(--primary-color); color: #ffffff;
-            padding: 10px 8px; border-radius: 4px 4px 0 0; margin-bottom: 8px;
+            padding: 4px 6px; border-radius: 2px 2px 0 0; margin-bottom: 6px;
             border-bottom: 3px solid var(--accent-color);
         }
-        .header-section h1 { margin: 0; font-size: clamp(18px, 2.5vw, 24px); font-weight: 800; letter-spacing: 0.5px; }
+        .header-section h1 { margin: 0; font-size: clamp(16px, 2.5vw, 20px); font-weight: 800; letter-spacing: 0.5px; }
         
-        /* Visually Divided Header Subsections */
-        .header-wrapper { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .header-wrapper { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         
         .header-subsection { 
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; 
-            background: #f0f9ff; border: 1px solid var(--accent-color); border-radius: 4px; 
-            padding: 10px 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; 
+            background: #f0f9ff; border: 1px solid var(--accent-color); border-radius: 2px; 
+            padding: 4px 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
         }
         
-        .info-item {
-            display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--primary-color); font-size: 16px; white-space: nowrap; justify-content: center;
-        }
+        .info-item { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: var(--primary-color); font-size: 15px; white-space: nowrap; justify-content: center; }
         .info-item label { margin: 0; padding: 0; cursor: pointer; }
         
-        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 1px 4px; }
-        .stylish-select-box select { font-family: inherit; font-size: 16px; font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 2px 4px; cursor: pointer; text-align: center; }
+        .stylish-select-box { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 0 2px; }
+        .stylish-select-box select { font-family: inherit; font-size: 15px; font-weight: 700; color: var(--primary-color); background: transparent; border: none; outline: none; padding: 1px 2px; cursor: pointer; text-align: center; }
         
-        .editable-header-input { font-family: inherit; font-size: 16px; padding: 2px 6px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; color: #111827; }
-        .name-input { width: 220px; }
-        .loc-input { width: 140px; }
+        .editable-header-input { font-family: inherit; font-size: 15px; padding: 1px 4px; font-weight: 700; border: 1px solid var(--border-color); border-radius: 2px; background: #ffffff; text-align: center; color: #111827; }
+        .name-input { width: 200px; }
+        .loc-input { width: 120px; }
 
-        .sync-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
+        .sync-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 2px 8px; border-radius: 2px; background: #e0f2fe; color: var(--primary-color); font-weight: 700; margin: 0 auto; width: fit-content; border: 1px solid #7dd3fc; }
         .sync-badge.synced { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
         .sync-badge.syncing { background: #fef9c3; color: #854d0e; border-color: #fde047; }
 
-        /* Table & Row Compact Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 6px; table-layout: fixed; }
-        th, td { border: 1px solid var(--primary-color); padding: 4px 3px; text-align: center; vertical-align: middle; font-size: 15px; font-weight: 500; }
-        th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 16px; padding: 6px 3px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
+        /* Table & Row Tight Autofit Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 4px; table-layout: fixed; }
+        th, td { border: 1px solid var(--primary-color); padding: 2px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 500; }
+        th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 15px; padding: 4px 2px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        td.p-0 { padding: 0 !important; vertical-align: middle; height: 1px; }
-        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 100%; width: 100%; }
+        td.p-0 { padding: 0 !important; vertical-align: middle; }
+        /* Removed height:100% to strictly autofit content */
+        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        .mode-whole .morning-block { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
+        /* Removed flex: 1 to eliminate white space stretching */
+        .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; }
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
-        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
-        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
-        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; flex: 1; justify-content: center; }
+        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; justify-content: center; }
+        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; }
+        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; }
 
-        .mode-both .morning-block, .mode-both .morning-label-box {
-            border-bottom: 1.5px dotted var(--primary-color) !important;
-        }
+        .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1.5px dotted var(--primary-color) !important; }
 
-        /* Compact center-aligned textareas & selects */
+        /* Compact textareas */
         textarea { 
-            width: 100%; 
-            min-height: 40px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 2px; 
-            font-family: inherit; 
-            font-size: 15px; 
-            font-weight: 600;
-            padding: 3px 4px; 
-            resize: none; 
-            text-align: center; 
-            white-space: pre-wrap;
-            word-break: break-word;
-            overflow: hidden; 
-            line-height: 1.25;
-            margin: auto 0;
+            width: 100%; min-height: 24px; border: 1px solid var(--border-color); border-radius: 2px; 
+            font-family: inherit; font-size: 14px; font-weight: 600; padding: 2px; 
+            resize: none; text-align: center; white-space: pre-wrap; word-break: break-word; 
+            overflow: hidden; line-height: 1.15; margin: 0;
         }
         .school-select { 
-            width: 100%; 
-            padding: 2px 4px; 
-            font-size: 14px; 
-            font-family: inherit; 
-            border-radius: 2px; 
-            border: 1px solid var(--border-color); 
-            background: #ffffff; 
-            text-align: center; 
-            text-align-last: center; 
-            margin-bottom: 2px; 
-            font-weight: 700;
+            width: 100%; padding: 1px 2px; font-size: 13px; font-family: inherit; border-radius: 2px; 
+            border: 1px solid var(--border-color); background: #ffffff; text-align: center; text-align-last: center; 
+            margin-bottom: 2px; font-weight: 700;
         }
 
-        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; height: 100%; flex: 1; }
+        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; }
         .task-item { 
-            border-bottom: 1px dotted var(--primary-color); 
-            padding: 4px 2px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            width: 100%;
-            text-align: center;
-            flex: 1;
+            border-bottom: 1px dotted var(--primary-color); padding: 2px 1px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-sizing: border-box; width: 100%; text-align: center;
         }
         .task-item:last-child { border-bottom: none; }
 
-        .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px; height: 100%; flex: 1; }
-        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 4px; font-size: 12px; gap: 4px; font-weight: 700; }
-        .session-box label { display: flex; align-items: center; gap: 3px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 700; }
+        .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 2px; }
+        .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 1px 2px; font-size: 11px; gap: 3px; font-weight: 700; }
+        .session-box label { display: flex; align-items: center; gap: 2px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 700; }
 
-        .add-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 3px; margin-top: 0; align-items: center; justify-content: center; }
-        .task-btn { font-family: inherit; font-size: 11px; padding: 2px 6px; border: 1px solid; border-radius: 2px; font-weight: 700; cursor: pointer; display: none; width: auto; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
+        .add-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; gap: 2px; align-items: center; justify-content: center; }
+        .task-btn { font-family: inherit; font-size: 10px; padding: 1px 4px; border: 1px solid; border-radius: 2px; font-weight: 700; cursor: pointer; display: none; width: auto; background: #f8fafc; color: var(--primary-color); border-color: var(--border-color); }
         .task-btn:hover { background: #e2e8f0; }
 
-        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 2px 4px; border: 1px solid var(--holiday-border); border-radius: 2px; }
+        .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 2px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 1px 3px; border: 1px solid var(--holiday-border); border-radius: 2px; }
 
-        .task-timing { display: flex; gap: 2px; margin-bottom: 2px; justify-content: center; align-items: center; background: #ffffff; padding: 1px 2px; border: 1px solid #cbd5e1; width: 100%; }
-        .task-time-from, .task-time-to { width: 68px; font-size: 12px; font-weight: 700; padding: 1px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
+        .task-timing { display: flex; gap: 2px; margin-bottom: 2px; justify-content: center; align-items: center; background: #ffffff; padding: 0 1px; width: 100%; }
+        .task-time-from, .task-time-to { width: 62px; font-size: 11px; font-weight: 700; padding: 0; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        tr.holiday-row td { 
-            background-color: var(--holiday-bg) !important; 
-            color: var(--holiday-color) !important;
-            border-color: var(--holiday-border) !important;
-            padding: 8px 4px !important;
-        }
+        tr.holiday-row td { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; border-color: var(--holiday-border) !important; padding: 4px 2px !important; }
+        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; width: 100%; }
+        .holiday-icon-label { font-size: 15px; font-weight: 800; color: var(--holiday-color); background: var(--holiday-shera-bg); padding: 2px 8px; border-radius: 2px; border: 1px solid var(--holiday-border); }
+        .holiday-badge { display: inline-block; background: #fecaca; color: var(--holiday-color); padding: 1px 4px; border: 1px solid var(--holiday-border); font-size: 11px; font-weight: 800; border-radius: 2px; margin-top: 2px; }
+        .holiday-input-container { padding: 4px !important; text-align: center; vertical-align: middle; }
+        .holiday-input-container input { width: 90%; max-width: 500px; padding: 2px 6px; font-family: inherit; font-size: 15px; font-weight: 800; color: var(--holiday-color); border: 1px solid var(--holiday-border); text-align: center; background: #ffffff; border-radius: 2px; }
 
-        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; height: 100%; }
-        .holiday-icon-label { font-size: 16px; font-weight: 800; color: var(--holiday-color); background: var(--holiday-shera-bg); padding: 3px 12px; border-radius: 4px; border: 1px solid var(--holiday-border); letter-spacing: 0.5px; }
+        .date-text-print { font-size: 14px; font-weight: 700; line-height: 1.15; text-align: center; margin: 0; padding: 0;}
 
-        .holiday-badge { 
-            display: inline-block; 
-            background: #fecaca; 
-            color: var(--holiday-color); 
-            padding: 2px 6px; 
-            border: 1px solid var(--holiday-border); 
-            font-size: 12px; 
-            font-weight: 800; 
-            border-radius: 3px; 
-        }
-        .holiday-input-container { padding: 6px !important; text-align: center; vertical-align: middle; }
-        .holiday-input-container input { 
-            width: 90%; 
-            max-width: 500px; 
-            padding: 4px 8px; 
-            font-family: inherit; 
-            font-size: 16px; 
-            font-weight: 800; 
-            color: var(--holiday-color); 
-            border: 1px solid var(--holiday-border); 
-            text-align: center; 
-            background: #ffffff; 
-            border-radius: 4px;
-        }
-
-        .date-text-print { font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center; }
-
-        .btn-container { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
-        button.action-btn { width: 100%; padding: 8px 16px; font-size: 15px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-container { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+        button.action-btn { width: 100%; padding: 6px 12px; font-size: 14px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-print { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         .btn-print:hover { background-color: #001a33; }
         .btn-excel { background-color: #16a34a; color: white; border-color: #16a34a; }
         .btn-excel:hover { background-color: #15803d; }
+        .btn-demo { background-color: #8b5cf6; color: white; border-color: #8b5cf6; }
+        .btn-demo:hover { background-color: #7c3aed; }
         .btn-admin { background-color: #e2e8f0; color: var(--text-color); }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
@@ -216,25 +161,25 @@
         input:checked + .slider { background-color: var(--primary-color); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: center; width: 100%; font-weight: 600; line-height: 1.25; justify-content: center; align-items: center; margin: auto 0; }
-        .holiday-print-text { font-size: 16px; font-weight: 800; color: var(--holiday-color); text-align: center; width: 100%; }
-        .print-task-time { display: none; font-size: 10pt; font-weight: 700; color: var(--text-color); margin-bottom: 2px; text-align: center; width: 100%; }
+        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: center; width: 100%; font-weight: 600; line-height: 1.15; justify-content: center; align-items: center; margin: 0; padding: 0; }
+        .holiday-print-text { font-size: 15px; font-weight: 800; color: var(--holiday-color); text-align: center; width: 100%; margin: 0; padding: 0; }
+        .print-task-time { display: none; font-size: 9pt; font-weight: 700; color: var(--text-color); text-align: center; width: 100%; margin: 0; padding: 0; }
 
         @media screen and (min-width: 769px) {
-            .btn-container { flex-direction: row; justify-content: center; }
+            .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
             button.action-btn { width: auto; }
         }
 
         /* ================= MOBILE / ADAPTIVE CARD LAYOUT ================= */
         @media screen and (max-width: 768px) {
-            body { padding: 6px; }
-            .container { padding: 6px; border-radius: 6px; }
-            .header-section { padding: 8px 6px; }
-            .header-section h1 { font-size: 16px; }
+            body { padding: 4px; }
+            .container { padding: 4px; border-radius: 4px; }
+            .header-section { padding: 6px 4px; }
+            .header-section h1 { font-size: 15px; }
             
-            .header-subsection { flex-direction: column; gap: 8px; justify-content: center; align-items: center; padding: 10px; }
+            .header-subsection { flex-direction: column; gap: 6px; justify-content: center; align-items: center; padding: 6px; }
             .info-item { font-size: 14px; gap: 4px; justify-content: center; width: auto; }
-            .editable-header-input { font-size: 14px; padding: 3px 5px; }
+            .editable-header-input { font-size: 14px; padding: 2px 4px; }
             .name-input { width: 100%; max-width: 250px; }
             .loc-input { width: 100%; max-width: 150px; }
             .stylish-select-box select { font-size: 14px; }
@@ -243,89 +188,86 @@
             thead { display: none; }
             table { border: none; margin-top: 4px; }
 
-            tbody tr {
-                display: block; margin-bottom: 12px; border: 1.5px solid var(--primary-color);
-                border-radius: 6px; overflow: hidden; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-            }
+            tbody tr { display: block; margin-bottom: 8px; border: 1.5px solid var(--primary-color); border-radius: 4px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
-            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: center; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 6px 8px !important; text-align: center; height: auto; }
+            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: center; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 4px 6px !important; text-align: center; height: auto; }
             td:last-child { border-bottom: none; }
 
-            td.date-cell-mobile { background: var(--primary-color); padding: 6px 8px !important; text-align: center; }
+            td.date-cell-mobile { background: var(--primary-color); padding: 4px 6px !important; text-align: center; }
             td.date-cell-mobile .date-text-print { color: #fff; font-size: 14px; text-align: center; }
             tr.holiday-row td.date-cell-mobile { background: var(--holiday-color) !important; }
 
-            td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 800; color: var(--primary-color); background: #e0f2fe; margin: -6px -8px 6px -8px; padding: 3px 8px; text-align: center; width: calc(100% + 16px); }
+            td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 800; color: var(--primary-color); background: #e0f2fe; margin: -4px -6px 4px -6px; padding: 2px 6px; text-align: center; width: calc(100% + 12px); }
             tr.holiday-row td[data-label]::before { color: var(--holiday-color); background: #fecaca; }
 
             .session-setup-wrapper { padding: 2px; }
             .task-timing { flex-wrap: wrap; justify-content: center; }
-            .task-time-from, .task-time-to { flex: 1 1 45%; width: auto; min-width: 70px; }
-            .holiday-full-row { flex-direction: column; gap: 8px; justify-content: center; }
+            .task-time-from, .task-time-to { flex: 1 1 45%; width: auto; min-width: 60px; }
+            .holiday-full-row { flex-direction: column; gap: 6px; justify-content: center; }
             .holiday-input-container input { width: 100%; font-size: 14px; }
-            .btn-container button.action-btn { font-size: 14px; padding: 10px 12px; }
+            .btn-container button.action-btn { font-size: 14px; padding: 8px 10px; }
         }
 
-        /* ================= PRINT CSS ================= */
+        /* ================= PRINT CSS (ZERO WHITESPACE / AUTOFIT) ================= */
         @media print {
             @page { size: A4 portrait; margin: 5mm 4mm; }
 
-            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9.5pt; line-height: 1.15 !important; color: var(--text-color) !important; font-family: 'Mukta', sans-serif !important; }
-            .container { box-shadow: none !important; padding: 0 !important; border: none !important; }
+            body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 9.5pt; line-height: 1.1 !important; color: var(--text-color) !important; font-family: 'Mukta', sans-serif !important; }
+            .container { box-shadow: none !important; padding: 0 !important; border: none !important; margin: 0 !important; }
 
-            .header-section { display: block !important; padding: 3px !important; margin: 0 0 3px 0 !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: var(--primary-color) !important; color: #ffffff !important; }
-            .header-section h1 { font-size: 13pt !important; color: #ffffff !important; font-weight: 800 !important; }
+            .header-section { display: block !important; padding: 2px !important; margin: 0 0 2px 0 !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: var(--primary-color) !important; color: #ffffff !important; }
+            .header-section h1 { font-size: 12pt !important; color: #ffffff !important; font-weight: 800 !important; margin: 0 !important; }
             
-            .header-wrapper { gap: 4px !important; margin-bottom: 6px !important; flex-direction: column !important; }
-            .header-subsection { padding: 4px 6px !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
+            .header-wrapper { gap: 2px !important; margin-bottom: 4px !important; flex-direction: column !important; }
+            .header-subsection { padding: 2px 4px !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
             
-            .info-item { color: var(--primary-color) !important; font-size: 11pt !important; gap: 3px !important; }
-            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: 800; font-size: 11pt !important; text-align: left !important; }
-            .stylish-select-box { border: none !important; padding: 0 !important; }
+            .info-item { color: var(--primary-color) !important; font-size: 10.5pt !important; gap: 2px !important; margin: 0 !important;}
+            .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: 800; font-size: 10.5pt !important; text-align: left !important; margin: 0 !important;}
+            .stylish-select-box { border: none !important; padding: 0 !important; margin: 0 !important;}
             .name-input { width: auto !important; min-width: 150px !important; }
             .loc-input { width: auto !important; min-width: 80px !important; }
 
             .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
 
             table, thead, tbody, tr { display: revert !important; }
-            table { font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid var(--primary-color) !important; table-layout: fixed !important; }
+            table { font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid var(--primary-color) !important; table-layout: fixed !important; margin-top: 0 !important; }
             thead { display: table-header-group !important; }
             tbody { display: table-row-group !important; }
             tr { display: table-row !important; page-break-inside: avoid !important; }
 
-            th, td { display: table-cell !important; padding: 2px 2px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
+            th, td { display: table-cell !important; padding: 2px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
             
             td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
-            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; height: 100% !important; }
+            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin: 0 !important; padding: 0 !important;}
 
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
-            td.date-cell-mobile { background: transparent !important; text-align: center !important; }
-            td.date-cell-mobile .date-text-print { color: var(--primary-color) !important; }
+            td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 2px !important;}
+            td.date-cell-mobile .date-text-print { color: var(--primary-color) !important; margin: 0 !important;}
 
-            .date-cell-mobile { vertical-align: middle !important; text-align: center !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1.5px dotted var(--primary-color) !important; }
-            .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 1px !important; border-radius: 2px !important; font-size: 8.5pt !important; font-weight: 800 !important; text-align: center !important; }
+            .morning-label-box > div, .afternoon-label-box > div { background: #e0f2fe !important; color: var(--primary-color) !important; border: 1px solid var(--primary-color) !important; padding: 0 2px !important; border-radius: 1px !important; font-size: 8.5pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
             
-            .date-text-print { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 10pt !important; text-align: center !important; }
+            .date-text-print { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 10pt !important; text-align: center !important; margin: 0 !important;}
 
-            tr.holiday-row td { background-color: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; color: var(--holiday-color) !important; padding: 2px 2px !important; }
-            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8.5pt !important; }
+            tr.holiday-row td { background-color: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; color: var(--holiday-color) !important; padding: 2px !important; }
+            .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8pt !important; margin: 0 !important;}
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; padding: 2px !important; }
-            .holiday-full-row { display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 6px !important; }
-            .holiday-icon-label { background: transparent !important; border: none !important; font-size: 10pt !important; font-weight: 800 !important; color: var(--holiday-color) !important; padding: 0 !important; }
+            .holiday-full-row { display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 4px !important; margin: 0 !important; }
+            .holiday-icon-label { background: transparent !important; border: none !important; font-size: 9.5pt !important; font-weight: 800 !important; color: var(--holiday-color) !important; padding: 0 !important; margin: 0 !important; }
             
             .holiday-reason-input { display: none !important; }
-            .holiday-print-text { display: flex !important; align-items: center !important; justify-content: center !important; font-size: 11pt !important; margin: auto 0 !important; }
+            .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important;}
 
             textarea { display: none !important; }
             
-            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 1px 1px !important; text-align: center !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; flex: 1 !important;}
+            /* Remove ANY flex expansion to guarantee perfect autofit */
+            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important;}
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; font-size: 9.5pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; }
-            .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: 800 !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 1px !important; text-align: center !important; }
+            .print-text { display: block !important; font-size: 9.5pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important;}
+            .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: 800 !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
         }
     </style>
 </head>
@@ -364,17 +306,17 @@
         </div>
     </div>
 
-    <div style="text-align:center; margin-bottom: 6px;" class="no-print">
+    <div style="text-align:center; margin-bottom: 4px;" class="no-print">
         <div id="syncStatus" class="sync-badge">स्थानिक ड्राफ्ट सक्रिय</div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width: 13%;">दिनांक व वार</th>
-                <th style="width: 15%;">सत्र / स्वरूप</th>
-                <th style="width: 24%;">नियोजित भेट</th>
-                <th style="width: 24%;">प्रत्यक्ष भेट</th>
+                <th style="width: 12%;">दिनांक व वार</th>
+                <th style="width: 14%;">सत्र / स्वरूप</th>
+                <th style="width: 25%;">नियोजित भेट</th>
+                <th style="width: 25%;">प्रत्यक्ष भेट</th>
                 <th style="width: 24%;">कामाचे स्वरूप</th>
             </tr>
         </thead>
@@ -384,6 +326,7 @@
     <div class="btn-container no-print">
         <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
         <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (सर्व फॉरमॅटसह)</button>
+        <button class="action-btn btn-demo" onclick="fillDemoData()">डेमो डेटा भरा (Fill Demo Data)</button>
         <button class="action-btn btn-admin" onclick="openAdminPanel()">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
     </div>
 </div>
@@ -419,7 +362,7 @@
             <div class="danger-zone">
                 <h4>धोक्याचा इशारा</h4>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिलीट करा</button>
+                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिली জ্ঞकरा</button>
                     <button type="button" class="action-btn btn-danger" onclick="deleteFromGoogleSheets()">ऑनलाइन शीट मधील डेटा डिलीट करा</button>
                 </div>
             </div>
@@ -478,7 +421,7 @@
 
     function autoExpandTextarea(tx) {
         tx.style.height = 'auto';
-        tx.style.height = Math.max(40, tx.scrollHeight) + 'px';
+        tx.style.height = Math.max(24, tx.scrollHeight) + 'px';
     }
 
     function validateTime(input, min, max) {
@@ -530,7 +473,6 @@
             
             timeHTML = `
             <div class="task-timing no-print">
-                <span style="font-size:11px; font-weight:700; color:var(--text-color);">वेळ:</span>
                 <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
                 <span style="font-size:11px; font-weight:700;">ते</span>
                 <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
@@ -542,11 +484,11 @@
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
         }
         
-        let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 8px; cursor:pointer; font-size:11px; margin-top: 4px; font-weight:700; width: fit-content;">[X] काढा</button>`;
+        let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:1px 4px; cursor:pointer; font-size:10px; margin-top: 2px; font-weight:700; width: fit-content;">[X] काढा</button>`;
         
         if (isLastCol) {
-             return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%;">
-                        <div style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1;">${inputHTML}</div>
+             return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+                        <div style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;">${inputHTML}</div>
                         ${removeBtn}
                      </div>`;
         }
@@ -709,11 +651,11 @@
                             <input type="checkbox" onchange="toggleManualHoliday(this, ${i})"><span>सुट्टी घोषित</span>
                         </label>
                     </div>
-                    <div class="morning-label-box" style="padding: 4px; display: flex; flex-direction: column; justify-content: center; height: 100%; width: 100%;">
-                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 2px; border-radius: 3px; margin: auto 0;">सकाळ सत्र</div>
+                    <div class="morning-label-box" style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
+                        <div>सकाळ सत्र</div>
                     </div>
-                    <div class="afternoon-label-box" style="padding: 4px; flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%;">
-                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 2px; border-radius: 3px; margin: auto 0;">दुपार सत्र</div>
+                    <div class="afternoon-label-box" style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
+                        <div>दुपार सत्र</div>
                     </div>
                 </div>
             </td>
@@ -770,50 +712,31 @@
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
         
-        row.querySelectorAll('.task-item').forEach(el => el.style.minHeight = 'auto');
-        row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => el.style.minHeight = 'auto');
-
-        ['.morning-block', '.afternoon-block'].forEach(blockCls => {
-            const cols = ['planned', 'actual', 'work'];
-            const taskLists = cols.map(c => row.querySelectorAll(`.col-${c} ${blockCls} .task-item`));
-            const rowCount = Math.max(...taskLists.map(list => list.length));
-
-            for (let i = 0; i < rowCount; i++) {
-                let maxHeight = 0;
-                cols.forEach((_, colIdx) => {
-                    const item = taskLists[colIdx][i];
-                    if (item) {
-                        const h = item.scrollHeight || item.offsetHeight;
-                        if (h > maxHeight) maxHeight = h;
-                    }
-                });
-                if (maxHeight > 0) {
-                    cols.forEach((_, colIdx) => {
-                        const item = taskLists[colIdx][i];
-                        if (item) item.style.minHeight = maxHeight + 'px';
-                    });
-                }
-            }
+        // Reset heights aggressively to allow auto-fitting
+        row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => {
+            el.style.minHeight = '0px';
+            el.style.height = 'auto';
+        });
+        
+        // Let task items perfectly shrink wrap
+        row.querySelectorAll('.task-item').forEach(el => {
+            el.style.minHeight = '0px';
+            el.style.height = 'auto';
         });
 
+        // Reapply container minimum heights to match ONLY the tallest block in the row for perfectly straight dotted lines
         if (row.classList.contains('mode-both')) {
             let mLabel = row.querySelector('.morning-label-box');
             let mBlocks = Array.from(row.querySelectorAll('.morning-block'));
-            let maxM = mLabel ? (mLabel.scrollHeight || mLabel.offsetHeight) : 0;
-            mBlocks.forEach(b => { 
-                let bh = b.scrollHeight || b.offsetHeight;
-                if (bh > maxM) maxM = bh; 
-            });
+            let maxM = mLabel ? mLabel.offsetHeight : 0;
+            mBlocks.forEach(b => { if (b.offsetHeight > maxM) maxM = b.offsetHeight; });
             mBlocks.forEach(b => b.style.minHeight = maxM + 'px');
             if (mLabel) mLabel.style.minHeight = maxM + 'px';
             
             let aLabel = row.querySelector('.afternoon-label-box');
             let aBlocks = Array.from(row.querySelectorAll('.afternoon-block'));
-            let maxA = aLabel ? (aLabel.scrollHeight || aLabel.offsetHeight) : 0;
-            aBlocks.forEach(b => { 
-                let ah = b.scrollHeight || b.offsetHeight;
-                if (ah > maxA) maxA = ah; 
-            });
+            let maxA = aLabel ? aLabel.offsetHeight : 0;
+            aBlocks.forEach(b => { if (b.offsetHeight > maxA) maxA = b.offsetHeight; });
             aBlocks.forEach(b => b.style.minHeight = maxA + 'px');
             if (aLabel) aLabel.style.minHeight = maxA + 'px';
         }
@@ -822,7 +745,14 @@
     function syncRowVisuals(row) {
         row.querySelectorAll('textarea').forEach(tx => {
             const printDiv = tx.nextElementSibling;
-            if (printDiv && printDiv.classList.contains('print-text')) printDiv.textContent = tx.value;
+            if (printDiv && printDiv.classList.contains('print-text')) {
+                printDiv.textContent = tx.value;
+                if(tx.value.trim() === '') {
+                    printDiv.style.display = 'none'; // Hide completely if empty to eliminate gap
+                } else {
+                    printDiv.style.display = 'block';
+                }
+            }
         });
         
         let holInput = row.querySelector('.holiday-reason-input');
@@ -837,8 +767,13 @@
                 const tt = item.querySelector('.task-time-to')?.value;
                 const pt = item.querySelector('.print-task-time');
                 if (pt) {
-                    if (tf || tt) pt.textContent = `[वेळ: ${tf || '--'} ते ${tt || '--'}]`;
-                    else pt.textContent = '';
+                    if (tf || tt) {
+                        pt.textContent = `[वेळ: ${tf || '--'} ते ${tt || '--'}]`;
+                        pt.style.display = 'block';
+                    } else {
+                        pt.textContent = '';
+                        pt.style.display = 'none'; // Hide empty times to eliminate gap
+                    }
                 }
             });
             alignRowBlocks(row);
@@ -995,6 +930,61 @@
     }
 
     /* ========================================================================================= */
+    /* Random DEMO Data Filler                                                                   */
+    /* ========================================================================================= */
+    function fillDemoData() {
+        const schools = ["सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. तलाव पाटी"];
+        const workTypes = ["नियोजित शाळा भेट", "आकस्मिक शाळा भेट", "विद्यार्थी गुणवत्ता तपासणी", "दप्तर तपासणी", "पटनोंदणी व उपस्थिती आढावा"];
+        
+        document.getElementById('kendraPramukhNameInput').value = "श्री. रमेश पाटील";
+        
+        document.querySelectorAll('#tableBody tr').forEach(row => {
+            if (row.getAttribute('data-is-holiday') === 'true') return;
+
+            let mPlanned = row.querySelector('.col-planned .morning-block .input-planned');
+            let mActual = row.querySelector('.col-actual .morning-block .input-actual');
+            let mWork = row.querySelector('.col-work .morning-block .input-work');
+            
+            if (mPlanned) { mPlanned.value = schools[Math.floor(Math.random() * schools.length)]; autoExpandTextarea(mPlanned); }
+            if (mActual) { mActual.value = mPlanned.value; autoExpandTextarea(mActual); }
+            if (mWork) { mWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(mWork); }
+            
+            let mTfPlanned = row.querySelector('.col-planned .morning-block .task-time-from');
+            let mTtPlanned = row.querySelector('.col-planned .morning-block .task-time-to');
+            if (mTfPlanned) mTfPlanned.value = "10:30";
+            if (mTtPlanned) mTtPlanned.value = "12:30";
+            
+            let mTfActual = row.querySelector('.col-actual .morning-block .task-time-from');
+            let mTtActual = row.querySelector('.col-actual .morning-block .task-time-to');
+            if (mTfActual) mTfActual.value = "10:45";
+            if (mTtActual) mTtActual.value = "12:45";
+
+            let aPlanned = row.querySelector('.col-planned .afternoon-block .input-planned');
+            let aActual = row.querySelector('.col-actual .afternoon-block .input-actual');
+            let aWork = row.querySelector('.col-work .afternoon-block .input-work');
+            
+            if (aPlanned) { aPlanned.value = schools[Math.floor(Math.random() * schools.length)]; autoExpandTextarea(aPlanned); }
+            if (aActual) { aActual.value = aPlanned.value; autoExpandTextarea(aActual); }
+            if (aWork) { aWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(aWork); }
+            
+            let aTfPlanned = row.querySelector('.col-planned .afternoon-block .task-time-from');
+            let aTtPlanned = row.querySelector('.col-planned .afternoon-block .task-time-to');
+            if (aTfPlanned) aTfPlanned.value = "14:15";
+            if (aTtPlanned) aTtPlanned.value = "16:15";
+            
+            let aTfActual = row.querySelector('.col-actual .afternoon-block .task-time-from');
+            let aTtActual = row.querySelector('.col-actual .afternoon-block .task-time-to');
+            if (aTfActual) aTfActual.value = "14:20";
+            if (aTtActual) aTtActual.value = "16:10";
+
+            syncRowVisuals(row);
+        });
+
+        saveToLocalStorage();
+        alert("डेमो डेटा यशस्वीरित्या भरण्यात आला आहे! आता तुम्ही PDF किंवा Excel डाउनलोड करू शकता.");
+    }
+
+    /* ========================================================================================= */
     /* Excel Download Logic using ExcelJS                                                        */
     /* ========================================================================================= */
     async function exportToExcel() {
@@ -1003,16 +993,12 @@
         updateSyncBadge("Excel फाईल बनवत आहे...", "syncing");
         
         const workbook = new ExcelJS.Workbook();
-        const sheet = workbook.addWorksheet('मासिक दैनंदिनी', {
-            properties: { defaultRowHeight: 40 }
-        });
+        const sheet = workbook.addWorksheet('मासिक दैनंदिनी');
 
-        // Setup Fonts and Styles
         const baseFont = { name: 'Mukta', size: 18 };
         const boldFont = { name: 'Mukta', size: 18, bold: true };
         const primaryColorStr = 'FF003366';
         
-        // Define Columns
         sheet.columns = [
             { key: 'date', width: 20 },
             { key: 'session', width: 18 },
@@ -1021,7 +1007,6 @@
             { key: 'work', width: 35 }
         ];
 
-        // Insert Header Rows (Matching UI exact structure)
         sheet.mergeCells('A1:E1');
         const titleCell = sheet.getCell('A1');
         titleCell.value = 'समूह साधन केंद्र समन्वयक मासिक दैनंदिनी';
@@ -1041,33 +1026,23 @@
         ];
         sheet.getRow(2).font = { name: 'Mukta', size: 16, bold: true, color: { argb: primaryColorStr } };
         sheet.getRow(2).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-        sheet.getRow(2).height = 40;
 
-        // Table Header
         const headerRow = sheet.getRow(3);
         headerRow.values = ['दिनांक व वार', 'सत्र / स्वरूप', 'नियोजित भेट', 'प्रत्यक्ष भेट', 'कामाचे स्वरूप'];
-        headerRow.height = 45;
         headerRow.eachCell(cell => {
             cell.font = { ...boldFont, color: { argb: primaryColorStr } };
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE0F2FE' } }; // Light blue UI match
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE0F2FE' } }; 
             cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-            cell.border = { 
-                top: {style:'medium', color: {argb:primaryColorStr}}, 
-                bottom: {style:'medium', color: {argb:primaryColorStr}}, 
-                left: {style:'thin', color: {argb:primaryColorStr}}, 
-                right: {style:'thin', color: {argb:primaryColorStr}} 
-            };
+            cell.border = { top: {style:'medium', color: {argb:primaryColorStr}}, bottom: {style:'medium', color: {argb:primaryColorStr}}, left: {style:'thin', color: {argb:primaryColorStr}}, right: {style:'thin', color: {argb:primaryColorStr}} };
         });
 
-        // Add Data Rows
         let rowIndex = 4;
         const trs = document.querySelectorAll('#tableBody tr');
         
         trs.forEach((row) => {
             const isHol = row.getAttribute('data-is-holiday') === 'true';
-            const dayIndex = row.getAttribute('data-day-index'); // Native JS integer string (English numbers)
+            const dayIndex = row.getAttribute('data-day-index'); 
             
-            // Recreate date string strictly in English logic for numerals
             const dateObj = new Date(year, monthSelect.value, parseInt(dayIndex));
             const dayName = daysMarathi[dateObj.getDay()];
             const dateStr = `${dayIndex} ${monthName} ${year}\n(${dayName})`;
@@ -1075,12 +1050,10 @@
             if (isHol) {
                 const reason = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सार्वजनिक सुट्टी';
                 const newRow = sheet.addRow([dateStr, reason, '', '', '']);
-                
                 sheet.mergeCells(`B${rowIndex}:E${rowIndex}`);
-                
                 newRow.eachCell(cell => {
-                    cell.font = { ...boldFont, color: { argb: 'FF991B1B' } }; // Holiday red text
-                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEE2E2' } }; // Holiday light red background
+                    cell.font = { ...boldFont, color: { argb: 'FF991B1B' } }; 
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEE2E2' } }; 
                     cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
                     cell.border = { top: {style:'thin', color: {argb:'FFF87171'}}, left: {style:'thin', color: {argb:'FFF87171'}}, bottom: {style:'thin', color: {argb:'FFF87171'}}, right: {style:'thin', color: {argb:'FFF87171'}} };
                 });
@@ -1090,7 +1063,6 @@
                 let cbA = row.querySelector('.cb-afternoon')?.checked;
                 let sMode = cbW ? 'पूर्ण दिवस' : ((cbM && cbA) ? 'सकाळ व दुपार' : (cbM ? 'सकाळ सत्र' : 'दुपार सत्र'));
 
-                // Generic text extractor mapping UI to Print logic
                 const extractCellText = (colClass) => {
                     const getBlockText = (blockCls) => {
                         let texts = [];
@@ -1098,13 +1070,11 @@
                         items.forEach(item => {
                             let tf = item.querySelector('.task-time-from')?.value || '';
                             let tt = item.querySelector('.task-time-to')?.value || '';
-                            
                             let val = '';
                             if (colClass === 'col-planned') val = item.querySelector('.input-planned')?.value || '';
                             if (colClass === 'col-actual') val = item.querySelector('.input-actual')?.value || '';
                             if (colClass === 'col-work') val = item.querySelector('.input-work')?.value || '';
                             val = val.trim();
-                            
                             if (val || tf || tt) {
                                 let timeStr = (tf || tt) ? `[वेळ: ${tf || '--'} ते ${tt || '--'}] ` : '';
                                 texts.push(timeStr + val);
@@ -1129,15 +1099,6 @@
                     extractCellText('col-actual'), 
                     extractCellText('col-work')
                 ]);
-                
-                // Adjust row height naturally for line breaks
-                const maxLines = Math.max(
-                    (newRow.getCell(3).value || '').split('\n').length,
-                    (newRow.getCell(4).value || '').split('\n').length,
-                    (newRow.getCell(5).value || '').split('\n').length,
-                    2
-                );
-                newRow.height = Math.max(50, maxLines * 24); 
 
                 newRow.eachCell((cell, colNumber) => {
                     cell.font = (colNumber === 1 || colNumber === 2) ? boldFont : baseFont;
@@ -1148,7 +1109,6 @@
             rowIndex++;
         });
 
-        // Trigger file download
         const buffer = await workbook.xlsx.writeBuffer();
         const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         saveAs(blob, `Dainandini_${monthName}_${year}.xlsx`);
