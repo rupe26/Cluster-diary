@@ -72,12 +72,10 @@
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 15px; padding: 4px 2px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
         td.p-0 { padding: 0 !important; vertical-align: middle; }
-        /* Removed height:100% to strictly autofit content */
         .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        /* Removed flex: 1 to eliminate white space stretching */
         .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; }
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
@@ -191,7 +189,7 @@
             tbody tr { display: block; margin-bottom: 8px; border: 1.5px solid var(--primary-color); border-radius: 4px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
-            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: center; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 4px 6px !important; text-align: center; height: auto; }
+            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: flex-start; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 4px 6px !important; text-align: center; height: auto; }
             td:last-child { border-bottom: none; }
 
             td.date-cell-mobile { background: var(--primary-color); padding: 4px 6px !important; text-align: center; }
@@ -362,7 +360,7 @@
             <div class="danger-zone">
                 <h4>धोक्याचा इशारा</h4>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिली জ্ঞकरा</button>
+                    <button type="button" class="action-btn btn-admin" onclick="clearLocalStorageDraft()">केवळ लोकल ड्राफ्ट डिलीट करा</button>
                     <button type="button" class="action-btn btn-danger" onclick="deleteFromGoogleSheets()">ऑनलाइन शीट मधील डेटा डिलीट करा</button>
                 </div>
             </div>
@@ -468,17 +466,19 @@
         let timeHTML = '';
         
         if (colType === 'planned' || colType === 'actual') {
-            let minT = sessionType === 'morning' ? '08:00' : '14:00';
-            let maxT = sessionType === 'morning' ? '13:00' : '16:30';
-            
-            timeHTML = `
-            <div class="task-timing no-print">
-                <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
-                <span style="font-size:11px; font-weight:700;">ते</span>
-                <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
-            </div>
-            <div class="print-task-time"></div>
-            `;
+            if (colType === 'actual') {
+                let minT = sessionType === 'morning' ? '08:00' : '14:00';
+                let maxT = sessionType === 'morning' ? '13:00' : '16:30';
+                
+                timeHTML = `
+                <div class="task-timing no-print">
+                    <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
+                    <span style="font-size:11px; font-weight:700;">ते</span>
+                    <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
+                </div>
+                <div class="print-task-time"></div>
+                `;
+            }
             inputHTML = timeHTML + getSchoolDropdownHTML('भेट...', `input-${colType}`);
         } else if (colType === 'work') {
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
@@ -762,7 +762,7 @@
         }
         
         if (row.getAttribute('data-is-holiday') === 'false') {
-            row.querySelectorAll('.col-planned .task-item, .col-actual .task-item').forEach(item => {
+            row.querySelectorAll('.col-actual .task-item').forEach(item => {
                 const tf = item.querySelector('.task-time-from')?.value;
                 const tt = item.querySelector('.task-time-to')?.value;
                 const pt = item.querySelector('.print-task-time');
@@ -826,9 +826,7 @@
                     
                     for(let i=0; i<pNodes.length; i++) {
                         taskArr.push({
-                            timeFrom: pNodes[i].querySelector('.task-time-from')?.value || '',
-                            timeTo: pNodes[i].querySelector('.task-time-to')?.value || '',
-                            planned: pNodes[i].querySelector('.input-planned')?.value || '',
+                            planned: pNodes[i]?.querySelector('.input-planned')?.value || '',
                             actualTimeFrom: aNodes[i]?.querySelector('.task-time-from')?.value || '',
                             actualTimeTo: aNodes[i]?.querySelector('.task-time-to')?.value || '',
                             actual: aNodes[i]?.querySelector('.input-actual')?.value || '',
@@ -892,10 +890,7 @@
                             
                             taskArr.forEach((tData, idx) => {
                                 addTaskToDOM(row, sType);
-                                let pTf = row.querySelectorAll(`.col-planned ${bCls} .task-time-from`)[idx];
-                                if (pTf) pTf.value = tData.timeFrom || '';
-                                let pTt = row.querySelectorAll(`.col-planned ${bCls} .task-time-to`)[idx];
-                                if (pTt) pTt.value = tData.timeTo || '';
+                                
                                 let pIn = row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx];
                                 if (pIn) { pIn.value = tData.planned || ''; autoExpandTextarea(pIn); }
                                 
@@ -949,11 +944,6 @@
             if (mActual) { mActual.value = mPlanned.value; autoExpandTextarea(mActual); }
             if (mWork) { mWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(mWork); }
             
-            let mTfPlanned = row.querySelector('.col-planned .morning-block .task-time-from');
-            let mTtPlanned = row.querySelector('.col-planned .morning-block .task-time-to');
-            if (mTfPlanned) mTfPlanned.value = "10:30";
-            if (mTtPlanned) mTtPlanned.value = "12:30";
-            
             let mTfActual = row.querySelector('.col-actual .morning-block .task-time-from');
             let mTtActual = row.querySelector('.col-actual .morning-block .task-time-to');
             if (mTfActual) mTfActual.value = "10:45";
@@ -966,11 +956,6 @@
             if (aPlanned) { aPlanned.value = schools[Math.floor(Math.random() * schools.length)]; autoExpandTextarea(aPlanned); }
             if (aActual) { aActual.value = aPlanned.value; autoExpandTextarea(aActual); }
             if (aWork) { aWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(aWork); }
-            
-            let aTfPlanned = row.querySelector('.col-planned .afternoon-block .task-time-from');
-            let aTtPlanned = row.querySelector('.col-planned .afternoon-block .task-time-to');
-            if (aTfPlanned) aTfPlanned.value = "14:15";
-            if (aTtPlanned) aTtPlanned.value = "16:15";
             
             let aTfActual = row.querySelector('.col-actual .afternoon-block .task-time-from');
             let aTtActual = row.querySelector('.col-actual .afternoon-block .task-time-to');
@@ -1140,10 +1125,11 @@
                     let tasks = [];
                     let rows = Array.from(row.querySelectorAll(`.col-planned ${blockCls} .task-item`));
                     rows.forEach((item, i) => {
-                       let tf = item.querySelector('.task-time-from')?.value || '';
-                       let tt = item.querySelector('.task-time-to')?.value || '';
-                       
                        let actualNode = row.querySelectorAll(`.col-actual ${blockCls} .task-item`)[i];
+                       
+                       let tf = actualNode?.querySelector('.task-time-from')?.value || '';
+                       let tt = actualNode?.querySelector('.task-time-to')?.value || '';
+                       
                        let atf = actualNode?.querySelector('.task-time-from')?.value || '';
                        let att = actualNode?.querySelector('.task-time-to')?.value || '';
 
@@ -1164,8 +1150,7 @@
                         let pref = arr.length > 1 ? `${i+1}) ` : ``;
                         let timeStr = ``;
                         if (includeTime) {
-                            if (key === 'p' && (t.tf || t.tt)) timeStr = `[${t.tf||'--'} ते ${t.tt||'--'}] `;
-                            if (key === 'a' && (t.atf || t.att)) timeStr = `[${t.atf||'--'} ते ${t.att||'--'}] `;
+                            if (key === 'a' && (t.atf || t.att)) timeStr = `[वेळ: ${t.atf||'--'} ते ${t.att||'--'}] `;
                         }
                         let val = t[key];
                         return val ? `${pref}${timeStr}${val}`.trim() : ``;
@@ -1179,7 +1164,7 @@
                     return textM || textA;
                 };
 
-                p = buildText(tM, tA, 'p', true);  
+                p = buildText(tM, tA, 'p', false);  
                 a = buildText(tM, tA, 'a', true);
                 w = buildText(tM, tA, 'w', false);
                 r = ""; 
