@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Excel Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
     <style>
         :root {
             --primary-color: #003366; 
@@ -70,13 +74,11 @@
         th, td { border: 1px solid var(--primary-color); padding: 4px 3px; text-align: center; vertical-align: middle; font-size: 15px; font-weight: 500; }
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 16px; padding: 6px 3px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        /* height: 1px is a CSS trick to allow inner flex elements to stretch exactly 100% of dynamically changing td height */
         td.p-0 { padding: 0 !important; vertical-align: middle; height: 1px; }
         .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 100%; width: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        /* Perfect Vertical Centering Rules */
         .mode-whole .morning-block { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
@@ -104,7 +106,7 @@
             word-break: break-word;
             overflow: hidden; 
             line-height: 1.25;
-            margin: auto 0; /* Additional nudge for absolute vertical centering */
+            margin: auto 0;
         }
         .school-select { 
             width: 100%; 
@@ -131,7 +133,7 @@
             box-sizing: border-box;
             width: 100%;
             text-align: center;
-            flex: 1; /* Key for vertical centering inside varying heights */
+            flex: 1;
         }
         .task-item:last-child { border-bottom: none; }
 
@@ -148,7 +150,6 @@
         .task-timing { display: flex; gap: 2px; margin-bottom: 2px; justify-content: center; align-items: center; background: #ffffff; padding: 1px 2px; border: 1px solid #cbd5e1; width: 100%; }
         .task-time-from, .task-time-to { width: 68px; font-size: 12px; font-weight: 700; padding: 1px; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
-        /* Holiday Row Full Colour */
         tr.holiday-row td { 
             background-color: var(--holiday-bg) !important; 
             color: var(--holiday-color) !important;
@@ -190,6 +191,8 @@
         button.action-btn { width: 100%; padding: 8px 16px; font-size: 15px; font-family: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--primary-color); border-radius: 2px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-print { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         .btn-print:hover { background-color: #001a33; }
+        .btn-excel { background-color: #16a34a; color: white; border-color: #16a34a; }
+        .btn-excel:hover { background-color: #15803d; }
         .btn-admin { background-color: #e2e8f0; color: var(--text-color); }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
@@ -213,37 +216,9 @@
         input:checked + .slider { background-color: var(--primary-color); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        .print-text { 
-            display: none; 
-            white-space: pre-wrap; 
-            word-break: break-word; 
-            text-align: center; 
-            width: 100%;
-            font-weight: 600;
-            line-height: 1.25;
-            justify-content: center;
-            align-items: center;
-            margin: auto 0; /* Push text to middle in print view */
-        }
-        
-        /* Dedicated print block for Holidays to prevent cutoff */
-        .holiday-print-text {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--holiday-color);
-            text-align: center;
-            width: 100%;
-        }
-
-        .print-task-time { 
-            display: none; 
-            font-size: 10pt; 
-            font-weight: 700; 
-            color: var(--text-color); 
-            margin-bottom: 2px; 
-            text-align: center; 
-            width: 100%;
-        }
+        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: center; width: 100%; font-weight: 600; line-height: 1.25; justify-content: center; align-items: center; margin: auto 0; }
+        .holiday-print-text { font-size: 16px; font-weight: 800; color: var(--holiday-color); text-align: center; width: 100%; }
+        .print-task-time { display: none; font-size: 10pt; font-weight: 700; color: var(--text-color); margin-bottom: 2px; text-align: center; width: 100%; }
 
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; }
@@ -269,46 +244,19 @@
             table { border: none; margin-top: 4px; }
 
             tbody tr {
-                display: block;
-                margin-bottom: 12px;
-                border: 1.5px solid var(--primary-color);
-                border-radius: 6px;
-                overflow: hidden;
-                background: #fff;
-                box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+                display: block; margin-bottom: 12px; border: 1.5px solid var(--primary-color);
+                border-radius: 6px; overflow: hidden; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             }
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
-            td, td.p-0 {
-                display: flex !important;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 100% !important;
-                border: none;
-                border-bottom: 1px dashed #cbd5e1;
-                padding: 6px 8px !important;
-                text-align: center;
-                height: auto; /* Reset hack for mobile card view */
-            }
+            td, td.p-0 { display: flex !important; flex-direction: column; justify-content: center; align-items: center; width: 100% !important; border: none; border-bottom: 1px dashed #cbd5e1; padding: 6px 8px !important; text-align: center; height: auto; }
             td:last-child { border-bottom: none; }
 
             td.date-cell-mobile { background: var(--primary-color); padding: 6px 8px !important; text-align: center; }
             td.date-cell-mobile .date-text-print { color: #fff; font-size: 14px; text-align: center; }
             tr.holiday-row td.date-cell-mobile { background: var(--holiday-color) !important; }
 
-            td[data-label]::before {
-                content: attr(data-label);
-                display: block;
-                font-size: 11px;
-                font-weight: 800;
-                color: var(--primary-color);
-                background: #e0f2fe;
-                margin: -6px -8px 6px -8px;
-                padding: 3px 8px;
-                text-align: center;
-                width: calc(100% + 16px);
-            }
+            td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 800; color: var(--primary-color); background: #e0f2fe; margin: -6px -8px 6px -8px; padding: 3px 8px; text-align: center; width: calc(100% + 16px); }
             tr.holiday-row td[data-label]::before { color: var(--holiday-color); background: #fecaca; }
 
             .session-setup-wrapper { padding: 2px; }
@@ -316,11 +264,10 @@
             .task-time-from, .task-time-to { flex: 1 1 45%; width: auto; min-width: 70px; }
             .holiday-full-row { flex-direction: column; gap: 8px; justify-content: center; }
             .holiday-input-container input { width: 100%; font-size: 14px; }
-
             .btn-container button.action-btn { font-size: 14px; padding: 10px 12px; }
         }
-        /* =================================================================== */
 
+        /* ================= PRINT CSS ================= */
         @media print {
             @page { size: A4 portrait; margin: 5mm 4mm; }
 
@@ -331,11 +278,7 @@
             .header-section h1 { font-size: 13pt !important; color: #ffffff !important; font-weight: 800 !important; }
             
             .header-wrapper { gap: 4px !important; margin-bottom: 6px !important; flex-direction: column !important; }
-            .header-subsection { 
-                padding: 4px 6px !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; 
-                background: transparent !important; box-shadow: none !important; margin: 0 !important; 
-                justify-content: space-between !important;
-            }
+            .header-subsection { padding: 4px 6px !important; border: 1px solid var(--primary-color) !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; margin: 0 !important; justify-content: space-between !important; }
             
             .info-item { color: var(--primary-color) !important; font-size: 11pt !important; gap: 3px !important; }
             .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; color: var(--primary-color) !important; font-weight: 800; font-size: 11pt !important; text-align: left !important; }
@@ -345,7 +288,6 @@
 
             .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
 
-            /* Force real table layout in print, overriding the mobile card view */
             table, thead, tbody, tr { display: revert !important; }
             table { font-size: 9.5pt !important; border-collapse: collapse !important; width: 100% !important; border: 1px solid var(--primary-color) !important; table-layout: fixed !important; }
             thead { display: table-header-group !important; }
@@ -354,11 +296,9 @@
 
             th, td { display: table-cell !important; padding: 2px 2px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
             
-            /* Print vertical centering overrides */
             td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
             .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; height: 100% !important; }
 
-            /* Reset mobile card affordances so nothing leaks into print */
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
             td.date-cell-mobile { background: transparent !important; text-align: center !important; }
@@ -370,7 +310,6 @@
             
             .date-text-print { font-weight: 800 !important; color: var(--primary-color) !important; font-size: 10pt !important; text-align: center !important; }
 
-            /* Holiday row logic for print wrapping */
             tr.holiday-row td { background-color: var(--holiday-bg) !important; border-color: var(--holiday-border) !important; color: var(--holiday-color) !important; padding: 2px 2px !important; }
             .holiday-badge { background: transparent !important; color: var(--holiday-color) !important; font-weight: 800; border: none !important; padding: 0 !important; font-size: 8.5pt !important; }
             .holiday-input-container { text-align: center !important; vertical-align: middle !important; padding: 2px !important; }
@@ -397,7 +336,6 @@
         <h1>समूह साधन केंद्र समन्वयक मासिक दैनंदिनी</h1>
     </div>
 
-    <!-- Visually Divided Header Subsections -->
     <div class="header-wrapper">
         <div class="header-subsection">
             <div class="info-item">
@@ -445,6 +383,7 @@
 
     <div class="btn-container no-print">
         <button class="action-btn btn-print" onclick="prepareAndPrint()">PDF डाउनलोड करा / प्रिंट करा</button>
+        <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (सर्व फॉरमॅटसह)</button>
         <button class="action-btn btn-admin" onclick="openAdminPanel()">केंद्रप्रमुख पॅनेल (सिंक व सेटिंग्ज)</button>
     </div>
 </div>
@@ -1054,6 +993,169 @@
         });
         window.print(); 
     }
+
+    /* ========================================================================================= */
+    /* Excel Download Logic using ExcelJS                                                        */
+    /* ========================================================================================= */
+    async function exportToExcel() {
+        if(typeof ExcelJS === 'undefined') return alert("Excel लायब्ररी लोड होत आहे, कृपया थोडे थांबा...");
+        
+        updateSyncBadge("Excel फाईल बनवत आहे...", "syncing");
+        
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('मासिक दैनंदिनी', {
+            properties: { defaultRowHeight: 40 }
+        });
+
+        // Setup Fonts and Styles
+        const baseFont = { name: 'Mukta', size: 18 };
+        const boldFont = { name: 'Mukta', size: 18, bold: true };
+        const primaryColorStr = 'FF003366';
+        
+        // Define Columns
+        sheet.columns = [
+            { key: 'date', width: 20 },
+            { key: 'session', width: 18 },
+            { key: 'planned', width: 35 },
+            { key: 'actual', width: 35 },
+            { key: 'work', width: 35 }
+        ];
+
+        // Insert Header Rows (Matching UI exact structure)
+        sheet.mergeCells('A1:E1');
+        const titleCell = sheet.getCell('A1');
+        titleCell.value = 'समूह साधन केंद्र समन्वयक मासिक दैनंदिनी';
+        titleCell.font = { name: 'Mukta', size: 22, bold: true, color: { argb: primaryColorStr } };
+        titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
+        
+        const monthSelect = document.getElementById('monthSelect');
+        const monthName = monthSelect.options[monthSelect.selectedIndex].text;
+        const year = document.getElementById('yearSelect').value;
+
+        sheet.getRow(2).values = [
+            `महिना व वर्ष: ${monthName} ${year}`,
+            `केंद्रप्रमुख: ${document.getElementById('kendraPramukhNameInput').value.trim()}`,
+            `केंद्र: ${document.getElementById('kendraInput').value.trim()}`,
+            `तालुका: ${document.getElementById('talukaInput').value.trim()}`,
+            `जिल्हा: ${document.getElementById('jilhaInput').value.trim()}`
+        ];
+        sheet.getRow(2).font = { name: 'Mukta', size: 16, bold: true, color: { argb: primaryColorStr } };
+        sheet.getRow(2).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        sheet.getRow(2).height = 40;
+
+        // Table Header
+        const headerRow = sheet.getRow(3);
+        headerRow.values = ['दिनांक व वार', 'सत्र / स्वरूप', 'नियोजित भेट', 'प्रत्यक्ष भेट', 'कामाचे स्वरूप'];
+        headerRow.height = 45;
+        headerRow.eachCell(cell => {
+            cell.font = { ...boldFont, color: { argb: primaryColorStr } };
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE0F2FE' } }; // Light blue UI match
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+            cell.border = { 
+                top: {style:'medium', color: {argb:primaryColorStr}}, 
+                bottom: {style:'medium', color: {argb:primaryColorStr}}, 
+                left: {style:'thin', color: {argb:primaryColorStr}}, 
+                right: {style:'thin', color: {argb:primaryColorStr}} 
+            };
+        });
+
+        // Add Data Rows
+        let rowIndex = 4;
+        const trs = document.querySelectorAll('#tableBody tr');
+        
+        trs.forEach((row) => {
+            const isHol = row.getAttribute('data-is-holiday') === 'true';
+            const dayIndex = row.getAttribute('data-day-index'); // Native JS integer string (English numbers)
+            
+            // Recreate date string strictly in English logic for numerals
+            const dateObj = new Date(year, monthSelect.value, parseInt(dayIndex));
+            const dayName = daysMarathi[dateObj.getDay()];
+            const dateStr = `${dayIndex} ${monthName} ${year}\n(${dayName})`;
+
+            if (isHol) {
+                const reason = row.querySelector('.holiday-reason-input') ? row.querySelector('.holiday-reason-input').value : 'सार्वजनिक सुट्टी';
+                const newRow = sheet.addRow([dateStr, reason, '', '', '']);
+                
+                sheet.mergeCells(`B${rowIndex}:E${rowIndex}`);
+                
+                newRow.eachCell(cell => {
+                    cell.font = { ...boldFont, color: { argb: 'FF991B1B' } }; // Holiday red text
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEE2E2' } }; // Holiday light red background
+                    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                    cell.border = { top: {style:'thin', color: {argb:'FFF87171'}}, left: {style:'thin', color: {argb:'FFF87171'}}, bottom: {style:'thin', color: {argb:'FFF87171'}}, right: {style:'thin', color: {argb:'FFF87171'}} };
+                });
+            } else {
+                let cbW = row.querySelector('.cb-whole')?.checked;
+                let cbM = row.querySelector('.cb-morning')?.checked;
+                let cbA = row.querySelector('.cb-afternoon')?.checked;
+                let sMode = cbW ? 'पूर्ण दिवस' : ((cbM && cbA) ? 'सकाळ व दुपार' : (cbM ? 'सकाळ सत्र' : 'दुपार सत्र'));
+
+                // Generic text extractor mapping UI to Print logic
+                const extractCellText = (colClass) => {
+                    const getBlockText = (blockCls) => {
+                        let texts = [];
+                        let items = row.querySelectorAll(`.${colClass} ${blockCls} .task-item`);
+                        items.forEach(item => {
+                            let tf = item.querySelector('.task-time-from')?.value || '';
+                            let tt = item.querySelector('.task-time-to')?.value || '';
+                            
+                            let val = '';
+                            if (colClass === 'col-planned') val = item.querySelector('.input-planned')?.value || '';
+                            if (colClass === 'col-actual') val = item.querySelector('.input-actual')?.value || '';
+                            if (colClass === 'col-work') val = item.querySelector('.input-work')?.value || '';
+                            val = val.trim();
+                            
+                            if (val || tf || tt) {
+                                let timeStr = (tf || tt) ? `[वेळ: ${tf || '--'} ते ${tt || '--'}] ` : '';
+                                texts.push(timeStr + val);
+                            }
+                        });
+                        return texts;
+                    };
+
+                    let tM = (cbM || cbW) ? getBlockText('.morning-block') : [];
+                    let tA = cbA ? getBlockText('.afternoon-block') : [];
+                    const formatArr = (arr) => arr.map((t, i) => (arr.length > 1 ? `${i+1}) ` : '') + t).join('\n');
+                    let strM = formatArr(tM);
+                    let strA = formatArr(tA);
+
+                    if (cbM && cbA) return (strM ? `सकाळ सत्र:\n${strM}` : "") + (strM && strA ? "\n\n" : "") + (strA ? `दुपार सत्र:\n${strA}` : "");
+                    return strM || strA;
+                };
+
+                const newRow = sheet.addRow([
+                    dateStr, sMode, 
+                    extractCellText('col-planned'), 
+                    extractCellText('col-actual'), 
+                    extractCellText('col-work')
+                ]);
+                
+                // Adjust row height naturally for line breaks
+                const maxLines = Math.max(
+                    (newRow.getCell(3).value || '').split('\n').length,
+                    (newRow.getCell(4).value || '').split('\n').length,
+                    (newRow.getCell(5).value || '').split('\n').length,
+                    2
+                );
+                newRow.height = Math.max(50, maxLines * 24); 
+
+                newRow.eachCell((cell, colNumber) => {
+                    cell.font = (colNumber === 1 || colNumber === 2) ? boldFont : baseFont;
+                    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                    cell.border = { top: {style:'thin', color: {argb:primaryColorStr}}, left: {style:'thin', color: {argb:primaryColorStr}}, bottom: {style:'thin', color: {argb:primaryColorStr}}, right: {style:'thin', color: {argb:primaryColorStr}} };
+                });
+            }
+            rowIndex++;
+        });
+
+        // Trigger file download
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(blob, `Dainandini_${monthName}_${year}.xlsx`);
+        updateSyncBadge("Excel डाउनलोड पूर्ण", "synced");
+    }
+
+    /* ========================================================================================= */
     
     async function syncToGoogleSheets(pinToUse, isAuto = false) {
         if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत आहे...", "syncing");
@@ -1120,7 +1222,7 @@
                 p = buildText(tM, tA, 'p', true);  
                 a = buildText(tM, tA, 'a', true);
                 w = buildText(tM, tA, 'w', false);
-                r = ""; // Setting empty for backend compatibility 
+                r = ""; 
             }
             
             if (p || a || w || sMode) {
