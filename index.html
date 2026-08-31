@@ -89,13 +89,6 @@
         .input-style:focus { background: #ffffff; outline: 2px solid var(--accent-color); border-color: transparent;}
         select.input-style { cursor: pointer; padding: 4px; }
 
-        .add-btn-wrapper { background: #e0f2fe; padding: 6px; border-bottom: 1px solid var(--border-color); text-align: center; }
-        .task-btn { font-family: inherit; font-size: 13px; padding: 4px 12px; border: 1px solid var(--accent-color); border-radius: 4px; font-weight: 800; cursor: pointer; display: inline-block; background: #ffffff; color: var(--primary-color); transition: 0.2s;}
-        .task-btn:hover { background: var(--accent-color); color: #fff; }
-
-        .remove-task-btn { font-family: inherit; font-size: 12px; padding: 2px 8px; border: 1px solid #ef4444; border-radius: 4px; font-weight: 700; cursor: pointer; background: #fef2f2; color: #b91c1c; width: fit-content; align-self: center; margin-top: 4px; transition: 0.2s;}
-        .remove-task-btn:hover { background: #fee2e2; }
-
         .holiday-toggle-wrapper { margin-top: 2px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--holiday-color); font-weight: 800; background: var(--holiday-bg); padding: 4px 8px; border: 1px solid var(--holiday-border); border-radius: 4px; }
         .holiday-toggle-wrapper input { width: 16px; height: 16px; cursor: pointer; }
         
@@ -158,7 +151,6 @@
             thead { display: none; }
             table { border: none; margin-top: 6px; }
 
-            /* Card Style for Rows on Mobile */
             tbody tr { display: block; margin-bottom: 16px; border: 2px solid var(--primary-color); border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
@@ -175,12 +167,9 @@
             .holiday-full-row { flex-direction: column; gap: 8px; justify-content: center; }
             .holiday-input-container input { width: 100%; font-size: 15px; padding: 6px; }
 
-            /* Touch Target Enhancements */
             .input-style { padding: 8px; font-size: 15px; min-height: 38px; }
             select.input-style { min-height: 40px; }
             .task-item { padding: 10px; margin-bottom: 4px; gap: 8px; border-radius: 6px; }
-            .task-btn { padding: 8px 16px; font-size: 14px; }
-            .remove-task-btn { padding: 6px 12px; font-size: 13px; }
         }
 
         /* ================= OFFICIAL B&W COMPACT PRINT CSS (SEPARATE PAGES) ================= */
@@ -192,10 +181,8 @@
 
             body { background: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-size: 11pt; color: #000 !important; font-family: 'Mukta', sans-serif !important; margin: 0; padding: 0; }
             
-            /* Hide the interactive interface */
             .container, .btn-container, .modal, #syncStatus { display: none !important; }
             
-            /* Show the generated print layout */
             #print-container { display: block !important; width: 100%; }
 
             .print-page { width: 100%; margin: 0; padding: 0; }
@@ -386,7 +373,6 @@
         tx.style.height = Math.max(30, tx.scrollHeight) + 'px';
     }
 
-    // Dropdown Generator - data-append चा वापर
     function getSchoolDropdownHTML(className, placeholderText, val = '', isAppend = false) {
         let optionsHTML = `<option value="">-- शाळा / ठिकाण निवडा --</option>`;
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
@@ -396,18 +382,17 @@
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
-    function getReasonDropdownHTML(className, placeholderText, val = '') {
+    function getReasonDropdownHTML(className, placeholderText, val = '', isAppend = false) {
         let optionsHTML = `
             <option value="">-- कारण निवडा --</option>
             <option value="मुख्यालयीन.">मुख्यालयीन.</option>
             <option value="शाळाभेट, निरीक्षण, मार्गदर्शन, परत.">शाळाभेट, निरीक्षण, मार्गदर्शन, परत.</option>
             <option value="manual">इतर (मॅन्युअल टाईप करा)</option>
         `;
-        return `<select class="input-style no-print" data-append="false" style="width:100%; margin-bottom:4px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
+        return `<select class="input-style no-print" data-append="${isAppend ? 'true' : 'false'}" style="width:100%; margin-bottom:4px;" onchange="handleDropdownSelect(this)">${optionsHTML}</select>
                 <textarea class="input-style ${className}" placeholder="${placeholderText}" oninput="autoExpandTextarea(this); handleFormChange();">${val || ''}</textarea>`;
     }
 
-    // वेळेचा प्रॉम्ट काढून टाकलेले आणि कॉमा (,) वापरणारे अपडेटेड फंक्शन
     function handleDropdownSelect(selElement) {
         const isAppend = selElement.getAttribute('data-append') === 'true';
         const textarea = selElement.nextElementSibling;
@@ -418,9 +403,10 @@
         } else if (selElement.value !== "") {
             let currentVal = textarea.value.trim();
             if (isAppend) {
-                // एकापेक्षा जास्त शाळा कॉमाने (,) जोडल्या जातील
+                // एकापेक्षा जास्त निवड कॉमाने (,) जोडली जाईल
                 textarea.value = currentVal ? currentVal + ", " + selElement.value : selElement.value;
             } else {
+                // फक्त एकच निवड (जुने नाव खोडून नवीन येईल)
                 textarea.value = selElement.value;
             }
         }
@@ -435,10 +421,9 @@
         div.className = 'task-item planned-item';
         div.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:6px; width:100%;">
-                ${getSchoolDropdownHTML('input-place', 'भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)', data.place, false)}
-                ${getReasonDropdownHTML('input-reason', 'भेटीचे कारण (उदा. शाळाभेट)', data.reason)}
+                ${getSchoolDropdownHTML('input-place', 'भेटीचे ठिकाण (उदा. जि.प.प्रा.शा. रविवार पेठ)', data.place, true)}
+                ${getReasonDropdownHTML('input-reason', 'भेटीचे कारण (उदा. शाळाभेट)', data.reason, true)}
             </div>
-            <button type="button" class="remove-task-btn no-print" onclick="removeTask(this)">[X] काढा</button>
         `;
         container.appendChild(div);
         autoExpandTextarea(div.querySelector('.input-place'));
@@ -454,10 +439,12 @@
         div.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
                 <div style="display:flex; gap:6px; align-items:flex-start;">
+                    <!-- 'पासून' साठी isAppend = false (फक्त एकच निवड) -->
                     <div style="flex:1;">${getSchoolDropdownHTML('input-from', 'पासून (सुरुवात)', fVal, false)}</div>
                     <input type="time" class="input-style input-dtime" style="width:110px;" title="निघालेली वेळ" value="${data.dtime || ''}" oninput="handleFormChange()">
                 </div>
                 <div style="display:flex; gap:6px; align-items:flex-start;">
+                    <!-- 'पर्यंत' साठी isAppend = true (अनेक शाळा कॉमाने जोडता येतील) -->
                     <div style="flex:1;">${getSchoolDropdownHTML('input-to', 'पर्यंत (मुक्काम)', data.to, true)}</div>
                     <input type="time" class="input-style input-atime" style="width:110px;" title="पोहचलेली वेळ (शेवटचा मुक्काम)" value="${data.atime || ''}" oninput="handleFormChange()">
                 </div>
@@ -467,17 +454,12 @@
                 </div>
                 <textarea class="input-style input-work" placeholder="कार्य विवरण (उदा. SIR व शाळाभेट, परत.)" oninput="autoExpandTextarea(this); handleFormChange()">${data.work || ''}</textarea>
             </div>
-            <button type="button" class="remove-task-btn no-print" onclick="removeTask(this)">[X] काढा</button>
         `;
         container.appendChild(div);
         autoExpandTextarea(div.querySelector('.input-from'));
         autoExpandTextarea(div.querySelector('.input-to'));
         autoExpandTextarea(div.querySelector('.input-work'));
     }
-
-    function addPlannedItemWrapper(btn) { addPlannedItem(btn.closest('.td-content').querySelector('.planned-list')); handleFormChange(); }
-    function addActualItemWrapper(btn) { addActualItem(btn.closest('.td-content').querySelector('.actual-list')); handleFormChange(); }
-    function removeTask(btn) { btn.closest('.task-item').remove(); handleFormChange(); }
 
     function generateTableStructure() {
         const month = parseInt(document.getElementById('monthSelect').value);
@@ -521,13 +503,11 @@
             </td>
             <td class="col-planned p-0" data-label="संभाव्य प्रवास">
                 <div class="td-content">
-                    <div class="add-btn-wrapper no-print"><button type="button" class="task-btn" onclick="addPlannedItemWrapper(this)">+ संभाव्य जोडा</button></div>
                     <div class="task-list planned-list"></div>
                 </div>
             </td>
             <td class="col-actual p-0" data-label="प्रत्यक्ष प्रवास">
                 <div class="td-content">
-                     <div class="add-btn-wrapper no-print"><button type="button" class="task-btn" onclick="addActualItemWrapper(this)">+ प्रत्यक्ष जोडा</button></div>
                     <div class="task-list actual-list"></div>
                 </div>
             </td>
@@ -545,6 +525,7 @@
             pData = { place: "समूह साधन केंद्र", reason: "मुख्यालयीन." };
         }
         
+        // आता प्रत्येक दिवसासाठी फक्त एकच रकाना (Block) तयार होईल.
         addPlannedItem(row.querySelector('.planned-list'), pData); 
         addActualItem(row.querySelector('.actual-list'), { dtime: defaultDTime }); 
     }
@@ -681,7 +662,6 @@
                     aList.innerHTML = '';
                     if(item.actual && item.actual.length > 0) item.actual.forEach(aData => addActualItem(aList, aData));
                     else {
-                        // जर सेव्ह केलेला डेटा रिकामा असेल, तरीही डिफॉल्ट वेळ द्या
                         let dayOfWeek = new Date(y, m, parseInt(item.day)).getDay();
                         let defaultDTime = (dayOfWeek >= 1 && dayOfWeek <= 5) ? '09:00' : '';
                         addActualItem(aList, { dtime: defaultDTime });
@@ -727,7 +707,6 @@
         const taluka = document.getElementById('talukaInput').value;
         const jilha = document.getElementById('jilhaInput').value;
 
-        // --- Sheet 1: Actual (Previous Month Title) ---
         let html1 = `
             <div class="print-page">
                 <h2 class="print-title">प्रत्यक्ष प्रवास दैनंदिनी माहे - ${prevMName} - ${prevYearVal}</h2>
@@ -748,7 +727,6 @@
                     <tbody>
         `;
 
-        // --- Sheet 2: Planned (Current Month Title) ---
         let html2 = `
             <div class="print-page page-break">
                 <h2 class="print-title">संभाव्य प्रवास दैनंदिनी माहे - ${mName} - ${yVal}</h2>
@@ -785,7 +763,6 @@
                 if(aItems.length === 0) { html1 += `<tr><td>${dtStrActual}</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>`; } 
                 else {
                     aItems.forEach((item, idx) => {
-                        // Replace \n with <br> to show multiple schools correctly in Print PDF
                         let fromVal = item.querySelector('.input-from').value.replace(/\n/g, '<br>');
                         let toVal = item.querySelector('.input-to').value.replace(/\n/g, '<br>');
                         let workVal = item.querySelector('.input-work').value.replace(/\n/g, '<br>');
@@ -850,7 +827,6 @@
         const mName = monthsMarathi[mIdx];
         const prevMName = monthsMarathi[prevMonthIdx];
         
-        // --- Sheet 1: प्रत्यक्ष प्रवास (Previous Month) ---
         sheet1.columns = [
             { key: 'date', width: 15 }, { key: 'from', width: 22 }, { key: 'dtime', width: 15 },
             { key: 'to', width: 30 }, { key: 'atime', width: 15 }, { key: 'dist', width: 10 },
@@ -874,7 +850,6 @@
 
         let rIdx1 = 4;
         
-        // --- Sheet 2: संभाव्य प्रवास (Current Month) ---
         sheet2.columns = [
             { key: 'date', width: 15 }, { key: 'day', width: 15 }, 
             { key: 'place', width: 40 }, { key: 'reason', width: 45 }
@@ -1066,7 +1041,7 @@
 
     async function fetchFromGoogleSheets() {
         if (!verifiedSessionPin) return alert("लॉगिन करा!");
-        updateSyncBadge("डेटा मिळवत ভাইকে...", "syncing");
+        updateSyncBadge("डेटा मिळवत आहे...", "syncing");
         try {
             let month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
             let year = document.getElementById('yearSelect').value;
