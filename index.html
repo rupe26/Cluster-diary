@@ -144,7 +144,6 @@
         .btn-admin-modal { background-color: #e2e8f0; color: var(--text-color); border-color: var(--border-color);}
         .btn-print { background-color: #1e293b; color: white; border-color: #0f172a; }
         .btn-excel { background-color: #16a34a; color: white; border-color: #15803d; }
-        .btn-demo { background-color: #8b5cf6; color: white; border-color: #7c3aed; }
         .btn-sync { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
         .btn-fetch { background-color: #e0f2fe; color: var(--primary-color); border-color: #7dd3fc; }
         .btn-danger { background-color: #ffffff; color: #dc2626; border-color: #dc2626; }
@@ -322,6 +321,10 @@
         </div>
     </div>
 
+    <div class="btn-container no-print" style="margin-top: 0px; margin-bottom: 8px;">
+        <button class="action-btn btn-admin" onclick="openAdminPanel()">लॉगिन करा (सेटिंग्ज व डाउनलोड)</button>
+    </div>
+
     <div style="text-align:center; margin-bottom: 4px;" class="no-print">
         <div id="syncStatus" class="sync-badge">स्थानिक ड्राफ्ट सक्रिय</div>
     </div>
@@ -338,10 +341,6 @@
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
-
-    <div class="btn-container no-print">
-        <button class="action-btn btn-admin" onclick="openAdminPanel()">लॉगिन करा (सेटिंग्ज व डाउनलोड)</button>
-    </div>
 </div>
 
 <!-- Admin Modal -->
@@ -363,7 +362,6 @@
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                 <button class="action-btn btn-print" onclick="triggerPrintFromModal()">PDF डाउनलोड करा / प्रिंट करा</button>
                 <button class="action-btn btn-excel" onclick="exportToExcel()">Excel डाउनलोड करा (Official)</button>
-                <button class="action-btn btn-demo" onclick="fillDemoData()">डेमो डेटा भरा (Fill Demo Data)</button>
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 12px 0;">
@@ -423,6 +421,8 @@
     const daysMarathi = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
     
     const schoolsList = [
+        "गटशिक्षणाधिकारी कार्यालय अंबाजोगाई",
+        "समूह साधन केंद्र रविवार पेठ",
         "सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. क्र. २, अंबाजोगाई", "जि.प.प्रा.शा. साकुड (मराठी)", 
         "जि.प.प्रा.शा. साकुड (उर्दू)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. काळवटी तांडा क्र. ३", 
         "जि.प.प्रा.शा. भीमाई वस्ती", "जि.प.प्रा.शा. काळवटी तांडा क्र. २", "जि.प.प्रा.शा. मांडवा पठाण", 
@@ -430,8 +430,7 @@
         "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. सह्याद्री नगर शेपवाडी", "जि.प.प्रा.शा. पिंपळा धायगुडा (मराठी)", 
         "जि.प.प्रा.शा. पिंपळा धायगुडा (उर्दू)", "जि.प.प्रा.शा. वरवटी", "जि.प.प्रा.शा. उघडे वस्ती (वरवटी)", 
         "जि.प.प्रा.शा. तलाव पाटी", "जि.प.प्रा.शा. अंबलवाडी", "जि.प. प्रा. शा. गोलटावस्ती", 
-        "जि.प.प्रा.शा. गिरवली आपेट", "जि.प.हा.स्कू. गिरवली",
-        "समूह साधन केंद्र रविवार पेठ", "गटशिक्षणाधिकारी कार्यालय अंबाजोगाई"
+        "जि.प.प्रा.शा. गिरवली आपेट", "जि.प.हा.स्कू. गिरवली"
     ];
 
     let autoSyncTimer = null;
@@ -902,42 +901,6 @@
             syncRowVisuals(row);
         });
         window.print(); 
-    }
-
-    function fillDemoData() {
-        const schools = ["सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. तलाव पाटी"];
-        const workTypes = ["नियोजित शाळा भेट", "आकस्मिक शाळा भेट", "विद्यार्थी गुणवत्ता तपासणी", "दप्तर तपासणी", "पटनोंदणी व उपस्थिती आढावा"];
-        
-        document.getElementById('adminKendraPramukh').value = "श्री रुपेश पांडुरंग लोंढे";
-        document.getElementById('adminKendra').value = "रविवार पेठ";
-        document.getElementById('adminTaluka').value = "अंबाजोगाई";
-        document.getElementById('adminJilha').value = "बीड";
-        saveAdminHeaders();
-        
-        document.querySelectorAll('#tableBody tr').forEach(row => {
-            if (row.getAttribute('data-is-holiday') === 'true') return;
-
-            let mPlanned = row.querySelector('.col-planned .morning-block .input-planned');
-            let mActual = row.querySelector('.col-actual .morning-block .input-actual');
-            let mWork = row.querySelector('.col-work .morning-block .input-work');
-            
-            if (mPlanned) { mPlanned.value = schools[Math.floor(Math.random() * schools.length)]; autoExpandTextarea(mPlanned); }
-            if (mActual) { mActual.value = mPlanned.value; autoExpandTextarea(mActual); }
-            if (mWork) { mWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(mWork); }
-            
-            let aPlanned = row.querySelector('.col-planned .afternoon-block .input-planned');
-            let aActual = row.querySelector('.col-actual .afternoon-block .input-actual');
-            let aWork = row.querySelector('.col-work .afternoon-block .input-work');
-            
-            if (aPlanned) { aPlanned.value = schools[Math.floor(Math.random() * schools.length)]; autoExpandTextarea(aPlanned); }
-            if (aActual) { aActual.value = aPlanned.value; autoExpandTextarea(aActual); }
-            if (aWork) { aWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(aWork); }
-            
-            syncRowVisuals(row);
-        });
-
-        saveToLocalStorage();
-        alert("डेमो डेटा यशस्वीरित्या भरण्यात आला आहे! आता तुम्ही PDF किंवा Excel डाउनलोड करू शकता.");
     }
 
     async function exportToExcel() {
