@@ -70,16 +70,19 @@
         th, td { border: 1px solid var(--primary-color); padding: 4px 3px; text-align: center; vertical-align: middle; font-size: 15px; font-weight: 500; }
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 16px; padding: 6px 3px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        td.p-0 { padding: 0 !important; vertical-align: top; }
+        /* height: 1px is a CSS trick to allow inner flex elements to stretch exactly 100% of dynamically changing td height */
+        td.p-0 { padding: 0 !important; vertical-align: middle; height: 1px; }
+        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 100%; width: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        .mode-whole .morning-block { display: flex; flex-direction: column; height: 100%; }
+        /* Perfect Vertical Centering Rules */
+        .mode-whole .morning-block { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
-        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; }
-        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; }
-        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; }
+        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
+        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; height: 100%; flex: 1; justify-content: center; }
+        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; flex: 1; justify-content: center; }
 
         .mode-both .morning-block, .mode-both .morning-label-box {
             border-bottom: 1.5px dotted var(--primary-color) !important;
@@ -101,6 +104,7 @@
             word-break: break-word;
             overflow: hidden; 
             line-height: 1.25;
+            margin: auto 0; /* Additional nudge for absolute vertical centering */
         }
         .school-select { 
             width: 100%; 
@@ -116,7 +120,7 @@
             font-weight: 700;
         }
 
-        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; }
+        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; height: 100%; flex: 1; }
         .task-item { 
             border-bottom: 1px dotted var(--primary-color); 
             padding: 4px 2px; 
@@ -127,10 +131,11 @@
             box-sizing: border-box;
             width: 100%;
             text-align: center;
+            flex: 1; /* Key for vertical centering inside varying heights */
         }
         .task-item:last-child { border-bottom: none; }
 
-        .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px; height: 100%; }
+        .session-setup-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px; height: 100%; flex: 1; }
         .session-box { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; margin: 0; width: 100%; background: #ffffff; border: 1px solid var(--border-color); border-radius: 2px; padding: 2px 4px; font-size: 12px; gap: 4px; font-weight: 700; }
         .session-box label { display: flex; align-items: center; gap: 3px; cursor: pointer; margin: 0; color: var(--primary-color); font-weight: 700; }
 
@@ -151,7 +156,7 @@
             padding: 8px 4px !important;
         }
 
-        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; }
+        .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; height: 100%; }
         .holiday-icon-label { font-size: 16px; font-weight: 800; color: var(--holiday-color); background: var(--holiday-shera-bg); padding: 3px 12px; border-radius: 4px; border: 1px solid var(--holiday-border); letter-spacing: 0.5px; }
 
         .holiday-badge { 
@@ -217,6 +222,8 @@
             font-weight: 600;
             line-height: 1.25;
             justify-content: center;
+            align-items: center;
+            margin: auto 0; /* Push text to middle in print view */
         }
         
         /* Dedicated print block for Holidays to prevent cutoff */
@@ -273,12 +280,16 @@
             tbody tr.holiday-row { border-color: var(--holiday-border); }
 
             td, td.p-0 {
-                display: block;
+                display: flex !important;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 width: 100% !important;
                 border: none;
                 border-bottom: 1px dashed #cbd5e1;
                 padding: 6px 8px !important;
                 text-align: center;
+                height: auto; /* Reset hack for mobile card view */
             }
             td:last-child { border-bottom: none; }
 
@@ -296,6 +307,7 @@
                 margin: -6px -8px 6px -8px;
                 padding: 3px 8px;
                 text-align: center;
+                width: calc(100% + 16px);
             }
             tr.holiday-row td[data-label]::before { color: var(--holiday-color); background: #fecaca; }
 
@@ -341,8 +353,10 @@
             tr { display: table-row !important; page-break-inside: avoid !important; }
 
             th, td { display: table-cell !important; padding: 2px 2px !important; border: 1px solid var(--primary-color) !important; vertical-align: middle !important; text-align: center !important; }
-            td.p-0 { padding: 0 !important; vertical-align: top !important; }
-            th { background: #e0f2fe !important; color: var(--primary-color) !important; font-weight: 800 !important; font-size: 10pt !important; border: 1px solid var(--primary-color) !important; padding: 3px 2px !important; }
+            
+            /* Print vertical centering overrides */
+            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
+            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; height: 100% !important; }
 
             /* Reset mobile card affordances so nothing leaks into print */
             td[data-label]::before { content: none !important; }
@@ -364,13 +378,14 @@
             .holiday-icon-label { background: transparent !important; border: none !important; font-size: 10pt !important; font-weight: 800 !important; color: var(--holiday-color) !important; padding: 0 !important; }
             
             .holiday-reason-input { display: none !important; }
-            .holiday-print-text { display: block !important; font-size: 11pt !important; }
+            .holiday-print-text { display: flex !important; align-items: center !important; justify-content: center !important; font-size: 11pt !important; margin: auto 0 !important; }
 
             textarea { display: none !important; }
-            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 1px 1px !important; text-align: center !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; }
+            
+            .task-item { border-bottom: 1px dotted var(--primary-color) !important; padding: 1px 1px !important; text-align: center !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; flex: 1 !important;}
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: flex !important; font-size: 9.5pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; justify-content: center !important;}
+            .print-text { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; font-size: 9.5pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; color: var(--text-color) !important; white-space: pre-wrap !important; word-break: break-word !important; }
             .print-task-time { display: block !important; font-size: 8.5pt !important; font-weight: 800 !important; color: var(--primary-color) !important; background: transparent !important; padding: 0 !important; margin-bottom: 1px !important; text-align: center !important; }
         }
     </style>
@@ -588,12 +603,11 @@
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
         }
         
-        // Placed in the last column now that Remarks is removed
         let removeBtn = `<button type="button" class="remove-task-btn no-print" onclick="removeTask(this)" title="काम काढून टाका" style="background:transparent; color:#dc2626; border:1px solid #dc2626; border-radius:2px; padding:2px 8px; cursor:pointer; font-size:11px; margin-top: 4px; font-weight:700; width: fit-content;">[X] काढा</button>`;
         
         if (isLastCol) {
-             return `<div style="display:flex; flex-direction:column; align-items:center; width:100%;">
-                        <div style="width:100%;">${inputHTML}</div>
+             return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%;">
+                        <div style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1;">${inputHTML}</div>
                         ${removeBtn}
                      </div>`;
         }
@@ -602,11 +616,11 @@
 
     function getCellTemplate() {
         return `
-            <div class="td-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+            <div class="td-content">
                 <div class="session-block morning-block" style="width:100%;">
                     <div class="task-list"></div>
                 </div>
-                <div class="session-block afternoon-block" style="flex: 1; width:100%;">
+                <div class="session-block afternoon-block" style="width:100%;">
                     <div class="task-list"></div>
                 </div>
             </div>
@@ -741,7 +755,7 @@
                 ${extraBadge}
             </td>
             <td class="col-session p-0" data-label="सत्र / स्वरूप">
-                <div class="td-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                <div class="td-content">
                     <div class="session-setup-wrapper no-print">
                         <div class="session-box">
                             <label><input type="checkbox" class="cb-whole" onchange="handleSessionToggle(this, 'whole')" checked> पूर्ण</label>
@@ -757,10 +771,10 @@
                         </label>
                     </div>
                     <div class="morning-label-box" style="padding: 4px; display: flex; flex-direction: column; justify-content: center; height: 100%; width: 100%;">
-                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 2px; border-radius: 3px;">सकाळ सत्र</div>
+                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #e0f2fe; padding: 2px; border-radius: 3px; margin: auto 0;">सकाळ सत्र</div>
                     </div>
                     <div class="afternoon-label-box" style="padding: 4px; flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%;">
-                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 2px; border-radius: 3px;">दुपार सत्र</div>
+                        <div style="font-weight: 800; font-size: 14px; color: var(--primary-color); text-align: center; background: #f0f9ff; padding: 2px; border-radius: 3px; margin: auto 0;">दुपार सत्र</div>
                     </div>
                 </div>
             </td>
@@ -1042,7 +1056,7 @@
     }
     
     async function syncToGoogleSheets(pinToUse, isAuto = false) {
-        if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होतവര आहे...", "syncing");
+        if (!isAuto) updateSyncBadge("ऑनलाइन सेव्ह होत आहे...", "syncing");
         
         let entries = [];
         document.querySelectorAll('#tableBody tr').forEach(row => {
