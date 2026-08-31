@@ -72,17 +72,17 @@
         th, td { border: 1px solid var(--primary-color); padding: 2px; text-align: center; vertical-align: middle; font-size: 14px; font-weight: 500; }
         th { background-color: #e0f2fe; color: var(--primary-color); font-weight: 800; font-size: 15px; padding: 4px 2px; vertical-align: middle; border-bottom: 2px solid var(--primary-color); }
         
-        td.p-0 { padding: 0 !important; vertical-align: middle; }
-        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+        td.p-0 { padding: 0 !important; vertical-align: middle; height: 1px; }
+        .td-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; }
         
         .morning-block, .afternoon-block, .morning-label-box, .afternoon-label-box { display: none; }
         
-        .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; }
+        .mode-whole .morning-block { display: flex; flex-direction: column; justify-content: center; flex: 1; }
         .mode-whole .morning-label-box, .mode-whole .afternoon-label-box { display: none !important; }
         
-        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; justify-content: center; }
-        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; }
-        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; }
+        .mode-morning .morning-block, .mode-morning .morning-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
+        .mode-afternoon .afternoon-block, .mode-afternoon .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
+        .mode-both .morning-block, .mode-both .afternoon-block, .mode-both .morning-label-box, .mode-both .afternoon-label-box { display: flex; flex-direction: column; justify-content: center; flex: 1;}
 
         .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1.5px dotted var(--primary-color) !important; }
 
@@ -99,11 +99,11 @@
             margin-bottom: 2px; font-weight: 700;
         }
 
-        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; }
+        .task-list { display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; height: 100%;}
         .task-item { 
             border-bottom: 1px dotted var(--primary-color); padding: 2px 1px; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            box-sizing: border-box; width: 100%; text-align: center;
+            box-sizing: border-box; width: 100%; text-align: center; flex: 1;
         }
         .task-item:last-child { border-bottom: none; }
 
@@ -160,9 +160,8 @@
         input:checked + .slider { background-color: var(--primary-color); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        .print-text { display: none; white-space: pre-wrap; word-break: break-word; text-align: center; width: 100%; font-weight: 600; line-height: 1.15; justify-content: center; align-items: center; margin: 0; padding: 0; }
-        .holiday-print-text { font-size: 15px; font-weight: 800; color: var(--holiday-color); text-align: center; width: 100%; margin: 0; padding: 0; }
-        .print-task-time { display: none; font-size: 9pt; font-weight: 800; color: var(--text-color); text-align: center; width: 100%; margin: 0; padding: 0; }
+        .print-text { display: none; }
+        .print-task-time { display: none; }
 
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
@@ -207,7 +206,7 @@
             .btn-container button.action-btn { font-size: 14px; padding: 8px 10px; }
         }
 
-        /* ================= OFFICIAL B&W COMPACT PRINT CSS ================= */
+        /* ================= OFFICIAL B&W COMPACT PRINT CSS (ZERO WHITESPACE) ================= */
         @media print {
             @page { size: A4 portrait; margin: 5mm 4mm; }
 
@@ -226,7 +225,8 @@
             .stylish-select-box select, .editable-header-input { border: none !important; background: transparent !important; padding: 0 !important; -webkit-appearance: none; font-weight: 800; font-size: 10.5pt !important; text-align: left !important; margin: 0 !important;}
             .stylish-select-box { border: none !important; padding: 0 !important; margin: 0 !important;}
 
-            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing { display: none !important; }
+            /* Hide interactive elements */
+            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing, textarea { display: none !important; }
 
             table, thead, tbody, tr { display: revert !important; }
             table { font-size: 9pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid #000 !important; table-layout: fixed !important; margin-top: 0 !important; }
@@ -237,15 +237,18 @@
             th { background-color: #e5e5e5 !important; font-size: 9.5pt !important; padding: 2px !important; border: 1px solid #000 !important; vertical-align: middle !important; }
             td { display: table-cell !important; padding: 1px !important; border: 1px solid #000 !important; vertical-align: middle !important; text-align: center !important; }
             
-            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
-            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin: 0 !important; padding: 0 !important;}
+            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: 1px !important; }
+            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important;}
 
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
             td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 1px !important;}
             td.date-cell-mobile .date-text-print { margin: 0 !important;}
 
+            /* Force perfect 50/50 vertical division for session rows, eliminating JS height calculations */
+            .mode-both .morning-block, .mode-both .afternoon-block { flex: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1px dotted #000 !important; }
+            
             .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: 1px solid #000 !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
             
             .date-text-print { font-weight: 800 !important; font-size: 9.5pt !important; text-align: center !important; margin: 0 !important;}
@@ -259,13 +262,13 @@
             .holiday-reason-input { display: none !important; }
             .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
 
-            textarea { display: none !important; }
-            
+            /* Make tasks wrap text tightly */
             .task-item { border-bottom: 1px dotted #000 !important; padding: 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important;}
             .task-item:last-child { border-bottom: none !important; }
             
-            .print-text { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important;}
-            .print-task-time { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
+            /* CSS Logic to show text ONLY if not empty, prevents DOM reflow bugs */
+            .print-text:not(:empty) { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; line-height: 1.1 !important;}
+            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
         }
     </style>
 </head>
@@ -354,7 +357,7 @@
             
             <h4>शीर्षक सेटिंग्ज (Header Autofill Setup)</h4>
             <label>केंद्रप्रमुख नाव:</label>
-            <input type="text" id="adminKendraPramukh" placeholder="उदा. श्री. रुपेश लोढे">
+            <input type="text" id="adminKendraPramukh" placeholder="उदा. श्री रुपेश पांडुरंग लोंढे">
             <label>केंद्र:</label>
             <input type="text" id="adminKendra" placeholder="उदा. रविवार पेठ">
             <label>तालुका:</label>
@@ -547,7 +550,7 @@
                 list.appendChild(div);
             }
         });
-        alignRowBlocks(tr);
+        alignRowBlocks(tr); // Kept for screen view
     }
 
     function addTaskBtnClick(btn, sessionType) {
@@ -576,7 +579,7 @@
             if(items[index]) items[index].remove();
         });
 
-        alignRowBlocks(tr);
+        alignRowBlocks(tr); // Kept for screen view
         handleFormChange(tr);
     }
 
@@ -737,17 +740,15 @@
         handleFormChange();
     }
 
+    // This runs only for screen view to keep lines mostly aligned visually while editing
     function alignRowBlocks(row) {
         if (row.getAttribute('data-is-holiday') === 'true') return;
         
         row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block').forEach(el => {
-            el.style.minHeight = '0px';
-            el.style.height = 'auto';
+            el.style.minHeight = '0px'; el.style.height = 'auto';
         });
-        
         row.querySelectorAll('.task-item').forEach(el => {
-            el.style.minHeight = '0px';
-            el.style.height = 'auto';
+            el.style.minHeight = '0px'; el.style.height = 'auto';
         });
 
         if (row.classList.contains('mode-both')) {
@@ -768,22 +769,18 @@
     }
 
     function syncRowVisuals(row) {
+        // Sync Text values purely to DOM so CSS :empty works perfectly
         row.querySelectorAll('textarea').forEach(tx => {
             const printDiv = tx.nextElementSibling;
             if (printDiv && printDiv.classList.contains('print-text')) {
-                printDiv.textContent = tx.value;
-                if(tx.value.trim() === '') {
-                    printDiv.style.display = 'none'; 
-                } else {
-                    printDiv.style.display = 'block';
-                }
+                printDiv.textContent = tx.value.trim();
             }
         });
         
         let holInput = row.querySelector('.holiday-reason-input');
         let holPrint = row.querySelector('.holiday-print-text');
         if(holInput && holPrint) {
-            holPrint.textContent = holInput.value;
+            holPrint.textContent = holInput.value.trim();
         }
         
         if (row.getAttribute('data-is-holiday') === 'false') {
@@ -794,23 +791,30 @@
                 if (pt) {
                     if (tf || tt) {
                         pt.textContent = `[वेळ: ${tf || '--'} ते ${tt || '--'}]`;
-                        pt.style.display = 'block';
                     } else {
-                        pt.textContent = '';
-                        pt.style.display = 'none'; 
+                        pt.textContent = ''; 
                     }
                 }
             });
-            alignRowBlocks(row);
         }
     }
 
     window.addEventListener('resize', () => {
         document.querySelectorAll('#tableBody tr').forEach(row => { if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); });
     });
+    
+    // Crucial fix: Completely obliterate JavaScript's manual row height scaling before printing. Let Flexbox do its job.
     window.addEventListener('beforeprint', () => {
         document.querySelectorAll('#tableBody tr').forEach(row => { 
             syncRowVisuals(row);
+            row.querySelectorAll('.morning-label-box, .morning-block, .afternoon-label-box, .afternoon-block, .task-item').forEach(el => {
+                el.style.minHeight = ''; el.style.height = '';
+            });
+        });
+    });
+
+    window.addEventListener('afterprint', () => {
+        document.querySelectorAll('#tableBody tr').forEach(row => { 
             if (row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row); 
         });
     });
@@ -973,7 +977,6 @@
     function prepareAndPrint() { 
         document.querySelectorAll('#tableBody tr').forEach(row => {
             syncRowVisuals(row);
-            if(row.getAttribute('data-is-holiday') === 'false') alignRowBlocks(row);
         });
         window.print(); 
     }
@@ -985,7 +988,7 @@
         const schools = ["सी.पी.एस. रविवार पेठ", "जि.प.प्रा.शा. साकुड (मराठी)", "जि.प.प्रा.शा. काळवटी तांडा क्र. १", "जि.प.प्रा.शा. मांडवा पठाण", "जि.प.प्रा.शा. शेपवाडी", "जि.प.प्रा.शा. तलाव पाटी"];
         const workTypes = ["नियोजित शाळा भेट", "आकस्मिक शाळा भेट", "विद्यार्थी गुणवत्ता तपासणी", "दप्तर तपासणी", "पटनोंदणी व उपस्थिती आढावा"];
         
-        document.getElementById('adminKendraPramukh').value = "श्री. रमेश पाटील";
+        document.getElementById('adminKendraPramukh').value = "श्री रुपेश पांडुरंग लोंढे";
         document.getElementById('adminKendra').value = "रविवार पेठ";
         document.getElementById('adminTaluka').value = "अंबाजोगाई";
         document.getElementById('adminJilha').value = "बीड";
