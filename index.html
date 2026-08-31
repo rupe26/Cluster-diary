@@ -237,19 +237,21 @@
             th { background-color: #e5e5e5 !important; font-size: 9.5pt !important; padding: 2px !important; border: 1px solid #000 !important; vertical-align: middle !important; }
             td { display: table-cell !important; padding: 1px !important; border: 1px solid #000 !important; vertical-align: middle !important; text-align: center !important; }
             
-            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: 1px !important; }
-            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important;}
+            /* ALLOW ROW HEIGHTS TO EXPAND NATURALLY */
+            td.p-0 { padding: 0 !important; vertical-align: middle !important; height: auto !important; }
+            
+            /* ENSURE CONTAINERS HAVE TOP/BOTTOM PADDING */
+            .td-content { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; width: 100% !important; height: auto !important; min-height: 100% !important; margin: 0 !important; padding: 2px 0 !important;}
 
             td[data-label]::before { content: none !important; }
             td { margin: 0 !important; }
             td.date-cell-mobile { background: transparent !important; text-align: center !important; vertical-align: middle !important; padding: 1px !important;}
             td.date-cell-mobile .date-text-print { margin: 0 !important;}
 
-            /* Force perfect 50/50 vertical division for session rows, eliminating JS height calculations */
-            .mode-both .morning-block, .mode-both .afternoon-block { flex: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; }
+            /* Force perfect vertical division for session rows, eliminating JS height calculations */
+            .mode-both .morning-block, .mode-both .afternoon-block { flex: auto !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: min-content !important; }
             .mode-both .morning-block, .mode-both .morning-label-box { border-bottom: 1px dotted #000 !important; }
             
-            /* FIXED: Remove border around morning/afternoon session labels */
             .morning-label-box > div, .afternoon-label-box > div { background: transparent !important; border: none !important; padding: 0 1px !important; border-radius: 1px !important; font-size: 8pt !important; font-weight: 800 !important; text-align: center !important; margin: 0 auto !important;}
             
             .date-text-print { font-weight: 800 !important; font-size: 9.5pt !important; text-align: center !important; margin: 0 !important;}
@@ -263,14 +265,14 @@
             .holiday-reason-input { display: none !important; }
             .holiday-print-text { display: block !important; font-size: 10pt !important; margin: 0 !important; padding: 0 !important; font-weight: 800 !important;}
 
-            /* FIXED: Increase padding and set height auto for task items and task list */
-            .task-item { border-bottom: 1px dotted #000 !important; padding: 4px 1px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important; height: auto !important;}
+            /* STOP ITEMS FROM SQUISHING AND INCREASE PADDING (flex-shrink: 0) */
+            .task-item { border-bottom: 1px dotted #000 !important; padding: 6px 2px !important; text-align: center !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; min-height: 0 !important; margin: 0 !important; height: auto !important; flex-shrink: 0 !important;}
             .task-list { height: auto !important; min-height: 100% !important; justify-content: center !important; }
             .task-item:last-child { border-bottom: none !important; }
             
-            /* CSS Logic to show text ONLY if not empty, prevents DOM reflow bugs */
-            .print-text:not(:empty) { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; line-height: 1.1 !important;}
-            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 1px 0 !important; text-align: center !important; }
+            /* ADD EXPLICIT BOTTOM MARGIN TO SEPARATE TEXT FROM THE LINE */
+            .print-text:not(:empty) { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; line-height: 1.2 !important;}
+            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 3px 0 !important; text-align: center !important; line-height: 1.2 !important; }
         }
     </style>
 </head>
@@ -572,7 +574,7 @@
         const index = taskItems.indexOf(taskItem);
 
         if(taskItems.length <= 1) {
-            alert("सत्रातील किमान एक काम असणे आवश्यक आहे. तुम्ही बॉक्स रिकामा सोडू शकता.");
+            alert("सत्रातील किमान एक काम असणे आवश्यक সুবিধা. तुम्ही बॉक्स रिकामा सोडू शकता.");
             return;
         }
 
@@ -1303,7 +1305,7 @@
 
     async function fetchFromGoogleSheets() {
         if (!verifiedSessionPin) return alert("लॉगिन करा!");
-        updateSyncBadge("डेटा मिळवत आहे...", "syncing");
+        updateSyncBadge("डेटा मिळवत ছুটি...", "syncing");
         try {
             let month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
             let year = document.getElementById('yearSelect').value;
