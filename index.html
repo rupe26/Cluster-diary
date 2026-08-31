@@ -121,9 +121,6 @@
         .task-btn:hover { background: #e2e8f0; }
 
         .holiday-toggle-wrapper { margin-top: 0; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 2px; cursor: pointer; color: var(--holiday-color); font-weight: 700; background: var(--holiday-bg); padding: 1px 3px; border: 1px solid var(--holiday-border); border-radius: 2px; }
-
-        .task-timing { display: flex; gap: 2px; margin-bottom: 2px; justify-content: center; align-items: center; background: #ffffff; padding: 0 1px; width: 100%; }
-        .task-time-from, .task-time-to { width: 62px; font-size: 11px; font-weight: 700; padding: 0; border: 1px solid #cbd5e1; border-radius: 2px; font-family: inherit; text-align: center; }
         
         tr.holiday-row td { background-color: var(--holiday-bg) !important; color: var(--holiday-color) !important; border-color: var(--holiday-border) !important; padding: 4px 2px !important; }
         .holiday-full-row { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; width: 100%; }
@@ -166,7 +163,6 @@
         input:checked + .slider:before { transform: translateX(18px); }
 
         .print-text { display: none; }
-        .print-task-time { display: none; }
 
         @media screen and (min-width: 769px) {
             .btn-container { flex-direction: row; justify-content: center; flex-wrap: wrap; }
@@ -204,8 +200,6 @@
             tr.holiday-row td[data-label]::before { color: var(--holiday-color); background: #fecaca; }
 
             .session-setup-wrapper { padding: 2px; }
-            .task-timing { flex-wrap: wrap; justify-content: center; }
-            .task-time-from, .task-time-to { flex: 1 1 45%; width: auto; min-width: 60px; }
             .holiday-full-row { flex-direction: column; gap: 6px; justify-content: center; }
             .holiday-input-container input { width: 100%; font-size: 14px; }
             .btn-container button.action-btn { font-size: 14px; padding: 8px 10px; }
@@ -231,7 +225,7 @@
             .stylish-select-box { border: none !important; padding: 0 !important; margin: 0 !important;}
 
             /* Hide interactive elements */
-            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, .task-timing, textarea { display: none !important; }
+            .no-print, .sync-badge, select.school-select, .holiday-toggle-wrapper, .timing-wrapper, .session-box, .add-btn-group, .task-btn, .remove-task-btn, textarea { display: none !important; }
 
             table, thead, tbody, tr { display: revert !important; }
             table { font-size: 9pt !important; border-collapse: collapse !important; width: 100% !important; border: 1.5px solid #000 !important; table-layout: fixed !important; margin-top: 0 !important; }
@@ -288,7 +282,6 @@
             .task-item:last-child { border-bottom: none !important; }
             
             .print-text:not(:empty) { display: block !important; font-size: 9pt !important; font-weight: 600 !important; padding: 0 !important; text-align: center !important; white-space: pre-wrap !important; word-break: break-word !important; margin: 0 !important; line-height: 1.2 !important;}
-            .print-task-time:not(:empty) { display: block !important; font-size: 8pt !important; font-weight: 800 !important; background: transparent !important; padding: 0 !important; margin: 0 0 2px 0 !important; text-align: center !important; line-height: 1.2 !important; }
         }
     </style>
 </head>
@@ -473,19 +466,6 @@
         tx.style.height = Math.max(24, tx.scrollHeight) + 'px';
     }
 
-    function validateTime(input, min, max) {
-        if(!input.value) return;
-        const row = input.closest('tr');
-        const isWhole = row.querySelector('.cb-whole')?.checked;
-        let actualMax = max;
-        if(isWhole && min === '08:00') { actualMax = '17:00'; }
-
-        if (input.value < min || input.value > actualMax) {
-            alert(`कृपया वेळ ${min} ते ${actualMax} च्या दरम्यान निवडा.`);
-            input.value = '';
-        }
-    }
-
     function getSchoolDropdownHTML(placeholderText, className) {
         let optionsHTML = `<option value="">-- शाळा निवडा --</option>`;
         schoolsList.forEach(school => optionsHTML += `<option value="${school}">${school}</option>`);
@@ -514,23 +494,9 @@
 
     function getTaskItemHTMLInner(colType, isLastCol = false, sessionType = 'morning') {
         let inputHTML = '';
-        let timeHTML = '';
         
         if (colType === 'planned' || colType === 'actual') {
-            if (colType === 'actual') {
-                let minT = sessionType === 'morning' ? '08:00' : '14:00';
-                let maxT = sessionType === 'morning' ? '13:00' : '16:30';
-                
-                timeHTML = `
-                <div class="task-timing no-print">
-                    <input type="time" class="task-time-from" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
-                    <span style="font-size:11px; font-weight:700;">ते</span>
-                    <input type="time" class="task-time-to" min="${minT}" max="${maxT}" onchange="validateTime(this, '${minT}', '${maxT}'); handleFormChange(this);">
-                </div>
-                <div class="print-task-time"></div>
-                `;
-            }
-            inputHTML = timeHTML + getSchoolDropdownHTML('भेट...', `input-${colType}`);
+            inputHTML = getSchoolDropdownHTML('भेट...', `input-${colType}`);
         } else if (colType === 'work') {
             inputHTML = getWorkNatureDropdownHTML(`input-${colType}`);
         }
@@ -770,21 +736,6 @@
         if(holInput && holPrint) {
             holPrint.textContent = holInput.value.trim();
         }
-        
-        if (row.getAttribute('data-is-holiday') === 'false') {
-            row.querySelectorAll('.col-actual .task-item').forEach(item => {
-                const tf = item.querySelector('.task-time-from')?.value;
-                const tt = item.querySelector('.task-time-to')?.value;
-                const pt = item.querySelector('.print-task-time');
-                if (pt) {
-                    if (tf || tt) {
-                        pt.textContent = `[वेळ: ${tf || '--'} ते ${tt || '--'}]`;
-                    } else {
-                        pt.textContent = ''; 
-                    }
-                }
-            });
-        }
     }
     
     window.addEventListener('beforeprint', () => {
@@ -839,8 +790,6 @@
                     for(let i=0; i<pNodes.length; i++) {
                         taskArr.push({
                             planned: pNodes[i]?.querySelector('.input-planned')?.value || '',
-                            actualTimeFrom: aNodes[i]?.querySelector('.task-time-from')?.value || '',
-                            actualTimeTo: aNodes[i]?.querySelector('.task-time-to')?.value || '',
                             actual: aNodes[i]?.querySelector('.input-actual')?.value || '',
                             work: wNodes[i]?.querySelector('.input-work')?.value || ''
                         });
@@ -918,13 +867,9 @@
                                 let pIn = row.querySelectorAll(`.col-planned ${bCls} .input-planned`)[idx];
                                 if (pIn) { pIn.value = tData.planned || ''; autoExpandTextarea(pIn); }
                                 
-                                let actualTf = row.querySelectorAll(`.col-actual ${bCls} .task-time-from`)[idx];
-                                if(actualTf) actualTf.value = tData.actualTimeFrom || '';
-                                let actualTt = row.querySelectorAll(`.col-actual ${bCls} .task-time-to`)[idx];
-                                if(actualTt) actualTt.value = tData.actualTimeTo || '';
-
                                 let aIn = row.querySelectorAll(`.col-actual ${bCls} .input-actual`)[idx];
                                 if (aIn) { aIn.value = tData.actual || ''; autoExpandTextarea(aIn); }
+                                
                                 let wIn = row.querySelectorAll(`.col-work ${bCls} .input-work`)[idx];
                                 if (wIn) { wIn.value = tData.work || ''; autoExpandTextarea(wIn); }
                             });
@@ -976,11 +921,6 @@
             if (mActual) { mActual.value = mPlanned.value; autoExpandTextarea(mActual); }
             if (mWork) { mWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(mWork); }
             
-            let mTfActual = row.querySelector('.col-actual .morning-block .task-time-from');
-            let mTtActual = row.querySelector('.col-actual .morning-block .task-time-to');
-            if (mTfActual) mTfActual.value = "10:45";
-            if (mTtActual) mTtActual.value = "12:45";
-
             let aPlanned = row.querySelector('.col-planned .afternoon-block .input-planned');
             let aActual = row.querySelector('.col-actual .afternoon-block .input-actual');
             let aWork = row.querySelector('.col-work .afternoon-block .input-work');
@@ -989,11 +929,6 @@
             if (aActual) { aActual.value = aPlanned.value; autoExpandTextarea(aActual); }
             if (aWork) { aWork.value = workTypes[Math.floor(Math.random() * workTypes.length)]; autoExpandTextarea(aWork); }
             
-            let aTfActual = row.querySelector('.col-actual .afternoon-block .task-time-from');
-            let aTtActual = row.querySelector('.col-actual .afternoon-block .task-time-to');
-            if (aTfActual) aTfActual.value = "14:20";
-            if (aTtActual) aTtActual.value = "16:10";
-
             syncRowVisuals(row);
         });
 
@@ -1082,20 +1017,13 @@
                         let texts = [];
                         let items = row.querySelectorAll(`.${colClass} ${blockCls} .task-item`);
                         items.forEach(item => {
-                            let tf = '', tt = '';
-                            if (colClass === 'col-actual') {
-                                tf = item.querySelector('.task-time-from')?.value || '';
-                                tt = item.querySelector('.task-time-to')?.value || '';
-                            }
-
                             let val = '';
                             if (colClass === 'col-planned') val = item.querySelector('.input-planned')?.value || '';
                             if (colClass === 'col-actual') val = item.querySelector('.input-actual')?.value || '';
                             if (colClass === 'col-work') val = item.querySelector('.input-work')?.value || '';
                             val = val.trim();
-                            if (val || tf || tt) {
-                                let timeStr = (tf || tt) ? `[वेळ: ${tf || '--'} ते ${tt || '--'}] ` : '';
-                                texts.push(timeStr + val);
+                            if (val) {
+                                texts.push(val);
                             }
                         });
                         return texts;
@@ -1158,14 +1086,11 @@
                     rows.forEach((item, i) => {
                        let actualNode = row.querySelectorAll(`.col-actual ${blockCls} .task-item`)[i];
                        
-                       let atf = actualNode?.querySelector('.task-time-from')?.value || '';
-                       let att = actualNode?.querySelector('.task-time-to')?.value || '';
-
                        let pVal = item.querySelector('.input-planned')?.value.trim() || '';
                        let aVal = actualNode?.querySelector('.input-actual')?.value.trim() || '';
                        let wVal = row.querySelectorAll(`.col-work ${blockCls} .input-work`)[i]?.value.trim() || '';
                        
-                       if(pVal || aVal || wVal) tasks.push({atf, att, p:pVal, a:aVal, w:wVal});
+                       if(pVal || aVal || wVal) tasks.push({p:pVal, a:aVal, w:wVal});
                     });
                     return tasks;
                 };
@@ -1173,28 +1098,24 @@
                 let tM = (cbM || cbW) ? extractTaskData('.morning-block') : [];
                 let tA = cbA ? extractTaskData('.afternoon-block') : [];
 
-                const formatCol = (arr, key, includeTime) => {
+                const formatCol = (arr, key) => {
                     return arr.map((t, i) => {
                         let pref = arr.length > 1 ? `${i+1}) ` : ``;
-                        let timeStr = ``;
-                        if (includeTime) {
-                            if (key === 'a' && (t.atf || t.att)) timeStr = `[वेळ: ${t.atf||'--'} ते ${t.att||'--'}] `;
-                        }
                         let val = t[key];
-                        return val ? `${pref}${timeStr}${val}`.trim() : ``;
+                        return val ? `${pref}${val}`.trim() : ``;
                     }).filter(v=>v).join('\n');
                 };
 
-                const buildText = (arrM, arrA, key, includeTime) => {
-                    let textM = formatCol(arrM, key, includeTime);
-                    let textA = formatCol(arrA, key, includeTime);
+                const buildText = (arrM, arrA, key) => {
+                    let textM = formatCol(arrM, key);
+                    let textA = formatCol(arrA, key);
                     if(cbM && cbA) return (textM ? `सकाळ:\n${textM}` : "") + (textM && textA ? "\n\n" : "") + (textA ? `दुपार:\n${textA}` : "");
                     return textM || textA;
                 };
 
-                p = buildText(tM, tA, 'p', false);  
-                a = buildText(tM, tA, 'a', true);
-                w = buildText(tM, tA, 'w', false);
+                p = buildText(tM, tA, 'p');  
+                a = buildText(tM, tA, 'a');
+                w = buildText(tM, tA, 'w');
                 r = ""; 
             }
             
